@@ -44,13 +44,13 @@ normalize <- function(data, method, refindex) {
 
 create.expression.file <- function(...) {
 	args <- list(...)
-	classes.file <- ''
 	
 	#optional args
 	normalize <- FALSE
 	background <- FALSE
 	quantile.normalization <- FALSE
 	compute.calls <- FALSE
+	
 	scale <- NULL
 	normalization.method <- NULL
 	classes.file <- NULL
@@ -89,6 +89,7 @@ create.expression.file <- function(...) {
 			stop(paste("unknown option", flag, sep=": "))
 		} 
 	}
+
 	
 	on.exit(unlink(substring(input.file.name, 0, nchar(input.file.name)-4), recursive=TRUE))
 	if(exists("libdir")) {
@@ -171,7 +172,7 @@ gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, cla
 	ab <- gp.readAffyBatch(input.file.name)
 	r <- ab[[1]]
 	sampleNames <- ab[[2]]
-	if(scale!='') {
+	if(!is.na(scale)) {
 		eset <- mas5(r, normalize=TRUE, sc=scale)
 	} else {
 		eset <- mas5(r, normalize=FALSE)

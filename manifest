@@ -69,7 +69,7 @@ p7_description=(MAS5 only) Whether to compute Present/Absent calls
 p2_description=The base name of the output file
 p10_type=java.io.File
 p4_type=java.lang.String
-p7_value=yes;no
+p7_value=yes=yes (create res file);no=no (create gct file)
 p1_value=
 p10_name=class.filename
 p10_prefix_when_specified=

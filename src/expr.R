@@ -55,6 +55,7 @@ normalize <- function(data, method, refindex) {
 }
 
 create.expression.file <- function(...) {
+   options("warn"=-1)
 	args <- list(...)
 	
 	#optional args
@@ -67,7 +68,6 @@ create.expression.file <- function(...) {
 	normalization.method <- NULL
 	classes.file <- NULL
 	refindex <- NULL
-	options(warn=-1)
 	for(i in 1:length(args)) {
 		flag <- substring(args[[i]], 0, 2)
 		if(flag=='-i') {
@@ -253,18 +253,18 @@ gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, cla
 
 
 install.affy.packages <- function(libdir) {
-	if(!require("reposTools", quietly=TRUE)) {	
+	if(compareVersion(packageDescription("reposTools", NULL, "Version"), "1.4.3") < 0) {	
 	  isWindows <- Sys.info()[["sysname"]]=="Windows"
 	  if(isWindows) {
-		  f <- paste(libdir, "reposTools_1.3.6.zip", sep="")
+		  f <- paste(libdir, "reposTools_1.4.3.zip", sep="")
 		  .install.windows(f)
 	  } else { # install from source
-		  f <- paste(libdir, "reposTools_1.3.6.tar.gz", sep="")
+		  f <- paste(libdir, "reposTools_1.4.3.tar.gz", sep="")
 		  install(f)
 	  }
 	}
 	library(reposTools)
-	if(!require("Biobase", quietly=TRUE)) {	
+	if(compareVersion(packageDescription("Biobase", NULL, "Version"), "1.4.0") < 0) {		
 	  isWindows <- Sys.info()[["sysname"]]=="Windows"
 	  if(isWindows) {
 		  f <- paste(libdir, "Biobase_1.4.0.zip", sep="")
@@ -275,7 +275,7 @@ install.affy.packages <- function(libdir) {
 	  }
 	}
 	library(Biobase)
-	if(!require("affy", quietly=TRUE)) {	
+	if(compareVersion(packageDescription("affy", NULL, "Version"), "1.3.28") < 0) {		
 	  isWindows <- Sys.info()[["sysname"]]=="Windows"
 	  if(isWindows) {
 		  f <- paste(libdir, "affy_1.3.28.zip", sep="")
@@ -286,6 +286,41 @@ install.affy.packages <- function(libdir) {
 	  }
 	}
 }
+
+packageDescription <- function (pkg, lib.loc = NULL, fields = NULL, drop = TRUE) 
+{
+    retval <- list()
+    if (!is.null(fields)) {
+        fields <- as.character(fields)
+        retval[fields] <- NA
+    }
+    if (system.file(package = pkg, lib.loc = lib.loc) == "") {
+        warning("No package ", sQuote(pkg), " was found\n")
+        return(NA)
+    }
+    file <- system.file("DESCRIPTION", package = pkg, lib.loc = lib.loc)
+    if (file != "") {
+        desc <- as.list(read.dcf(file = file)[1, ])
+        if (!is.null(fields)) {
+            ok <- names(desc) %in% fields
+            retval[names(desc)[ok]] <- desc[ok]
+        }
+        else retval[names(desc)] <- desc
+    }
+    if ((file == "") || (length(retval) == 0)) {
+        warning("DESCRIPTION file of package ", sQuote(pkg), 
+            " is missing or broken\n")
+        return(NA)
+    }
+    if (drop & length(fields) == 1) 
+        return(retval[[1]])
+    class(retval) <- "packageDescription"
+    if (!is.null(fields)) 
+        attr(retval, "fields") <- fields
+    attr(retval, "file") <- file
+    retval
+}
+
 	
 
 

@@ -55,7 +55,7 @@ create.expression.file <- function(...) {
 	normalization.method <- NULL
 	classes.file <- NULL
 	refindex <- NULL
-	
+	options(warn=-1)
 	for(i in 1:length(args)) {
 		flag <- substring(args[[i]], 0, 2)
 		if(flag=='-i') {
@@ -90,7 +90,6 @@ create.expression.file <- function(...) {
 		} 
 	}
 	
-	#options("warn"=-1)
 	on.exit(unlink(substring(input.file.name, 0, nchar(input.file.name)-4), recursive=TRUE))
 	if(exists("libdir")) {
 		install.affy.packages(libdir)

@@ -165,6 +165,7 @@ create.expression.file <- function(...) {
 	
 gp.rma <- function(afbatch, normalize, background) {
 	eset <- rma(afbatch, normalize=normalize, background=background, bgversion="2", verbose=FALSE)
+   eset@exprs <- 2^eset@exprs # rma produces values that are log scaled
 	return(eset)
 }
 

@@ -1,5 +1,5 @@
 #ExpressionFileCreator
-#Wed Aug 25 18:21:26 EDT 2004
+#Thu Sep 02 12:30:50 EDT 2004
 p8_prefix_when_specified=
 p5_optional=on
 p10_value=
@@ -16,14 +16,14 @@ p6_name=scale.value
 p1_prefix_when_specified=
 p8_description=The normalization method to apply after expression values are computed
 p10_description=tab-delimitted text file containing one scan and class per line
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00044\:${build.number}
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00046\:${build.number}
 p6_prefix_when_specified=
 p7_type=java.lang.String
 author=Joshua Gould
 p4_value=yes;no
 p10_TYPE=FILE
 p6_description=(MAS5 only) Value at which all arrays will be scaled to
-p1_description=A zip file containing CEL files or compressed (gzipped or zipped) CEL files
+p1_description=A zip file containing CEL files or zipped CEL files
 p7_name=compute.present.absent.calls
 p10_optional=on
 version=1.0
@@ -32,7 +32,7 @@ taskType=Preprocess & Utilities
 p9_value=
 p4_prefix_when_specified=
 p8_type=java.lang.String
-p3_value=dChip;RMA;MAS5
+p3_value=RMA;MAS5
 p1_type=java.io.File
 p1_default_value=
 privacy=public
@@ -45,7 +45,7 @@ p1_name=input.filename
 p7_default_value=
 p4_description=(RMA only) Whether to normalize data using quantile normalization
 p2_optional=
-p8_value=mean scaling;median scaling;rank normalization
+p8_value=\=;mean scaling;median scaling;rank normalization
 p5_default_value=
 p9_type=java.lang.Integer
 p2_prefix_when_specified=

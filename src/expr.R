@@ -97,7 +97,7 @@ create.expression.file <- function(...) {
 		} else if(flag=='-f') {
 			classes.file <- substring(args[[i]], 3, nchar(args[[i]]))
 		} else if(flag=='-l') {
-			libdir <- substring(args[[i]], 3, nchar(args[[i]]))
+			libdir <<- substring(args[[i]], 3, nchar(args[[i]]))
 		}  else  {
 			stop(paste("unknown option", flag, sep=": "))
 		} 
@@ -111,16 +111,19 @@ create.expression.file <- function(...) {
 	library(affy, verbose=FALSE)
 	library(GenePattern, verbose=FALSE)
 	
-	if(method=='dChip' || method=='RMA') {
+	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
 		my.list <- gp.readAffyBatch(input.file.name)
+      
 		afbatch <- my.list[[1]]
 		sampleNames <- my.list[[2]]
 		
 		if(method=='dChip') {
 			eset <- gp.dchip(afbatch)
-		} else {
+		} else if(method=='RMA'){
 			eset <- gp.rma(afbatch, quantile.normalization, background)
-		}
+		} else {
+         eset <- gp.gcrma(afbatch)
+      }
 		data <- as.data.frame(exprs(eset))
 		names(data) <- sampleNames
 
@@ -133,7 +136,6 @@ create.expression.file <- function(...) {
 			output.cls.file.name <<- get.cls.file.name(output.file.name)
 			save.cls(cls, output.cls.file.name)
 		}
-		
 		data <- normalize(data, normalization.method, refindex)
 	
 		output.data.file.name <<- save.data.as.gct(data, output.file.name)
@@ -164,15 +166,55 @@ create.expression.file <- function(...) {
    #       background given in affy version 1.1 and above
 	
 gp.rma <- function(afbatch, normalize, background) {
-	eset <- rma(afbatch, normalize=normalize, background=background, bgversion="2", verbose=FALSE)
+   eset <- rma(afbatch, normalize=normalize, background=background, bgversion="2", verbose=TRUE)
    eset@exprs <- 2^eset@exprs # rma produces values that are log scaled
-	return(eset)
+   return(eset)
 }
 
 
 gp.dchip <- function(afbatch) {
 	eset <- expresso(afbatch, normalize.method="invariantset", bg.correct=FALSE, pmcorrect.method="pmonly",summary.method="liwong", verbose=FALSE) 
 	return(eset)
+}
+
+# requires gcrma, matchprobes
+gp.gcrma <- function(afbatch) {
+   if(!require("gcrma", quietly=TRUE)) {
+       f <- paste(libdir, "gcrma_1.0.0.zip", sep="")
+		.install.windows(f)
+   }
+   
+   if(!require("matchprobes", quietly=TRUE)) {
+       f <- paste(libdir, "matchprobes_1.0.0.zip", sep="")
+		.install.windows(f)
+   }
+   
+   cdf <- cleancdfname(afbatch@cdfName) # e.g "hgu133acdf"
+   cdf <- substring(cdf, 0, nchar(cdf)-3)# remove cdf from end
+   pkg <- paste(cdf, "probe", sep='') 
+   if(!require(package=pkg, quietly=TRUE,character.only=TRUE)) {
+      repList <- getOptReposList()
+      n <- repNames(repList)
+      
+      get.index <- function(n) {
+         for(index in 1:length(n)) {
+            if(n[index] =='Bioconductor Probe Data Packages') {
+               return(index)
+            }
+         }
+         stop("Data repository not found.")
+       }
+       r <- getRepEntry(repList, get.index(n))
+       print(paste("installing package", pkg))
+       install.packages2(type='Win32', repEntry=r, pkgs=c(pkg))
+   }
+ #  affinity.info <- compute.affinities(afbatch@cdfName, verbose=FALSE)
+   print("running gcrma")
+   eset <- gcrma(afbatch, verbose=TRUE)
+   print("done")
+   eset@exprs <- 2^eset@exprs # produces values that are log scaled
+   return(eset)
+   
 }
 
 
@@ -253,8 +295,8 @@ gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, cla
 
 
 install.affy.packages <- function(libdir) {
-	if(compareVersion(packageDescription("reposTools", NULL, "Version"), "1.4.3") < 0) {	
-	  isWindows <- Sys.info()[["sysname"]]=="Windows"
+   isWindows <- Sys.info()[["sysname"]]=="Windows"
+	if(!library("reposTools", logical.return=TRUE)||compareVersion(packageDescription("reposTools", NULL, "Version"), "1.4.3") < 0) {	
 	  if(isWindows) {
 		  f <- paste(libdir, "reposTools_1.4.3.zip", sep="")
 		  .install.windows(f)
@@ -264,8 +306,8 @@ install.affy.packages <- function(libdir) {
 	  }
 	}
 	library(reposTools)
-	if(compareVersion(packageDescription("Biobase", NULL, "Version"), "1.4.0") < 0) {		
-	  isWindows <- Sys.info()[["sysname"]]=="Windows"
+	if(!library("Biobase", logical.return=TRUE)||compareVersion(packageDescription("Biobase", NULL, "Version"), "1.4.0") < 0) {		
+	  
 	  if(isWindows) {
 		  f <- paste(libdir, "Biobase_1.4.0.zip", sep="")
 		  .install.windows(f)
@@ -275,8 +317,8 @@ install.affy.packages <- function(libdir) {
 	  }
 	}
 	library(Biobase)
-	if(compareVersion(packageDescription("affy", NULL, "Version"), "1.3.28") < 0) {		
-	  isWindows <- Sys.info()[["sysname"]]=="Windows"
+	if(!library("affy", logical.return=TRUE) || compareVersion(packageDescription("affy", NULL, "Version"), "1.3.28") < 0) {		
+	  
 	  if(isWindows) {
 		  f <- paste(libdir, "affy_1.3.28.zip", sep="")
 		  .install.windows(f)
@@ -289,7 +331,7 @@ install.affy.packages <- function(libdir) {
 
 packageDescription <- function (pkg, lib.loc = NULL, fields = NULL, drop = TRUE) 
 {
-    retval <- list()
+   retval <- list()
     if (!is.null(fields)) {
         fields <- as.character(fields)
         retval[fields] <- NA

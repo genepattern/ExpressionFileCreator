@@ -11,6 +11,15 @@ string.to.boolean <- function(s) {
 	return(FALSE)
 }
 
+cleanup <- function() {
+	files <- dir()
+	for(file in files) {
+		if(file.info(file)[1, 'isdir']) {
+			unlink(file, recursive=TRUE)
+		}
+	}
+		
+}
 # Scales all arrays so they have the same mean or median value
 # new.value.i <- sample.i/mean.of.sample.i * ref.sample
 # constant <- mean.of.sample.i * ref.sample
@@ -19,8 +28,8 @@ normalize <- function(data, method, refindex) {
 	if(method=='') {
 		return(data)
 	} else if(method=='mean scaling' || method=='median scaling') {
-		if(refindex=='') {
-			warning("No sample index specified.")	
+		if(is.na(refindex)) {
+			warning("Invalid sample index specified.")	
 			return(data)
 		} 
 		if(refindex < 1 || refindex > NCOL(refindex)) {
@@ -91,7 +100,7 @@ create.expression.file <- function(...) {
 	}
 
 	
-	on.exit(unlink(substring(input.file.name, 0, nchar(input.file.name)-4), recursive=TRUE))
+	on.exit(cleanup())
 	if(exists("libdir")) {
 		install.affy.packages(libdir)
 	}
@@ -102,8 +111,9 @@ create.expression.file <- function(...) {
 		my.list <- gp.readAffyBatch(input.file.name)
 		afbatch <- my.list[[1]]
 		sampleNames <- my.list[[2]]
+		
 		if(method=='dChip') {
-			eset <- dchip(afbatch)
+			eset <- gp.dchip(afbatch)
 		} else {
 			eset <- gp.rma(afbatch, quantile.normalization, background)
 		}
@@ -155,7 +165,7 @@ gp.rma <- function(afbatch, normalize, background) {
 }
 
 
-dchip <- function(afbatch) {
+gp.dchip <- function(afbatch) {
 	eset <- expresso(afbatch, normalize.method="invariantset", bg.correct=FALSE, pmcorrect.method="pmonly",summary.method="liwong", verbose=FALSE) 
 	return(eset)
 }

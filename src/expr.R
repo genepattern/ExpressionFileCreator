@@ -177,7 +177,7 @@ gp.dchip <- function(afbatch) {
 	return(eset)
 }
 
-# requires gcrma, matchprobes
+
 gp.gcrma <- function(afbatch) {
    if(!require("gcrma", quietly=TRUE)) {
        f <- paste(libdir, "gcrma_1.0.0.zip", sep="")
@@ -202,16 +202,13 @@ gp.gcrma <- function(afbatch) {
                return(index)
             }
          }
-         stop("Data repository not found.")
+         stop("Probe Data repository not found.")
        }
        r <- getRepEntry(repList, get.index(n))
-       print(paste("installing package", pkg))
        install.packages2(type='Win32', repEntry=r, pkgs=c(pkg))
    }
  #  affinity.info <- compute.affinities(afbatch@cdfName, verbose=FALSE)
-   print("running gcrma")
    eset <- gcrma(afbatch, verbose=TRUE)
-   print("done")
    eset@exprs <- 2^eset@exprs # produces values that are log scaled
    return(eset)
    

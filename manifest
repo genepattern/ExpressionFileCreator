@@ -1,5 +1,5 @@
 #ExpressionFileCreator
-#Thu Sep 02 12:30:50 EDT 2004
+#Thu Sep 02 14:51:57 EDT 2004
 p8_prefix_when_specified=
 p5_optional=on
 p10_value=
@@ -16,7 +16,7 @@ p6_name=scale.value
 p1_prefix_when_specified=
 p8_description=The normalization method to apply after expression values are computed
 p10_description=tab-delimitted text file containing one scan and class per line
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00046\:${build.number}
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00041\:${build.number}
 p6_prefix_when_specified=
 p7_type=java.lang.String
 author=Joshua Gould
@@ -32,7 +32,7 @@ taskType=Preprocess & Utilities
 p9_value=
 p4_prefix_when_specified=
 p8_type=java.lang.String
-p3_value=RMA;MAS5
+p3_value=RMA;MAS5;dChip
 p1_type=java.io.File
 p1_default_value=
 privacy=public

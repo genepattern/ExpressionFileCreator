@@ -406,8 +406,10 @@ function(res, filename)
 	cat("\n", file=f, append=TRUE)
 	
 	# write the descriptions
-	cat("\t", file=f, append=TRUE)
-	cat(res@sample.descriptions, sep="\t\t", file=f, append=TRUE)
+	if(res@sample.descriptions!='') {
+		cat("\t", file=f, append=TRUE)
+		cat(res@sample.descriptions, sep="\t\t", file=f, append=TRUE)
+	} 
 	cat("\n", file=f, append=TRUE)
 	
 	# write the size

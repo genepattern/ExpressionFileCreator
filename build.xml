@@ -13,13 +13,17 @@
 				<exclude name="*.doc"/>
 				<exclude name="build.xml"/>
 				<exclude name="src/**"/>
+				<exclude name="lib/**"/>
 			</fileset>
 		
 			
 			<fileset dir="src">
 				<include name="expr.R"/>
 			</fileset>
-			<fileset dir="lib"/>
+			<fileset dir="lib">
+				<include name="*.tar.gz"/>
+				<include name="*.zip"/>
+			</fileset>
 		</zip>
 		<antcall target="postzip"/>
 	</target>

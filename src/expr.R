@@ -1,7 +1,6 @@
 # this file contains a collection of functions to go from probe level data (Cel files) to expression measures 
 
-#input.file.name a zip file containing cel or gzipped or zipped cel files
-#output.file.name name of the gct output file
+
 
 
 string.to.boolean <- function(s) {
@@ -11,12 +10,16 @@ string.to.boolean <- function(s) {
 	return(FALSE)
 }
 
+zip.file.name <- ''
+output.data.file.name <- ''
+output.cls.file.name <- ''
+
 cleanup <- function() {
 	files <- dir()
 	for(file in files) {
-		if(file.info(file)[1, 'isdir']) {
-			unlink(file, recursive=TRUE)
-		}
+		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name) {
+         unlink(file, recursive=TRUE)
+      }
 	}
 		
 }
@@ -69,6 +72,7 @@ create.expression.file <- function(...) {
 		flag <- substring(args[[i]], 0, 2)
 		if(flag=='-i') {
 			input.file.name <- substring(args[[i]], 3, nchar(args[[i]]))
+         zip.file.name <<- input.file.name # for cleanup
 		} else if(flag=='-o') {
 			output.file.name <- substring(args[[i]], 3, nchar(args[[i]]))
 		} else if(flag=='-m') {
@@ -126,17 +130,17 @@ create.expression.file <- function(...) {
 			factor <- reorder$factor		
 			cls <- list(labels=factor,names=levels(factor))
 			class(cls) <- "cls"
-			cls.file.name <- get.cls.file.name(output.file.name)
-			save.cls(cls, cls.file.name)
+			output.cls.file.name <<- get.cls.file.name(output.file.name)
+			save.cls(cls, output.cls.file.name)
 		}
 		
 		data <- normalize(data, normalization.method, refindex)
 	
-		gct.file.name <- save.data.as.gct(data, output.file.name)
+		output.data.file.name <<- save.data.as.gct(data, output.file.name)
 		if(classes.file!='') { 
-			return(list(gct.file.name, cls.file.name))
+			return(list(output.data.file.name, output.cls.file.name))
 		}
-		return(list(gct.file.name))
+		return(list(output.data.file.name))
 	} else if(method=='MAS5'){
 		return(gp.mas5(input.file.name, output.file.name, compute.calls, scale, classes.file, post.normalization=normalization.method, refindex=refindex))
 	} else {
@@ -198,13 +202,13 @@ gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, cla
 			factor <- reorder$factor		
 			cls <- list(labels=factor,names=levels(factor))
 			class(cls) <- "cls"
-			cls.file.name <- get.cls.file.name(output.file.name)
-			save.cls(cls, cls.file.name)
+			output.cls.file.name <<- get.cls.file.name(output.file.name)
+			save.cls(cls, output.cls.file.name)
 		}
 		normalize(data, post.normalization, refindex)
-		gct.file.name <- save.data.as.gct(data, output.file.name)
+		output.data.file.name <<- save.data.as.gct(data, output.file.name)
 		if(classes.file!='') {
-			return(list(gct.file.name, cls.file.name))
+			return(list(output.data.file.name, output.cls.file.name))
 		}
 		return(list(gct.file.name))
 	} else {
@@ -212,7 +216,7 @@ gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, cla
 		# write.res in GenePattern library is broken
 		res.ext <- regexpr(paste(".res","$",sep=""), tolower(output.file.name))
 		if(res.ext[[1]] == -1) {
-			output.file.name <- paste(output.file.name, ".res", sep="") # ensure correct file extension
+			output.data.file.name <<- paste(output.file.name, ".res", sep="") # ensure correct file extension
 		}
 	
 		data <- as.data.frame(exprs(eset))
@@ -229,16 +233,16 @@ gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, cla
 			
 			cls <- list(labels=factor,names=levels(factor))
 			class(cls) <- "cls"
-			cls.file.name <- get.cls.file.name(output.file.name)
-			save.cls(cls, cls.file.name)
+			output.cls.file.name <<- get.cls.file.name(output.file.name)
+			save.cls(cls, output.cls.file.name)
 		}
 		normalize(data, post.normalization, refindex)
 		res <- new ("res", gene.descriptions='', sample.descriptions='', data=data, calls=calls) 
-		my.write.res(res, output.file.name)
+		my.write.res(res, output.data.file.name)
 		if(classes.file!='') {
-			return(list(output.file.name, cls.file.name))
+			return(list(output.data.file.name, output.cls.file.name))
 		}
-		return(list(output.file.name))
+		return(list(output.data.file.name))
 	}
 }
 

@@ -418,6 +418,9 @@ gp.readAffyBatch <- function(input.file.name) {
 	cel.files.only <- FALSE
 
 	for(i in 1:length(d)) {
+      if(d[i]==input.file.name) {
+         next  
+      }
 		gzipped <- regexpr(paste(".cel.gz","$",sep=""), tolower(d[i]))
 		zipped <- regexpr(paste(".cel.zip","$",sep=""), tolower(d[i]))
 		if(gzipped[[1]] != -1 || zipped[[1]] != -1) {

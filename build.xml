@@ -23,6 +23,7 @@
 			<fileset dir="lib">
 				<include name="*.tar.gz"/>
 				<include name="*.zip"/>
+            <include name="*.tgz"/>
 			</fileset>
 		</zip>
 		<antcall target="postzip"/>

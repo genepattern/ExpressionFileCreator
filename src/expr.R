@@ -12,12 +12,12 @@ string.to.boolean <- function(s) {
 
 zip.file.name <- ''
 output.data.file.name <- ''
-output.cls.file.name <- ''
+output.clm.file.name <- ''
 
 cleanup <- function() {
 	files <- dir()
 	for(file in files) {
-		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name) {
+		if(file != zip.file.name && file!=output.data.file.name && file!=output.clm.file.name) {
          unlink(file, recursive=TRUE)
       }
 	}
@@ -103,8 +103,9 @@ create.expression.file <- function(...) {
 		} 
 	}
 
-	
-	on.exit(cleanup())
+	if(exists("libdir")) {
+      on.exit(cleanup())
+   }
 	if(exists("libdir")) {
 		install.affy.packages(libdir)
 	}
@@ -180,13 +181,11 @@ gp.dchip <- function(afbatch) {
 
 gp.gcrma <- function(afbatch) {
    if(!require("gcrma", quietly=TRUE)) {
-       f <- paste(libdir, "gcrma_1.0.0.zip", sep="")
-		.install.windows(f)
+      install.package(libdir, "gcrma_1.0.0.zip", "gcrma_1.0.0.zip", "gcrma_1.0.0.zip")
    }
    
    if(!require("matchprobes", quietly=TRUE)) {
-       f <- paste(libdir, "matchprobes_1.0.0.zip", sep="")
-		.install.windows(f)
+       install.package(libdir, "matchprobes_1.0.0.zip", "matchprobes_1.0.0.zip", "matchprobes_1.0.0.zip")
    }
    
    cdf <- cleancdfname(afbatch@cdfName) # e.g "hgu133acdf"
@@ -204,8 +203,15 @@ gp.gcrma <- function(afbatch) {
          }
          stop("Probe Data repository not found.")
        }
+       isWindows <- Sys.info()[["sysname"]]=="Windows"
+       
+       if(isWindows) {
+         type <- "Win32"  
+       } else {
+          type <- "Source"
+       }
        r <- getRepEntry(repList, get.index(n))
-       install.packages2(type='Win32', repEntry=r, pkgs=c(pkg))
+       install.packages2(repEntry=r, pkgs=c(pkg), type='Win32')
    }
  #  affinity.info <- compute.affinities(afbatch@cdfName, verbose=FALSE)
    eset <- gcrma(afbatch, verbose=TRUE)
@@ -292,75 +298,23 @@ gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, cla
 
 
 install.affy.packages <- function(libdir) {
-   isWindows <- Sys.info()[["sysname"]]=="Windows"
-	if(!library("reposTools", logical.return=TRUE)||compareVersion(packageDescription("reposTools", NULL, "Version"), "1.4.3") < 0) {	
-	  if(isWindows) {
-		  f <- paste(libdir, "reposTools_1.4.3.zip", sep="")
-		  .install.windows(f)
-	  } else { # install from source
-		  f <- paste(libdir, "reposTools_1.4.3.tar.gz", sep="")
-		  install(f)
-	  }
+   
+	if(!require("reposTools")) {	
+      install.package(libdir, "reposTools_1.5.19.zip", "reposTools_1.5.2.tgz", "reposTools_1.5.2.tar.gz")
 	}
-	library(reposTools)
-	if(!library("Biobase", logical.return=TRUE)||compareVersion(packageDescription("Biobase", NULL, "Version"), "1.4.0") < 0) {		
-	  
-	  if(isWindows) {
-		  f <- paste(libdir, "Biobase_1.4.0.zip", sep="")
-		  .install.windows(f)
-	  } else { # install from source
-		  f <- paste(libdir, "Biobase_1.4.0.tar.gz", sep="")
-		  install(f)
-	  }
-	}
-	library(Biobase)
-	if(!library("affy", logical.return=TRUE) || compareVersion(packageDescription("affy", NULL, "Version"), "1.3.28") < 0) {		
-	  
-	  if(isWindows) {
-		  f <- paste(libdir, "affy_1.3.28.zip", sep="")
-		  .install.windows(f)
-	  } else { # install from source
-		  f <- paste(libdir, "affy_1.3.28.tar.gz", sep="")
-		  install(f)
-	  }
-	}
-}
-
-packageDescription <- function (pkg, lib.loc = NULL, fields = NULL, drop = TRUE) 
-{
-   retval <- list()
-    if (!is.null(fields)) {
-        fields <- as.character(fields)
-        retval[fields] <- NA
-    }
-    if (system.file(package = pkg, lib.loc = lib.loc) == "") {
-        warning("No package ", sQuote(pkg), " was found\n")
-        return(NA)
-    }
-    file <- system.file("DESCRIPTION", package = pkg, lib.loc = lib.loc)
-    if (file != "") {
-        desc <- as.list(read.dcf(file = file)[1, ])
-        if (!is.null(fields)) {
-            ok <- names(desc) %in% fields
-            retval[names(desc)[ok]] <- desc[ok]
-        }
-        else retval[names(desc)] <- desc
-    }
-    if ((file == "") || (length(retval) == 0)) {
-        warning("DESCRIPTION file of package ", sQuote(pkg), 
-            " is missing or broken\n")
-        return(NA)
-    }
-    if (drop & length(fields) == 1) 
-        return(retval[[1]])
-    class(retval) <- "packageDescription"
-    if (!is.null(fields)) 
-        attr(retval, "fields") <- fields
-    attr(retval, "file") <- file
-    retval
-}
-
 	
+	if(!require("Biobase")) {		
+      install.package(libdir, "Biobase_1.5.0.zip", "Biobase_1.5.0.tgz", "Biobase_1.5.0.tar.gz")
+	
+	}
+	
+	if(!require("affy")) {		
+      install.package(libdir, "affy_1.5.8-1.zip", "affy_1.5.8.tgz","affy_1.5.8-1.tar.gz")
+	}
+   library(affy)
+}
+
+
 
 
 get.cls.file.name <- function(data.output.file.name) {
@@ -386,19 +340,6 @@ save.cls <- function(cls, output.file.name) {
 	write.cls(file=output.file.name, cls)
 }
 
-install <- function(pkg) {
-    lib <- .libPaths()[1]
-    cmd <- paste(file.path(R.home(), "bin", "R"), "CMD INSTALL")
-    cmd <- paste(cmd, "-l", lib)
-    cmd <- paste(cmd, " '", pkg, "'", sep = "")
-    status <- system(cmd)
-    if (status != 0) 
-    	cat("\tnpackage installation failed\n")
-}
-
-.install.windows <- function(file) {
-	install.packages(file, .libPaths()[1], CRAN=NULL)
-}
 
 gp.readAffyBatch <- function(input.file.name) {
 	isWindows <- Sys.info()[["sysname"]]=="Windows"
@@ -522,14 +463,24 @@ function(res, filename)
 	return(filename)
 }
 
-reorder <- function(data, cls.file.name) {
-	l <- read.class(cls.file.name, names(data))
-	order <- order.by.class(l)
-	new.data <- reorder.by.class(order, data)
-	list("factor"=l$factor, "data"=new.data)
+reorder <- function(data, clm.file.name) {
+	clm <- read.clm(clm.file.name, names(data))
+   
+   reordered.scan.names <- clm$scans
+   
+   
+   i <- 1
+   order <- list
+   for(reordered.scan in reordered.scan.names) {
+      order[reordered.scan] <- i
+      i <- i+1
+   }
+	
+	new.data <- reorder.data(order, data)
+	list("factor"=clm$factor, "data"=new.data)
 }
 
-reorder.by.class <- function(order, data) {
+reorder.data <- function(order, data) {
 	new.data <- data.frame(data)
 	
 	for(j in 1:NCOL(data)) {
@@ -544,24 +495,8 @@ reorder.by.class <- function(order, data) {
 	new.data
 }
 
-order.by.class <- function(list) {
-	scans <- list$scans
-	factor <- list$factor
-	index <- 1
-	order <- list(length=length(factor))
-	for(l in levels(factor)) {
-		# find indices in factor with value l
-		for(i in 1:length(factor)) {
-			if(factor[i]==l) {
-				order[scans[i]] <- index
-				index <- index + 1
-			}
-		}	
-	}
-	order
-}
 
-read.class <- function(input.file.name, names) {
+read.clm <- function(input.file.name, names) {
 	s <- read.table(input.file.name, colClasses=c('character', 'character'), sep="\t")
 	x <- vector()
 	scans <- vector()	
@@ -594,6 +529,36 @@ rank.normalize <- function(data) {
 		data[,i] <- rank(data[,i], ties.method="mean")	
 	}
 	return(data)
+}
+
+install.package <- function(dir,windows, mac, other) {
+	isWindows <- Sys.info()[["sysname"]]=="Windows"
+	isMac <- Sys.info()[["sysname"]]=="Darwin" 
+	if(isWindows) {
+		f <- paste(dir, windows, sep="")
+		.install.windows(f)
+	} else if(isMac) {
+		f <- paste(dir, mac, sep="")
+      .install.unix(f)
+	} else { # install from source
+		f <- paste(dir, other, sep="")
+		.install.unix(f)
+	}	
+}
+
+.install.windows <- function(pkg) {
+	install.packages(pkg, .libPaths()[1], CRAN=NULL, installWithVers=FALSE)
+}
+
+.install.unix <- function(pkg) {
+    lib <- .libPaths()[1]
+   # cmd <- paste(file.path(R.home(), "bin", "R"), "CMD INSTALL --with-package-versions")
+	 cmd <- paste(file.path(R.home(), "bin", "R"), "CMD INSTALL")
+    cmd <- paste(cmd, "-l", lib)
+    cmd <- paste(cmd, " '", pkg, "'", sep = "")
+    status <- system(cmd)
+    if (status != 0) 
+    	cat("\tpackage installation failed\n")
 }
 
 

@@ -77,13 +77,13 @@ p7_prefix_when_specified=
 p7_type=java.lang.String
 p7_value=yes=yes (create res file);no=no (create gct file)
 
-p8_default_value=
+p8_default_value=none
 p8_description=The normalization method to apply after expression values are computed
 p8_name=normalization
 p8_optional=on
 p8_prefix_when_specified=
 p8_type=java.lang.String
-p8_value=\=;mean scaling;median scaling
+p8_value=\=none;mean scaling;median scaling
 
 p9_default_value=
 p9_description=(mean or median scaling only) The sample index (starting at 1) to be used as a reference for normalization

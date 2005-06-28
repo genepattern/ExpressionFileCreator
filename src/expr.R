@@ -72,7 +72,7 @@ create.expression.file <- function(...) {
 		flag <- substring(args[[i]], 0, 2)
 		if(flag=='-i') {
 			input.file.name <- substring(args[[i]], 3, nchar(args[[i]]))
-         zip.file.name <<- input.file.name # for cleanup
+         	zip.file.name <<- input.file.name # for cleanup
 		} else if(flag=='-o') {
 			output.file.name <- substring(args[[i]], 3, nchar(args[[i]]))
 		} else if(flag=='-m') {
@@ -299,17 +299,17 @@ gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, cla
 
 install.affy.packages <- function(libdir) {
    
-	if(!require("reposTools")) {	
+	if(!require("reposTools") || compareVersion(packageDescription("reposTools", NULL, "Version"), "1.5.19") < 0) {	
       install.package(libdir, "reposTools_1.5.19.zip", "reposTools_1.5.2.tgz", "reposTools_1.5.2.tar.gz")
 	}
 	
-	if(!require("Biobase")) {		
+	if(!require("Biobase") || compareVersion(packageDescription("Biobase", NULL, "Version"), "1.5.0") < 0) {		
       install.package(libdir, "Biobase_1.5.0.zip", "Biobase_1.5.0.tgz", "Biobase_1.5.0.tar.gz")
 	
 	}
 	
-	if(!require("affy")) {		
-      install.package(libdir, "affy_1.5.8-1.zip", "affy_1.5.8.tgz","affy_1.5.8-1.tar.gz")
+	if(!require("affy") || compareVersion(packageDescription("affy", NULL, "Version"), "1.5.8") < 0) {		
+      install.package(libdir, "affy_1.5.8.zip", "affy_1.5.8.tgz","affy_1.5.8.tar.gz")
 	}
    library(affy)
 }

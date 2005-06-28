@@ -13,11 +13,12 @@ string.to.boolean <- function(s) {
 zip.file.name <- ''
 output.data.file.name <- ''
 output.clm.file.name <- ''
+clm.input.file <- ''
 
 cleanup <- function() {
 	files <- dir()
 	for(file in files) {
-		if(file != zip.file.name && file!=output.data.file.name && file!=output.clm.file.name) {
+		if(file != zip.file.name && file!=output.data.file.name && file!=output.clm.file.name && file!=clm.input.file) {
          unlink(file, recursive=TRUE)
       }
 	}
@@ -66,7 +67,7 @@ create.expression.file <- function(...) {
 	
 	scale <- NULL
 	normalization.method <- NULL
-	classes.file <- NULL
+	clm.input.file <- NULL
 	refindex <- NULL
 	for(i in 1:length(args)) {
 		flag <- substring(args[[i]], 0, 2)
@@ -95,7 +96,7 @@ create.expression.file <- function(...) {
 			refindex <- substring(args[[i]], 3, nchar(args[[i]]))
 			refindex <- as.integer(refindex)
 		} else if(flag=='-f') {
-			classes.file <- substring(args[[i]], 3, nchar(args[[i]]))
+			clm.input.file <<- substring(args[[i]], 3, nchar(args[[i]]))
 		} else if(flag=='-l') {
 			libdir <<- substring(args[[i]], 3, nchar(args[[i]]))
 		}  else  {
@@ -128,8 +129,8 @@ create.expression.file <- function(...) {
 		data <- as.data.frame(exprs(eset))
 		names(data) <- sampleNames
 
-		if(classes.file!='') { 
-			reorder <- reorder(data, classes.file)
+		if(clm.input.file!='') { 
+			reorder <- reorder(data, clm.input.file)
 			data <- reorder$data
 			factor <- reorder$factor		
 			cls <- list(labels=factor,names=levels(factor))
@@ -140,12 +141,12 @@ create.expression.file <- function(...) {
 		data <- normalize(data, normalization.method, refindex)
 	
 		output.data.file.name <<- save.data.as.gct(data, output.file.name)
-		if(classes.file!='') { 
+		if(clm.input.file!='') { 
 			return(list(output.data.file.name, output.cls.file.name))
 		}
 		return(list(output.data.file.name))
 	} else if(method=='MAS5'){
-		return(gp.mas5(input.file.name, output.file.name, compute.calls, scale, classes.file, post.normalization=normalization.method, refindex=refindex))
+		return(gp.mas5(input.file.name, output.file.name, compute.calls, scale, clm.input.file, post.normalization=normalization.method, refindex=refindex))
 	} else {
 		stop('Unknown method')	
 	}
@@ -227,7 +228,7 @@ gp.gcrma <- function(afbatch) {
 
 #analysis: should we do absolute or comparison analysis, although "comparison" is still not implemented.
 
-gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, classes.file, post.normalization, refindex=refindex) {
+gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, clm.input.file, post.normalization, refindex=refindex) {
 	
 	ab <- gp.readAffyBatch(input.file.name)
 	r <- ab[[1]]
@@ -242,8 +243,8 @@ gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, cla
 		data <- as.data.frame(exprs(eset))
 		names(data) <- sampleNames
 
-		if(classes.file!='') {
-			reorder <- reorder(data, classes.file)
+		if(clm.input.file!='') {
+			reorder <- reorder(data, clm.input.file)
 			data <- reorder$data
 			factor <- reorder$factor		
 			cls <- list(labels=factor,names=levels(factor))
@@ -253,7 +254,7 @@ gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, cla
 		}
 		normalize(data, post.normalization, refindex)
 		output.data.file.name <<- save.data.as.gct(data, output.file.name)
-		if(classes.file!='') {
+		if(clm.input.file!='') {
 			return(list(output.data.file.name, output.cls.file.name))
 		}
 		return(list(gct.file.name))
@@ -270,12 +271,12 @@ gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, cla
 		names(data) <- sampleNames
 		names(calls) <- sampleNames
 		
-		if(classes.file!='') {
-			reorder <- reorder(data, classes.file)
+		if(clm.input.file!='') {
+			reorder <- reorder(data, clm.input.file)
 			data <- reorder$data
 			factor <- reorder$factor
 			
-			calls <- reorder(calls, classes.file)$data
+			calls <- reorder(calls, clm.input.file)$data
 			
 			cls <- list(labels=factor,names=levels(factor))
 			class(cls) <- "cls"
@@ -285,7 +286,7 @@ gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, cla
 		normalize(data, post.normalization, refindex)
 		res <- new ("res", gene.descriptions='', sample.descriptions='', data=data, calls=calls) 
 		my.write.res(res, output.data.file.name)
-		if(classes.file!='') {
+		if(clm.input.file!='') {
 			return(list(output.data.file.name, output.cls.file.name))
 		}
 		return(list(output.data.file.name))

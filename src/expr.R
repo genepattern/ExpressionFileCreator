@@ -105,8 +105,9 @@ create.expression.file <- function(...) {
 	}
 
 	if(exists("libdir")) {
+	  .libPaths(libdir)
       on.exit(cleanup())
-   }
+   	}
 	if(exists("libdir")) {
 		install.affy.packages(libdir)
 	}

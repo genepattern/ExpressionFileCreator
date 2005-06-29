@@ -2,6 +2,9 @@
 
 
 
+trim <- function(s) {
+	sub(' +$', '', s, extended = TRUE) 
+}
 
 string.to.boolean <- function(s) {
 	if(s=="yes") {
@@ -14,7 +17,13 @@ zip.file.name <- ''
 output.data.file.name <- ''
 output.clm.file.name <- ''
 clm.input.file <- ''
+DEBUG <<- FALSE
 
+log <- function(s) {
+	if(DEBUG) {
+		cat(paste(s, "\n", sep=''))
+	}
+}
 cleanup <- function() {
 	files <- dir()
 	for(file in files) {
@@ -55,66 +64,26 @@ normalize <- function(data, method, refindex) {
 	}
 }
 
-create.expression.file <- function(...) {
-   options("warn"=-1)
-	args <- list(...)
-	
-	#optional args
-	normalize <- FALSE
-	background <- FALSE
-	quantile.normalization <- FALSE
-	compute.calls <- FALSE
-	
-	scale <- NULL
-	normalization.method <- NULL
-	clm.input.file <- NULL
-	refindex <- NULL
-	for(i in 1:length(args)) {
-		flag <- substring(args[[i]], 0, 2)
-		if(flag=='-i') {
-			input.file.name <- substring(args[[i]], 3, nchar(args[[i]]))
-         	zip.file.name <<- input.file.name # for cleanup
-		} else if(flag=='-o') {
-			output.file.name <- substring(args[[i]], 3, nchar(args[[i]]))
-		} else if(flag=='-m') {
-			method <- substring(args[[i]], 3, nchar(args[[i]]))
-		} else if(flag=='-q') {
-			quantile.normalization <- substring(args[[i]], 3, nchar(args[[i]]))
-			quantile.normalization <- string.to.boolean(quantile.normalization)
-		} else if(flag=='-b') { # whether to background correct when using RMA
-			background <- substring(args[[i]], 3, nchar(args[[i]]))
-			background <- string.to.boolean(background)
-		} else if(flag=='-s') {
-			scale <- substring(args[[i]], 3, nchar(args[[i]]))
-			scale <- as.integer(scale)
-		} else if(flag=='-c') {
-			compute.calls <- substring(args[[i]], 3, nchar(args[[i]]))
-			compute.calls <- string.to.boolean(compute.calls)
-		} else if(flag=='-n') {
-			normalization.method <- substring(args[[i]], 3, nchar(args[[i]]))
-		} else if(flag=='-x') {
-			refindex <- substring(args[[i]], 3, nchar(args[[i]]))
-			refindex <- as.integer(refindex)
-		} else if(flag=='-f') {
-			clm.input.file <<- substring(args[[i]], 3, nchar(args[[i]]))
-		} else if(flag=='-l') {
-			libdir <<- substring(args[[i]], 3, nchar(args[[i]]))
-		}  else  {
-			stop(paste("unknown option", flag, sep=": "))
-		} 
+create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, refindex, clm.input.file, libdir)  {
+	options("warn"=-1)
+	zip.file.name <<- input.file.name # for cleanup
+	quantile.normalization <- string.to.boolean(quantile.normalization)
+    background <- string.to.boolean(background)
+    scale <- as.integer(scale)
+	compute.calls <- string.to.boolean(compute.calls)
+	refindex <- as.integer(refindex)
+	clm.input.file <<- clm.input.file
+
+	if(libdir!='') {
+		.libPaths(libdir)
+		on.exit(cleanup())
 	}
 
-	if(exists("libdir")) {
-	  .libPaths(libdir)
-      on.exit(cleanup())
-   	}
-	if(exists("libdir")) {
-		install.affy.packages(libdir)
-	}
 	library(affy, verbose=FALSE)
 	library(GenePattern, verbose=FALSE)
 	
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
+		log(paste("reading CEL files from", input.file.name))
 		my.list <- gp.readAffyBatch(input.file.name)
       
 		afbatch <- my.list[[1]]
@@ -123,9 +92,10 @@ create.expression.file <- function(...) {
 		if(method=='dChip') {
 			eset <- gp.dchip(afbatch)
 		} else if(method=='RMA'){
+			log(paste("running RMA with quantile.normalization=", quantile.normalization))
 			eset <- gp.rma(afbatch, quantile.normalization, background)
 		} else {
-         eset <- gp.gcrma(afbatch)
+         	eset <- gp.gcrma(afbatch)
       }
 		data <- as.data.frame(exprs(eset))
 		names(data) <- sampleNames

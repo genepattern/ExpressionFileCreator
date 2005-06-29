@@ -1,11 +1,10 @@
 #ExpressionFileCreator
 #Thu Sep 02 14:51:57 EDT 2004
 JVMLevel=2.0.1
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00041\:${build.number}
 author=Joshua Gould, gp-help@broad.mit.edu, Broad Institute
-commandLine=<R> <libdir>expr.R create.expression.file -i<input.filename> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct> -s<scale.value> -c<compute.present.absent.calls> -n<normalization> -x<sample.index> -l<libdir> -f<clm.filename>
+commandLine=<R> <libdir>expr.R create.expression.file input.file.name="<input.filename>" output.file.name="<output.file>" method="<method>" quantile.normalization="<quantile.normalization>" background="<background.correct>" scale="<scale.value>" compute.calls="<compute.present.absent.calls>" normalization.method="<normalization>" refindex="<sample.index>" libdir="<libdir>" clm.input.file="<clm.filename>"
 cpuType=any
-description=Creates a res or gct file from a set of Affymetrix cel files
+description=Creates a res or gct file from a set of Affymetrix CEL files
 fileFormat=res;gct
 language=R
 name=ExpressionFileCreator
@@ -97,7 +96,7 @@ p10_MODE=IN
 p10_TYPE=FILE
 p10_default_value=
 p10_description=A tab-delimited text file containing one scan and class per line
-p10_fileFormat=zip
+p10_fileFormat=
 p10_name=clm.filename
 p10_optional=on
 p10_prefix_when_specified=

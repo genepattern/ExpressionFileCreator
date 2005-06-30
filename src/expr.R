@@ -30,8 +30,7 @@ cleanup <- function() {
 		if(file != zip.file.name && file!=output.data.file.name && file!=output.clm.file.name && file!=clm.input.file) {
          unlink(file, recursive=TRUE)
       }
-	}
-		
+	}		
 }
 # Scales all arrays so they have the same mean or median value
 # new.value.i <- sample.i/mean.of.sample.i * ref.sample
@@ -64,7 +63,17 @@ normalize <- function(data, method, refindex) {
 	}
 }
 
+
+
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, refindex, clm.input.file, libdir)  {
+	ret <- try(.create.expression.file(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, refindex, clm.input.file, libdir)
+		)
+	if(class(ret)=="try-error") {
+      traceback()
+   }
+}
+
+.create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, refindex, clm.input.file, libdir)  {
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
 	quantile.normalization <- string.to.boolean(quantile.normalization)
@@ -75,15 +84,19 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	clm.input.file <<- clm.input.file
 
 	if(libdir!='') {
+		log("adding to libpath")
 		.libPaths(libdir)
 		on.exit(cleanup())
+		log("installing required packages")
+		install.required.packages(libdir)
 	}
 
+	
 	library(affy, verbose=FALSE)
 	library(GenePattern, verbose=FALSE)
 	
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
-		log(paste("reading CEL files from", input.file.name))
+		log("reading zip file")
 		my.list <- gp.readAffyBatch(input.file.name)
       
 		afbatch <- my.list[[1]]
@@ -92,7 +105,6 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		if(method=='dChip') {
 			eset <- gp.dchip(afbatch)
 		} else if(method=='RMA'){
-			log(paste("running RMA with quantile.normalization=", quantile.normalization))
 			eset <- gp.rma(afbatch, quantile.normalization, background)
 		} else {
          	eset <- gp.gcrma(afbatch)
@@ -163,7 +175,7 @@ gp.gcrma <- function(afbatch) {
    cdf <- cleancdfname(afbatch@cdfName) # e.g "hgu133acdf"
    cdf <- substring(cdf, 0, nchar(cdf)-3)# remove cdf from end
    pkg <- paste(cdf, "probe", sep='') 
-   if(!require(package=pkg, quietly=TRUE,character.only=TRUE)) {
+   if(!library(package=pkg, lib.loc=libdir, logical.return=TRUE, version=NULL)) {
       repList <- getOptReposList()
       n <- repNames(repList)
       
@@ -269,24 +281,27 @@ gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, clm
 # MISC FUNCTIONS
 
 
-install.affy.packages <- function(libdir) {
-   
-	if(!require("reposTools") || compareVersion(packageDescription("reposTools", NULL, "Version"), "1.5.19") < 0) {	
-      install.package(libdir, "reposTools_1.5.19.zip", "reposTools_1.5.2.tgz", "reposTools_1.5.2.tar.gz")
-	}
-	
-	if(!require("Biobase") || compareVersion(packageDescription("Biobase", NULL, "Version"), "1.5.0") < 0) {		
-      install.package(libdir, "Biobase_1.5.0.zip", "Biobase_1.5.0.tgz", "Biobase_1.5.0.tar.gz")
-	
-	}
-	
-	if(!require("affy") || compareVersion(packageDescription("affy", NULL, "Version"), "1.5.8") < 0) {		
-      install.package(libdir, "affy_1.5.8.zip", "affy_1.5.8.tgz","affy_1.5.8.tar.gz")
-	}
-   library(affy)
+is.package.installed <- function(libdir, pkg) {
+	f <- paste(libdir, pkg, sep='')
+	return(file.exists(f) && file.info(f)[["isdir"]])
 }
 
-
+install.required.packages <- function(libdir) {
+	log(libdir)
+	if(!is.package.installed(libdir, "reposTools")) {
+		log("installing reposTools")
+		install.package(libdir, "reposTools_1.5.19.zip", "reposTools_1.5.2.tgz", "reposTools_1.5.2.tar.gz")
+	
+	}
+	if(!is.package.installed(libdir, "Biobase")) {
+		log("installing Biobase")
+		install.package(libdir, "Biobase_1.5.0.zip", "Biobase_1.5.0.tgz", "Biobase_1.5.0.tar.gz")
+	}
+	if(!is.package.installed(libdir, "affy")) {
+		log("installing affy")
+		install.package(libdir, "affy_1.5.8.zip", "affy_1.5.8.tgz","affy_1.5.8.tar.gz")
+	}
+}
 
 
 get.cls.file.name <- function(data.output.file.name) {

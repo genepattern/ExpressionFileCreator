@@ -1,7 +1,5 @@
 # this file contains a collection of functions to go from probe level data (Cel files) to expression measures 
 
-
-
 trim <- function(s) {
 	sub(' +$', '', s, extended = TRUE) 
 }
@@ -63,9 +61,56 @@ normalize <- function(data, method, refindex) {
 	}
 }
 
+parseCmdLine <- function(...) {
+	args <- list(...)
+	input.file.name <- ''
+	output.file.name <- ''
+	method <- ''
+	quantile.normalization <- ''
+	background <- ''
+	scale <- ''
+	compute.calls <- ''
+	normalization.method <- ''
+	refindex <- ''
+	libdir <- ''
+	clm.input.file <- ''
+	
+	for(i in 1:length(args)) {
+		flag <- substring(args[[i]], 0, 2)
+		value <- substring(args[[i]], 3, nchar(args[[i]]))
+		if(flag=='-i') {
+			input.file.name <- value
+			zip.file.name <<- input.file.name # for cleanup
+		} else if(flag=='-o') {
+			output.file.name <- value
+		} else if(flag=='-m') {
+			method <- value
+		} else if(flag=='-q') {
+			quantile.normalization <- value
+		} else if(flag=='-b') { # whether to background correct when using RMA
+			background <- value
+		} else if(flag=='-s') {
+			scale <- value
+		} else if(flag=='-c') {
+			compute.calls <- value
+		} else if(flag=='-n') {
+			normalization.method <- value
+		} else if(flag=='-x') {
+			refindex <- value
+		} else if(flag=='-f') {
+			clm.input.file <- value
+		} else if(flag=='-l') {
+			libdir <- value
+		}  else  {
+			stop(paste("unknown option", flag, sep=": "))
+		} 
+	}
+	create.expression.file(input.file.name, output.file.name, method, 	quantile.normalization, background, scale, compute.calls, normalization.method, refindex, clm.input.file, libdir)
 
+}
 
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, refindex, clm.input.file, libdir)  {
+	
 	ret <- try(.create.expression.file(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, refindex, clm.input.file, libdir)
 		)
 	if(class(ret)=="try-error") {
@@ -84,14 +129,18 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	clm.input.file <<- clm.input.file
 
 	if(libdir!='') {
+		libPath <- libdir
+   	if(!file.exists(libdir)) {
+   		# remove trailing /
+   		libPath <- substr(libdir, 0, nchar(libdir)-1)
+   	}
 		log("adding to libpath")
-		.libPaths(libdir)
+		.libPaths(libPath)
 		on.exit(cleanup())
 		log("installing required packages")
 		install.required.packages(libdir)
 	}
 
-	
 	library(affy, verbose=FALSE)
 	library(GenePattern, verbose=FALSE)
 	
@@ -290,7 +339,7 @@ install.required.packages <- function(libdir) {
 	log(libdir)
 	if(!is.package.installed(libdir, "reposTools")) {
 		log("installing reposTools")
-		install.package(libdir, "reposTools_1.5.19.zip", "reposTools_1.5.2.tgz", "reposTools_1.5.2.tar.gz")
+		install.package(libdir, "reposTools_1.5.2.zip", "reposTools_1.5.2.tgz", "reposTools_1.5.2.tar.gz")
 	
 	}
 	if(!is.package.installed(libdir, "Biobase")) {
@@ -299,7 +348,7 @@ install.required.packages <- function(libdir) {
 	}
 	if(!is.package.installed(libdir, "affy")) {
 		log("installing affy")
-		install.package(libdir, "affy_1.5.8.zip", "affy_1.5.8.tgz","affy_1.5.8.tar.gz")
+		install.package(libdir, "affy_1.5.8-1.zip", "affy_1.5.8.tgz","affy_1.5.8.tar.gz")
 	}
 }
 

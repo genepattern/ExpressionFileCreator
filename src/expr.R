@@ -137,7 +137,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 }
 
 .create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)  {
-#	options("warn"=-1)
+	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
 	quantile.normalization <- string.to.boolean(quantile.normalization)
     background <- string.to.boolean(background)

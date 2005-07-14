@@ -34,26 +34,39 @@ cleanup <- function() {
 # new.value.i <- sample.i/mean.of.sample.i * ref.sample
 # constant <- mean.of.sample.i * ref.sample
 
-normalize <- function(data, method, refindex) {
+normalize <- function(data, method, reference.sample.name) {
 	if(method=='') {
 		return(data)
-	} else if(method=='mean scaling' || method=='median scaling') {
-		if(is.na(refindex)) {
-			warning("Invalid sample index specified.")	
-			return(data)
-		} 
-		if(refindex < 1 || refindex > NCOL(refindex)) {
-			warning("Sample index out of range.")	
-			return(data)
+	}
+	
+	# get index of reference.sample.name in data
+	colnames <- colnames(data)
+	index <- 1
+	refindex <- NULL
+	for(name in colnames) {
+		if(name==reference.sample.name) {
+			refindex <- index
+			break
 		}
-		b <- new ('AffyBatch', exprs=as.matrix(data))
+		index <- index + 1
+	}
+	
+	log(paste("refindex", refindex))
+	if(is.null(refindex)) {
+		warning("Could not find reference sample name. Skipping scaling.")
+		return(data)
+	}
+	if(method=='mean scaling' || method=='median scaling') {
 		if(method=='mean scaling') {
 			FUN <- 'mean'
 		}
 		else if(method=='median scaling') {
 			FUN <- 'median'
 		}
-		norm <- normalize.AffyBatch.constant(b, refindex=refindex, get(FUN))
+		function.to.apply <- get(FUN)
+		mean.or.median <- function.to.apply(data[,refindex])
+	
+		return(normalize.constant(data, refconstant=mean.or.median, get(FUN)))
 	} else if(method=='rank normalization') {
 		return(rank.normalize(data))
 	} else {
@@ -71,7 +84,7 @@ parseCmdLine <- function(...) {
 	scale <- ''
 	compute.calls <- ''
 	normalization.method <- ''
-	refindex <- ''
+	reference.sample.name <- ''
 	libdir <- ''
 	clm.input.file <- ''
 	
@@ -96,7 +109,7 @@ parseCmdLine <- function(...) {
 		} else if(flag=='-n') {
 			normalization.method <- value
 		} else if(flag=='-x') {
-			refindex <- value
+			reference.sample.name <- value
 		} else if(flag=='-f') {
 			clm.input.file <- value
 		} else if(flag=='-l') {
@@ -105,27 +118,26 @@ parseCmdLine <- function(...) {
 			stop(paste("unknown option", flag, sep=": "))
 		} 
 	}
-	create.expression.file(input.file.name, output.file.name, method, 	quantile.normalization, background, scale, compute.calls, normalization.method, refindex, clm.input.file, libdir)
+	create.expression.file(input.file.name, output.file.name, method, 	quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)
 
 }
 
-create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, refindex, clm.input.file, libdir)  {
+create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)  {
 	
-	ret <- try(.create.expression.file(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, refindex, clm.input.file, libdir)
+	ret <- try(.create.expression.file(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)
 		)
 	if(class(ret)=="try-error") {
       traceback()
    }
 }
 
-.create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, refindex, clm.input.file, libdir)  {
+.create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)  {
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
 	quantile.normalization <- string.to.boolean(quantile.normalization)
     background <- string.to.boolean(background)
     scale <- as.integer(scale)
 	compute.calls <- string.to.boolean(compute.calls)
-	refindex <- as.integer(refindex)
 	clm.input.file <<- clm.input.file
 
 	if(libdir!='') {
@@ -151,16 +163,17 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		} else if(method=='RMA'){
 			eset <- gp.rma(afbatch, quantile.normalization, background)
 		} else {
-         	eset <- gp.gcrma(afbatch)
-      	}
+         eset <- gp.gcrma(afbatch)
+      }
 		data <- as.data.frame(exprs(eset))
-		data <- normalize(data, normalization.method, refindex)
 		result <- data
 	} else if(method=='MAS5'){
-		result <- gp.mas5(input.file.name, compute.calls, scale, post.normalization=normalization.method, refindex=refindex)
+		result <- gp.mas5(input.file.name, compute.calls, scale)
 	} else {
 		stop('Unknown method')	
 	}
+	
+	
 	if(clm.input.file!='') { 
 		if(class(result)=="res") {
 			# reorder data
@@ -172,21 +185,29 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			result@calls <- clm$data
 			
 			factor <- clm$factor		
-			cls <- list(labels=factor,names=levels(factor))
-			class(cls) <- "cls"
-			output.cls.file.name <<- get.cls.file.name(output.file.name)
-			log(paste("saving cls file to", output.cls.file.name))
-			save.cls(cls, output.cls.file.name)
+			if(!is.null(factor)) {
+				cls <- list(labels=factor,names=levels(factor))
+				class(cls) <- "cls"
+				output.cls.file.name <<- get.cls.file.name(output.file.name)
+				log(paste("saving cls file to", output.cls.file.name))
+				save.cls(cls, output.cls.file.name)
+			}
 		} else {
 			clm <- apply.clm(result, clm.input.file)
 			result <- clm$data
-			factor <- clm$factor		
-			cls <- list(labels=factor,names=levels(factor))
-			class(cls) <- "cls"
-			output.cls.file.name <<- get.cls.file.name(output.file.name)
-			log(paste("saving cls file to", output.cls.file.name))
-			save.cls(cls, output.cls.file.name)
+			factor <- clm$factor	
+			if(!is.null(factor)) {
+				cls <- list(labels=factor,names=levels(factor))
+				output.cls.file.name <<- get.cls.file.name(output.file.name)
+				log(paste("saving cls file to", output.cls.file.name))
+				save.cls(cls, output.cls.file.name)
+			}
 		}
+	}
+	if(class(result)=="res") {
+		result@data <- normalize(result@data, normalization.method, reference.sample.name)
+	} else {
+		result <- normalize(result, normalization.method, reference.sample.name)
 	}
 	if(class(result)=="res") {
 		res.ext <- regexpr(paste(".res","$",sep=""), tolower(output.file.name))
@@ -234,6 +255,37 @@ gp.dchip <- function(afbatch) {
 	return(eset)
 }
 
+#normalize: logical. If 'TRUE' scale normalization is used after we obtain an instance of 'exprSet-class'
+
+#sc: Value at which all arrays will be scaled to.
+
+#analysis: should we do absolute or comparison analysis, although "comparison" is still not implemented.
+
+gp.mas5 <- function(input.file.name, compute.calls, scale) {
+	
+	r <- gp.readAffyBatch(input.file.name)
+	if(!is.na(scale)) {
+		log("mas5: normalizing and scaling data")
+		eset <- mas5(r, normalize=TRUE, sc=scale)
+	} else {
+		log("mas5: normalizing and scaling data")
+		eset <- mas5(r, normalize=FALSE)
+	}
+	
+	if(!compute.calls) {
+		data <- as.data.frame(exprs(eset))
+		names(data) <- sampleNames
+		return(data, output.file.name)
+	} else {
+		calls.eset <- mas5calls.AffyBatch(r, verbose = FALSE) 
+		data <- as.data.frame(exprs(eset))
+		calls <- as.data.frame(exprs(calls.eset))
+		names(data) <- colnames(eset)
+		names(calls) <- colnames(eset)
+		res <- new ("res", gene.descriptions='', sample.descriptions='', data=data, calls=calls) 
+		return(res)
+	}
+}
 
 gp.gcrma <- function(afbatch) {
    if(!require("gcrma", quietly=TRUE)) {
@@ -275,42 +327,6 @@ gp.gcrma <- function(afbatch) {
    return(eset)
    
 }
-
-
-#normalize: logical. If 'TRUE' scale normalization is used after we obtain an instance of 'exprSet-class'
-
-#sc: Value at which all arrays will be scaled to.
-
-#analysis: should we do absolute or comparison analysis, although "comparison" is still not implemented.
-
-gp.mas5 <- function(input.file.name, compute.calls, scale, post.normalization, refindex=refindex) {
-	
-	r <- gp.readAffyBatch(input.file.name)
-	if(!is.na(scale)) {
-		log("mas5: normalizing and scaling data")
-		eset <- mas5(r, normalize=TRUE, sc=scale)
-	} else {
-		log("mas5: normalizing and scaling data")
-		eset <- mas5(r, normalize=FALSE)
-	}
-	
-	if(!compute.calls) {
-		data <- as.data.frame(exprs(eset))
-		names(data) <- sampleNames
-		normalize(data, post.normalization, refindex)
-		return(data, output.file.name)
-	} else {
-		calls.eset <- mas5calls.AffyBatch(r, verbose = FALSE) 
-		data <- as.data.frame(exprs(eset))
-		calls <- as.data.frame(exprs(calls.eset))
-		names(data) <- colnames(eset)
-		names(calls) <- colnames(eset)
-		normalize(data, post.normalization, refindex)
-		res <- new ("res", gene.descriptions='', sample.descriptions='', data=data, calls=calls) 
-		return(res)
-	}
-}
-
 
 ########################################################
 # MISC FUNCTIONS
@@ -529,7 +545,8 @@ reorder.data.frame <- function(order, data) {
 
 # names - the column names in the expression dataset
 read.clm <- function(input.file.name, names) {
-	s <- read.table(input.file.name, colClasses=c('character', 'character','character'), sep="\t")
+	s <- read.table(input.file.name, colClasses = "character", sep="\t") 
+	columns <- ncol(s)
 	class.names <- vector() 
 	sample.names <- vector()
 	scans <- vector()	
@@ -541,7 +558,9 @@ read.clm <- function(input.file.name, names) {
 		}
 		found.scans[scans[i]] <- 1
 		sample.names[i] <- s[i, 2]
-		class.names[i] <- s[i, 3]
+		if(columns>2) {
+			class.names[i] <- s[i, 3]
+		}
 	}
 	log(paste("names", names ))
 	for(name in names) {
@@ -551,7 +570,10 @@ read.clm <- function(input.file.name, names) {
 		}
 	}
 	log("Finished reading clm file")
-	f <- factor(class.names)
+	f <- NULL
+	if(columns > 2) {
+		f <- factor(class.names)
+	}
 	list("factor"=f, "scan.names"=scans, "sample.names"=sample.names)
 }
 

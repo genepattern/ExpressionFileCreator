@@ -1,11 +1,18 @@
 #Wed Jul 13 14:43:58 EDT 2005
 author=Joshua Gould, gp-help@broad.mit.edu, Broad Institute
-commandLine=<R> <libdir>expr.R parseCmdLine -i<input.filename> -o<output.file> -m<method> -q<quantile.normalization>-b<background.correct> -s<scale.value> -c<compute.present.absent.calls> -n<normalization> -x<sample.index> -l<libdir> -f<clm.filename>
+commandLine=<R> <libdir>expr.R parseCmdLine -i<input.filename> -o<output.file> -m<method> -q<quantile.normalization>-b<background.correct> -s<scale.value> -c<compute.present.absent.calls> -n<normalization> -x<reference.sample.name> -l<libdir> -f<clm.filename>
 cpuType=any
 description=Creates a res or gct file from a set of Affymetrix CEL files
 fileFormat=res;gct
 JVMLevel=2.0.1
 language=R
+privacy=public
+publicationDate=07/13/2005 14\:43 
+quality=production
+taskType=Preprocess & Utilities
+userid=GenePattern
+version=
+
 LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00041\:999999999
 name=ExpressionFileCreator
 os=any
@@ -19,16 +26,7 @@ p1_prefix_when_specified=
 p1_TYPE=FILE
 p1_type=java.io.File
 p1_value=
-p10_default_value=
-p10_description=A tab-delimited text file containing one scan and class per line
-p10_fileFormat=
-p10_MODE=IN
-p10_name=clm.filename
-p10_optional=on
-p10_prefix_when_specified=
-p10_TYPE=FILE
-p10_type=java.io.File
-p10_value=
+
 p2_default_value=<input.filename_basename>
 p2_description=The base name of the output file
 p2_name=output.file
@@ -78,16 +76,24 @@ p8_optional=on
 p8_prefix_when_specified=
 p8_type=java.lang.String
 p8_value=\=none;mean scaling;median scaling
+
 p9_default_value=
-p9_description=(mean or median scaling only) The sample index (starting at 1) to be used as a reference for normalization
-p9_name=sample.index
+p9_description=(mean or median scaling only) The sample name to be used as a reference for normalization
+p9_name=reference.sample.name
 p9_optional=on
 p9_prefix_when_specified=
 p9_type=java.lang.Integer
 p9_value=
-privacy=public
-publicationDate=07/13/2005 14\:43 
-quality=production
-taskType=Preprocess & Utilities
-userid=GenePattern
-version=
+
+p10_default_value=
+p10_description=A tab-delimited text file containing one scan, sample, and class per line
+p10_fileFormat=
+p10_MODE=IN
+p10_name=clm.filename
+p10_optional=on
+p10_prefix_when_specified=
+p10_TYPE=FILE
+p10_type=java.io.File
+p10_value=
+
+

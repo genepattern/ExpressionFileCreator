@@ -13,9 +13,9 @@ string.to.boolean <- function(s) {
 
 zip.file.name <- ''
 output.data.file.name <- ''
-output.clm.file.name <- ''
 clm.input.file <- ''
-DEBUG <<- FALSE
+output.cls.file.name <- ''
+DEBUG <<- TRUE
 
 log <- function(s) {
 	if(DEBUG) {
@@ -25,7 +25,7 @@ log <- function(s) {
 cleanup <- function() {
 	files <- dir()
 	for(file in files) {
-		if(file != zip.file.name && file!=output.data.file.name && file!=output.clm.file.name && file!=clm.input.file) {
+		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file) {
          unlink(file, recursive=TRUE)
       }
 	}		
@@ -134,53 +134,76 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
    		# remove trailing /
    		libPath <- substr(libdir, 0, nchar(libdir)-1)
    	}
-		log("adding to libpath")
 		.libPaths(libPath)
 		on.exit(cleanup())
-		log("installing required packages")
 		install.required.packages(libdir)
 	}
 
 	library(affy, verbose=FALSE)
 	library(GenePattern, verbose=FALSE)
-	
+	result <- NULL
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
 		log("reading zip file")
-		my.list <- gp.readAffyBatch(input.file.name)
+		afbatch <- gp.readAffyBatch(input.file.name)
       
-		afbatch <- my.list[[1]]
-		sampleNames <- my.list[[2]]
-		
 		if(method=='dChip') {
 			eset <- gp.dchip(afbatch)
 		} else if(method=='RMA'){
 			eset <- gp.rma(afbatch, quantile.normalization, background)
 		} else {
          	eset <- gp.gcrma(afbatch)
-      }
+      	}
 		data <- as.data.frame(exprs(eset))
-		names(data) <- sampleNames
-
-		if(clm.input.file!='') { 
-			reorder <- reorder(data, clm.input.file)
-			data <- reorder$data
-			factor <- reorder$factor		
+		data <- normalize(data, normalization.method, refindex)
+		result <- data
+	} else if(method=='MAS5'){
+		result <- gp.mas5(input.file.name, compute.calls, scale, post.normalization=normalization.method, refindex=refindex)
+	} else {
+		stop('Unknown method')	
+	}
+	if(clm.input.file!='') { 
+		if(class(result)=="res") {
+			# reorder data
+			clm <- apply.clm(result@data, clm.input.file)
+			result@data <- clm$data
+			
+			# reorder calls TODO only need to read the clm file once
+			clm <- apply.clm(result@calls, clm.input.file)
+			result@calls <- clm$data
+			
+			factor <- clm$factor		
 			cls <- list(labels=factor,names=levels(factor))
 			class(cls) <- "cls"
 			output.cls.file.name <<- get.cls.file.name(output.file.name)
+			log(paste("saving cls file to", output.cls.file.name))
+			save.cls(cls, output.cls.file.name)
+		} else {
+			clm <- apply.clm(result, clm.input.file)
+			result <- clm$data
+			factor <- clm$factor		
+			cls <- list(labels=factor,names=levels(factor))
+			class(cls) <- "cls"
+			output.cls.file.name <<- get.cls.file.name(output.file.name)
+			log(paste("saving cls file to", output.cls.file.name))
 			save.cls(cls, output.cls.file.name)
 		}
-		data <- normalize(data, normalization.method, refindex)
-	
-		output.data.file.name <<- save.data.as.gct(data, output.file.name)
-		if(clm.input.file!='') { 
-			return(list(output.data.file.name, output.cls.file.name))
+	}
+	if(class(result)=="res") {
+		res.ext <- regexpr(paste(".res","$",sep=""), tolower(output.file.name))
+		if(res.ext[[1]] == -1) {
+			output.data.file.name <<- paste(output.file.name, ".res", sep="") # ensure correct file extension
+		} else {
+			output.data.file.name <<- output.file.name
 		}
-		return(list(output.data.file.name))
-	} else if(method=='MAS5'){
-		return(gp.mas5(input.file.name, output.file.name, compute.calls, scale, clm.input.file, post.normalization=normalization.method, refindex=refindex))
+		my.write.res(result, output.data.file.name)
 	} else {
-		stop('Unknown method')	
+		output.data.file.name <<- save.data.as.gct(result, output.file.name)
+	}
+	
+	if(clm.input.file!='') { 
+		return(list(output.data.file.name, output.cls.file.name))
+	} else {
+		return(list(output.data.file.name))
 	}
 }
 
@@ -260,68 +283,31 @@ gp.gcrma <- function(afbatch) {
 
 #analysis: should we do absolute or comparison analysis, although "comparison" is still not implemented.
 
-gp.mas5 <- function(input.file.name, output.file.name, compute.calls, scale, clm.input.file, post.normalization, refindex=refindex) {
+gp.mas5 <- function(input.file.name, compute.calls, scale, post.normalization, refindex=refindex) {
 	
-	ab <- gp.readAffyBatch(input.file.name)
-	r <- ab[[1]]
-	sampleNames <- ab[[2]]
+	r <- gp.readAffyBatch(input.file.name)
 	if(!is.na(scale)) {
+		log("mas5: normalizing and scaling data")
 		eset <- mas5(r, normalize=TRUE, sc=scale)
 	} else {
+		log("mas5: normalizing and scaling data")
 		eset <- mas5(r, normalize=FALSE)
 	}
 	
 	if(!compute.calls) {
 		data <- as.data.frame(exprs(eset))
 		names(data) <- sampleNames
-
-		if(clm.input.file!='') {
-			reorder <- reorder(data, clm.input.file)
-			data <- reorder$data
-			factor <- reorder$factor		
-			cls <- list(labels=factor,names=levels(factor))
-			class(cls) <- "cls"
-			output.cls.file.name <<- get.cls.file.name(output.file.name)
-			save.cls(cls, output.cls.file.name)
-		}
 		normalize(data, post.normalization, refindex)
-		output.data.file.name <<- save.data.as.gct(data, output.file.name)
-		if(clm.input.file!='') {
-			return(list(output.data.file.name, output.cls.file.name))
-		}
-		return(list(gct.file.name))
+		return(data, output.file.name)
 	} else {
 		calls.eset <- mas5calls.AffyBatch(r, verbose = FALSE) 
-		# write.res in GenePattern library is broken
-		res.ext <- regexpr(paste(".res","$",sep=""), tolower(output.file.name))
-		if(res.ext[[1]] == -1) {
-			output.data.file.name <<- paste(output.file.name, ".res", sep="") # ensure correct file extension
-		}
-	
 		data <- as.data.frame(exprs(eset))
 		calls <- as.data.frame(exprs(calls.eset))
-		names(data) <- sampleNames
-		names(calls) <- sampleNames
-		
-		if(clm.input.file!='') {
-			reorder <- reorder(data, clm.input.file)
-			data <- reorder$data
-			factor <- reorder$factor
-			
-			calls <- reorder(calls, clm.input.file)$data
-			
-			cls <- list(labels=factor,names=levels(factor))
-			class(cls) <- "cls"
-			output.cls.file.name <<- get.cls.file.name(output.file.name)
-			save.cls(cls, output.cls.file.name)
-		}
+		names(data) <- colnames(eset)
+		names(calls) <- colnames(eset)
 		normalize(data, post.normalization, refindex)
 		res <- new ("res", gene.descriptions='', sample.descriptions='', data=data, calls=calls) 
-		my.write.res(res, output.data.file.name)
-		if(clm.input.file!='') {
-			return(list(output.data.file.name, output.cls.file.name))
-		}
-		return(list(output.data.file.name))
+		return(res)
 	}
 }
 
@@ -409,7 +395,7 @@ gp.readAffyBatch <- function(input.file.name) {
 			} else {
 				dot.index <- regexpr(paste(".cel.zip","$",sep=""), tolower(sampleNames[index]))[[1]]
 			}
-			sampleNames[index] <- substring(sampleNames[index], 0, dot.index-1)
+			# sampleNames[index] <- substring(sampleNames[index], 0, dot.index-1)
 			index <- index + 1
 			compressed <- TRUE
 		} else {
@@ -418,7 +404,7 @@ gp.readAffyBatch <- function(input.file.name) {
 				cel.files[index] <- d[i]
 				sampleNames[index] <- basename(d[i])
 				dot.index <- regexpr(paste(".cel","$",sep=""), tolower(sampleNames[index]))[[1]]
-				sampleNames[index] <- substring(sampleNames[index], 0, dot.index-1)
+				# sampleNames[index] <- substring(sampleNames[index], 0, dot.index-1)
 				index <- index + 1
 				cel.files.only <- TRUE
 			}	
@@ -430,7 +416,7 @@ gp.readAffyBatch <- function(input.file.name) {
 	}
 	class(sampleNames) <- 'character'
 	r <- ReadAffy(filenames=cel.files, sampleNames=sampleNames, compress=compressed) 
-	return(list(r, sampleNames))
+	return(r)
 }
 
 
@@ -499,24 +485,31 @@ function(res, filename)
 	return(filename)
 }
 
-reorder <- function(data, clm.file.name) {
+# reorders the given data, substitutes sample for scan names, and creates a factor based on class names
+apply.clm <- function(data, clm.file.name) {
 	clm <- read.clm(clm.file.name, names(data))
    
-   reordered.scan.names <- clm$scans
-   
-   
-   i <- 1
-   order <- list
-   for(reordered.scan in reordered.scan.names) {
-      order[reordered.scan] <- i
-      i <- i+1
-   }
+	reordered.scan.names <- clm$scan.names
+   	reordered.sample.names <- clm$sample.names
+   	
+   	i <- 1
+   	order <- list()
+   	for(reordered.scan in reordered.scan.names) {
+   		order[reordered.scan] <- i
+      	i <- i+1
+   	}
+	log("reordering...")
+	new.data <- reorder.data.frame(order, data)
 	
-	new.data <- reorder.data(order, data)
+	# substitute sample names for scan names
+	names(new.data) <- reordered.sample.names
+	
+	# note we don't need to reorder the factor because reordered data is now in same order as factor
 	list("factor"=clm$factor, "data"=new.data)
 }
 
-reorder.data <- function(order, data) {
+# order - a list containing new order of data e.g. 3, 4, 1, 2
+reorder.data.frame <- function(order, data) {
 	new.data <- data.frame(data)
 	
 	for(j in 1:NCOL(data)) {
@@ -532,27 +525,34 @@ reorder.data <- function(order, data) {
 }
 
 
+
+
+# names - the column names in the expression dataset
 read.clm <- function(input.file.name, names) {
-	s <- read.table(input.file.name, colClasses=c('character', 'character'), sep="\t")
-	x <- vector()
+	s <- read.table(input.file.name, colClasses=c('character', 'character','character'), sep="\t")
+	class.names <- vector() 
+	sample.names <- vector()
 	scans <- vector()	
-	found.scans <- list()
+	found.scans <- list() # keeps track of scan names in clm file
 	for(i in 1:NROW(s)) {
 		scans[i] <- s[i, 1]
 		if(is.null(found.scans[[scans[i]]])==FALSE) {
 			stop("Class file contains scan ", scans[i], " more than once")
 		}
 		found.scans[scans[i]] <- 1
-		x[i] <- s[i, 2]
+		sample.names[i] <- s[i, 2]
+		class.names[i] <- s[i, 3]
 	}
+	log(paste("names", names ))
 	for(name in names) {
+		log(paste("checking if clm file contains:", name))
 		if(is.null(found.scans[[scans[i]]])) {	
 			stop("Class file missing scan ", name)	
 		}
 	}
-	
-	f <- factor(x)
-	list("factor"=f, "scans"=scans)
+	log("Finished reading clm file")
+	f <- factor(class.names)
+	list("factor"=f, "scan.names"=scans, "sample.names"=sample.names)
 }
 
 

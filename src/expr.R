@@ -11,15 +11,20 @@ string.to.boolean <- function(s) {
 	return(FALSE)
 }
 
+exit <- function(s) {
+	stop(s, call. = FALSE)
+}
+
 zip.file.name <- ''
 output.data.file.name <- ''
 clm.input.file <- ''
 output.cls.file.name <- ''
-DEBUG <<- TRUE
+DEBUG <<- FALSE
 
 log <- function(s) {
 	if(DEBUG) {
 		cat(paste(s, "\n", sep=''))
+		#warning(paste(s, "\n", sep=''))
 	}
 }
 cleanup <- function() {
@@ -115,7 +120,7 @@ parseCmdLine <- function(...) {
 		} else if(flag=='-l') {
 			libdir <- value
 		}  else  {
-			stop(paste("unknown option", flag, sep=": "))
+			exit(paste("unknown option", flag, sep=": "))
 		} 
 	}
 	create.expression.file(input.file.name, output.file.name, method, 	quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)
@@ -127,12 +132,12 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	ret <- try(.create.expression.file(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)
 		)
 	if(class(ret)=="try-error") {
-      traceback()
+      exit("An error occurred while running the module.")
    }
 }
 
 .create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)  {
-	options("warn"=-1)
+#	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
 	quantile.normalization <- string.to.boolean(quantile.normalization)
     background <- string.to.boolean(background)
@@ -156,12 +161,12 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	result <- NULL
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
 		log("reading zip file")
-		afbatch <- gp.readAffyBatch(input.file.name)
-      
+		#afbatch <- gp.readAffyBatch(input.file.name)
+      f <- get.cel.file.names(input.file.name)
 		if(method=='dChip') {
 			eset <- gp.dchip(afbatch)
 		} else if(method=='RMA'){
-			eset <- gp.rma(afbatch, quantile.normalization, background)
+			eset <- gp.rma(f$cel.files, f$compressed, quantile.normalization, background)
 		} else {
          eset <- gp.gcrma(afbatch)
       }
@@ -169,8 +174,9 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		result <- data
 	} else if(method=='MAS5'){
 		result <- gp.mas5(input.file.name, compute.calls, scale)
+		log("Finished running mas5")
 	} else {
-		stop('Unknown method')	
+		exit('Unknown method')	
 	}
 	
 	
@@ -205,7 +211,9 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		}
 	}
 	if(class(result)=="res") {
+		log("normalizing res file...")
 		result@data <- normalize(result@data, normalization.method, reference.sample.name)
+		log("finished normalizing res file")
 	} else {
 		result <- normalize(result, normalization.method, reference.sample.name)
 	}
@@ -216,7 +224,9 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		} else {
 			output.data.file.name <<- output.file.name
 		}
+		log("writing res file...")
 		my.write.res(result, output.data.file.name)
+		log("finished writing res file")
 	} else {
 		output.data.file.name <<- save.data.as.gct(result, output.file.name)
 	}
@@ -243,8 +253,17 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
   #        version 1.0 - 1.0.2 2: use background similar to pure R rma
    #       background given in affy version 1.1 and above
 	
-gp.rma <- function(afbatch, normalize, background) {
-   eset <- rma(afbatch, normalize=normalize, background=background, bgversion="2", verbose=TRUE)
+gp.rma <- function(cel.files, compressed, normalize, background) {
+	samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files), 
+            extended = TRUE)
+   n <- length(cel.files)
+	pdata <- data.frame(sample = 1:n, row.names = samplenames)
+	phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
+        
+   eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData)
+  # r <- ReadAffy(filenames=cel.files, compress=compressed) 
+   #eset <- rma(r, normalize=normalize, background=background, verbose=FALSE, compress=compressed)
+   
    eset@exprs <- 2^eset@exprs # rma produces values that are log scaled
    return(eset)
 }
@@ -262,7 +281,6 @@ gp.dchip <- function(afbatch) {
 #analysis: should we do absolute or comparison analysis, although "comparison" is still not implemented.
 
 gp.mas5 <- function(input.file.name, compute.calls, scale) {
-	
 	r <- gp.readAffyBatch(input.file.name)
 	if(!is.na(scale)) {
 		log("mas5: normalizing and scaling data")
@@ -274,14 +292,14 @@ gp.mas5 <- function(input.file.name, compute.calls, scale) {
 	
 	if(!compute.calls) {
 		data <- as.data.frame(exprs(eset))
-		names(data) <- sampleNames
-		return(data, output.file.name)
+		names(data) <- colnames((exprs(eset)))
+		return(data)
 	} else {
 		calls.eset <- mas5calls.AffyBatch(r, verbose = FALSE) 
 		data <- as.data.frame(exprs(eset))
 		calls <- as.data.frame(exprs(calls.eset))
-		names(data) <- colnames(eset)
-		names(calls) <- colnames(eset)
+		names(data) <- colnames((exprs(eset)))
+		names(calls) <- colnames((exprs(eset)))
 		res <- new ("res", gene.descriptions='', sample.descriptions='', data=data, calls=calls) 
 		return(res)
 	}
@@ -309,7 +327,7 @@ gp.gcrma <- function(afbatch) {
                return(index)
             }
          }
-         stop("Probe Data repository not found.")
+         exit("Probe Data repository not found.")
        }
        isWindows <- Sys.info()[["sysname"]]=="Windows"
        
@@ -380,6 +398,12 @@ save.cls <- function(cls, output.file.name) {
 
 
 gp.readAffyBatch <- function(input.file.name) {
+	f <- get.cel.file.names(input.file.name)
+	r <- ReadAffy(filenames=f$cel.files, compress=f$compressed) 
+	return(r)
+}
+
+get.cel.file.names <- function(input.file.name) {
 	isWindows <- Sys.info()[["sysname"]]=="Windows"
 	if(isWindows) {
 		zip.unpack(input.file.name, dest=getwd())
@@ -404,7 +428,6 @@ gp.readAffyBatch <- function(input.file.name) {
 		zipped <- regexpr(paste(".cel.zip","$",sep=""), tolower(d[i]))
 		if(gzipped[[1]] != -1 || zipped[[1]] != -1) {
 			cel.files[index] <- d[i]
-			
 			sampleNames[index] <- basename(d[i])
 			if(gzipped[[1]] != -1) {
 				dot.index <- regexpr(paste(".cel.gz","$",sep=""), tolower(sampleNames[index]))[[1]]
@@ -428,13 +451,11 @@ gp.readAffyBatch <- function(input.file.name) {
 	}
 
 	if(compressed && cel.files.only) {
-		stop("Both compressed and uncompressed .cel files found.")	
+		exit("Both compressed and uncompressed .cel files found.")	
 	}
 	class(sampleNames) <- 'character'
-	r <- ReadAffy(filenames=cel.files, sampleNames=sampleNames, compress=compressed) 
-	return(r)
+	list("cel.files"=cel.files, "compressed"=compressed)
 }
-
 
 
 save.data.as.gct <- function(data, output.file.name) {
@@ -457,7 +478,7 @@ my.write.res <-
 function(res, filename)
 {
 	if(!inherits(res,"res")) {
-		stop("argument `res' must be a res structure.")
+		exit("argument `res' must be a res structure.")
 	}
 	f <- file(filename, "w")
 	
@@ -554,7 +575,7 @@ read.clm <- function(input.file.name, names) {
 	for(i in 1:NROW(s)) {
 		scans[i] <- s[i, 1]
 		if(is.null(found.scans[[scans[i]]])==FALSE) {
-			stop("Class file contains scan ", scans[i], " more than once")
+			exit("Class file contains scan ", scans[i], " more than once")
 		}
 		found.scans[scans[i]] <- 1
 		sample.names[i] <- s[i, 2]
@@ -566,7 +587,7 @@ read.clm <- function(input.file.name, names) {
 	for(name in names) {
 		log(paste("checking if clm file contains:", name))
 		if(is.null(found.scans[[scans[i]]])) {	
-			stop("Class file missing scan ", name)	
+			exit("Class file missing scan ", name)	
 		}
 	}
 	log("Finished reading clm file")

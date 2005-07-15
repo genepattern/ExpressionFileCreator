@@ -359,9 +359,9 @@ install.required.packages <- function(libdir) {
 	log(libdir)
 	if(!is.package.installed(libdir, "reposTools")) {
 		log("installing reposTools")
-		install.package(libdir, "reposTools_1.5.2.zip", "reposTools_1.5.2.tgz", "reposTools_1.5.2.tar.gz")
-	
+		install.package(libdir, "reposTools_1.5.2.zip", "reposTools_1.5.19.tgz", "reposTools_1.5.19.tar.gz")
 	}
+	
 	if(!is.package.installed(libdir, "Biobase")) {
 		log("installing Biobase")
 		install.package(libdir, "Biobase_1.5.0.zip", "Biobase_1.5.0.tgz", "Biobase_1.5.0.tar.gz")

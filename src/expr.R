@@ -69,9 +69,14 @@ normalize <- function(data, method, reference.sample.name) {
 			FUN <- 'median'
 		}
 		function.to.apply <- get(FUN)
-		mean.or.median <- function.to.apply(data[,refindex])
-	
-		return(normalize.constant(data, refconstant=mean.or.median, get(FUN)))
+		ref.mean.or.median <- function.to.apply(data[,refindex])
+		for(i in 1:ncol(data)) {
+			if(i!=refindex) {
+				scaling.factor <- function.to.apply(data[,i])/ref.mean.or.median
+				data[, i] <- data[, i] / scaling.factor
+			}
+		}
+		return(data)
 	} else if(method=='rank normalization') {
 		return(rank.normalize(data))
 	} else {

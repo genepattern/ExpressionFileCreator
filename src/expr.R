@@ -162,8 +162,9 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 
 	library(affy, verbose=FALSE)
-	library(GenePattern, verbose=FALSE)
+	source(paste(libdir, "common.R", sep=''))
 	result <- NULL
+	isRes <- FALSE
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
 		log("reading zip file")
 		#afbatch <- gp.readAffyBatch(input.file.name)
@@ -178,6 +179,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		data <- as.data.frame(exprs(eset))
 		result <- data
 	} else if(method=='MAS5'){
+		isRes <- compute.calls
 		result <- gp.mas5(input.file.name, compute.calls, scale)
 		log("Finished running mas5")
 	} else {
@@ -186,14 +188,14 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	
 	
 	if(clm.input.file!='') { 
-		if(class(result)=="res") {
+		if(isRes) {
 			# reorder data
-			clm <- apply.clm(result@data, clm.input.file)
-			result@data <- clm$data
+			clm <- apply.clm(result$data, clm.input.file)
+			result$data <- clm$data
 			
 			# reorder calls TODO only need to read the clm file once
-			clm <- apply.clm(result@calls, clm.input.file)
-			result@calls <- clm$data
+			clm <- apply.clm(result$calls, clm.input.file)
+			result$calls <- clm$data
 			
 			factor <- clm$factor		
 			if(!is.null(factor)) {
@@ -215,14 +217,14 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			}
 		}
 	}
-	if(class(result)=="res") {
+	if(isRes) {
 		log("normalizing res file...")
-		result@data <- normalize(result@data, normalization.method, reference.sample.name)
+		result$data <- normalize(result$data, normalization.method, reference.sample.name)
 		log("finished normalizing res file")
 	} else {
 		result <- normalize(result, normalization.method, reference.sample.name)
 	}
-	if(class(result)=="res") {
+	if(isRes) {
 		res.ext <- regexpr(paste(".res","$",sep=""), tolower(output.file.name))
 		if(res.ext[[1]] == -1) {
 			output.data.file.name <<- paste(output.file.name, ".res", sep="") # ensure correct file extension
@@ -230,7 +232,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			output.data.file.name <<- output.file.name
 		}
 		log("writing res file...")
-		my.write.res(result, output.data.file.name)
+		write.res(result, output.data.file.name)
 		log("finished writing res file")
 	} else {
 		output.data.file.name <<- save.data.as.gct(result, output.file.name)
@@ -305,7 +307,7 @@ gp.mas5 <- function(input.file.name, compute.calls, scale) {
 		calls <- as.data.frame(exprs(calls.eset))
 		names(data) <- colnames((exprs(eset)))
 		names(calls) <- colnames((exprs(eset)))
-		res <- new ("res", gene.descriptions='', sample.descriptions='', data=data, calls=calls) 
+		res <- list(row.descriptions='', column.descriptions='', data=data, calls=calls) 
 		return(res)
 	}
 }
@@ -469,63 +471,14 @@ save.data.as.gct <- function(data, output.file.name) {
 		output.file.name <- paste(output.file.name, ".gct", sep="") # ensure correct file extension
 	}
 	
-	gct <- new ("gct", row.descriptions='', data=data) 
+	gct <- list(row.descriptions='', data=data) 
 	
 	write.gct(gct, output.file.name)
 	
 	return(output.file.name)	
 }
 
-my.write.res <-
-#
-# write a res structure as a file
-#
-function(res, filename)
-{
-	if(!inherits(res,"res")) {
-		exit("argument `res' must be a res structure.")
-	}
-	f <- file(filename, "w")
-	
-	# write the labels
-	cat("Description\tAccession\t", file=f, append=TRUE)
-	cat(names(res@data), sep="\t\t", file=f, append=TRUE)
-	cat("\n", file=f, append=TRUE)
-	
-	# write the descriptions
-	if(res@sample.descriptions!='') {
-		cat("\t", file=f, append=TRUE)
-		cat(res@sample.descriptions, sep="\t\t", file=f, append=TRUE)
-	} 
-	cat("\n", file=f, append=TRUE)
-	
-	# write the size
-	cat(NROW(res@data), "\n", sep="", file=f, append=TRUE)
-	
-	# write the data
-	# 1st combine matrices
-	dim <- dim(res@data)
-	dim[2] <- dim[2]*2
-	
-	m <- matrix(nrow=dim[1], ncol=dim[2]+2)
-	m[,1] <- res@gene.descriptions
-	m[,2] <- row.names(res@data)
-	
-	index <- 3
-	for(i in 1:dim(res@data)[2]) {
-		m[,index] <- res@data[,i]
-		index <- index + 2
-	}
-	index <- 4
-	
-	for(i in 1:dim(res@calls)[2]) {
-		m[,index] <- as.character(res@calls[,i])
-		index <- index + 2
-	}
-	write.table(m, file=f, col.names=FALSE, row.names=FALSE, append=TRUE, quote=FALSE, sep="\t", eol="\n")
-	close(f)
-	return(filename)
-}
+
 
 # reorders the given data, substitutes sample for scan names, and creates a factor based on class names
 apply.clm <- function(data, clm.file.name) {
@@ -565,9 +518,6 @@ reorder.data.frame <- function(order, data) {
 	}
 	new.data
 }
-
-
-
 
 # names - the column names in the expression dataset
 read.clm <- function(input.file.name, names) {

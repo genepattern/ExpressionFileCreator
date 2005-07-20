@@ -15,7 +15,10 @@
 				<exclude name="src/**"/>
 				<exclude name="lib/**"/>
 			</fileset>
-		
+	
+			<fileset dir="../common/R">
+				<include name="common.R"/>
+			</fileset>
 			
 			<fileset dir="src">
 				<include name="expr.R"/>
@@ -28,7 +31,5 @@
 		</zip>
 		<antcall target="postzip"/>
 	</target>
-
-
 
 </project>

@@ -1,9 +1,5 @@
 # this file contains a collection of functions to go from probe level data (Cel files) to expression measures 
 
-trim <- function(s) {
-	sub(' +$', '', s, extended = TRUE) 
-}
-
 string.to.boolean <- function(s) {
 	if(s=="yes") {
 		return(TRUE)	
@@ -11,22 +7,11 @@ string.to.boolean <- function(s) {
 	return(FALSE)
 }
 
-exit <- function(s) {
-	stop(s, call. = FALSE)
-}
-
 zip.file.name <- ''
 output.data.file.name <- ''
 clm.input.file <- ''
 output.cls.file.name <- ''
-DEBUG <<- FALSE
 
-log <- function(s) {
-	if(DEBUG) {
-		cat(paste(s, "\n", sep=''))
-		#warning(paste(s, "\n", sep=''))
-	}
-}
 cleanup <- function() {
 	files <- dir()
 	for(file in files) {
@@ -142,6 +127,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 }
 
 .create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)  {
+	source(paste(libdir, "common.R", sep=''))
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
 	quantile.normalization <- string.to.boolean(quantile.normalization)
@@ -151,18 +137,13 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	clm.input.file <<- clm.input.file
 
 	if(libdir!='') {
-		libPath <- libdir
-   	if(!file.exists(libdir)) {
-   		# remove trailing /
-   		libPath <- substr(libdir, 0, nchar(libdir)-1)
-   	}
-		.libPaths(libPath)
+		setLibPath(libdir)
 		on.exit(cleanup())
 		install.required.packages(libdir)
 	}
 
 	library(affy, verbose=FALSE)
-	source(paste(libdir, "common.R", sep=''))
+	
 	result <- NULL
 	isRes <- FALSE
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
@@ -203,7 +184,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 				class(cls) <- "cls"
 				output.cls.file.name <<- get.cls.file.name(output.file.name)
 				log(paste("saving cls file to", output.cls.file.name))
-				save.cls(cls, output.cls.file.name)
+				write.cls(cls, output.cls.file.name)
 			}
 		} else {
 			clm <- apply.clm(result, clm.input.file)
@@ -225,17 +206,11 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		result <- normalize(result, normalization.method, reference.sample.name)
 	}
 	if(isRes) {
-		res.ext <- regexpr(paste(".res","$",sep=""), tolower(output.file.name))
-		if(res.ext[[1]] == -1) {
-			output.data.file.name <<- paste(output.file.name, ".res", sep="") # ensure correct file extension
-		} else {
-			output.data.file.name <<- output.file.name
-		}
 		log("writing res file...")
-		write.res(result, output.data.file.name)
+		output.data.file.name <<- write.res(result, output.file.name)
 		log("finished writing res file")
 	} else {
-		output.data.file.name <<- save.data.as.gct(result, output.file.name)
+		output.data.file.name <<- write.gct(result, output.file.name)
 	}
 	
 	if(clm.input.file!='') { 
@@ -356,12 +331,6 @@ gp.gcrma <- function(afbatch) {
 ########################################################
 # MISC FUNCTIONS
 
-
-is.package.installed <- function(libdir, pkg) {
-	f <- paste(libdir, pkg, sep='')
-	return(file.exists(f) && file.info(f)[["isdir"]])
-}
-
 install.required.packages <- function(libdir) {
 	log(libdir)
 	if(!is.package.installed(libdir, "reposTools")) {
@@ -394,15 +363,6 @@ get.cls.file.name <- function(data.output.file.name) {
 	}
 	return(paste(data.output.file.name, ".cls", sep=""))
 }
-
-save.cls <- function(cls, output.file.name) {
-	cls.ext <- regexpr(paste(".cls","$",sep=""), tolower(output.file.name))
-	if(cls.ext[[1]] == -1) {
-		output.file.name <- paste(output.file.name, ".cls", sep="") # ensure correct file extension
-	}
-	write.cls(file=output.file.name, cls)
-}
-
 
 gp.readAffyBatch <- function(input.file.name) {
 	f <- get.cel.file.names(input.file.name)
@@ -463,21 +423,6 @@ get.cel.file.names <- function(input.file.name) {
 	class(sampleNames) <- 'character'
 	list("cel.files"=cel.files, "compressed"=compressed)
 }
-
-
-save.data.as.gct <- function(data, output.file.name) {
-	gct.ext <- regexpr(paste(".gct","$",sep=""), tolower(output.file.name))
-	if(gct.ext[[1]] == -1) {
-		output.file.name <- paste(output.file.name, ".gct", sep="") # ensure correct file extension
-	}
-	
-	gct <- list(row.descriptions='', data=data) 
-	
-	write.gct(gct, output.file.name)
-	
-	return(output.file.name)	
-}
-
 
 
 # reorders the given data, substitutes sample for scan names, and creates a factor based on class names
@@ -563,36 +508,6 @@ rank.normalize <- function(data) {
 		data[,i] <- rank(data[,i], ties.method="mean")	
 	}
 	return(data)
-}
-
-install.package <- function(dir,windows, mac, other) {
-	isWindows <- Sys.info()[["sysname"]]=="Windows"
-	isMac <- Sys.info()[["sysname"]]=="Darwin" 
-	if(isWindows) {
-		f <- paste(dir, windows, sep="")
-		.install.windows(f)
-	} else if(isMac) {
-		f <- paste(dir, mac, sep="")
-      .install.unix(f)
-	} else { # install from source
-		f <- paste(dir, other, sep="")
-		.install.unix(f)
-	}	
-}
-
-.install.windows <- function(pkg) {
-	install.packages(pkg, .libPaths()[1], CRAN=NULL, installWithVers=FALSE)
-}
-
-.install.unix <- function(pkg) {
-    lib <- .libPaths()[1]
-   # cmd <- paste(file.path(R.home(), "bin", "R"), "CMD INSTALL --with-package-versions")
-	 cmd <- paste(file.path(R.home(), "bin", "R"), "CMD INSTALL")
-    cmd <- paste(cmd, "-l", lib)
-    cmd <- paste(cmd, " '", pkg, "'", sep = "")
-    status <- system(cmd)
-    if (status != 0) 
-    	cat("\tpackage installation failed\n")
 }
 
 

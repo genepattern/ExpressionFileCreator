@@ -16,6 +16,7 @@ cleanup <- function() {
 	files <- dir()
 	for(file in files) {
 		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file) {
+			log(paste("removing", file))
          unlink(file, recursive=TRUE)
       }
 	}		
@@ -153,12 +154,14 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		if(method=='dChip') {
 			eset <- gp.dchip(afbatch)
 		} else if(method=='RMA'){
+			log(paste("running with", f$cel.files))
 			eset <- gp.rma(f$cel.files, f$compressed, quantile.normalization, background)
 		} else {
          eset <- gp.gcrma(afbatch)
       }
 		data <- as.data.frame(exprs(eset))
 		result <- data
+		log(paste("Finished running", method))
 	} else if(method=='MAS5'){
 		isRes <- compute.calls
 		result <- gp.mas5(input.file.name, compute.calls, scale)
@@ -210,7 +213,9 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		output.data.file.name <<- write.res(result, output.file.name)
 		log("finished writing res file")
 	} else {
-		output.data.file.name <<- write.gct(result, output.file.name)
+		gct <- list(data=result, row.descriptions='')
+		output.data.file.name <<- write.gct(gct, output.file.name)
+		log(paste("wrote gct file to",output.data.file.name)) 
 	}
 	
 	if(clm.input.file!='') { 

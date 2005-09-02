@@ -129,6 +129,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 
 .create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)  {
 	source(paste(libdir, "common.R", sep=''))
+	
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
 	quantile.normalization <- string.to.boolean(quantile.normalization)
@@ -340,7 +341,7 @@ install.required.packages <- function(libdir) {
 	log(libdir)
 	if(!is.package.installed(libdir, "reposTools")) {
 		log("installing reposTools")
-		install.package(libdir, "reposTools_1.5.2.zip", "reposTools_1.5.19.tgz", "reposTools_1.5.19.tar.gz")
+		install.package(libdir, "reposTools_1.5.19.zip", "reposTools_1.5.19.tgz", "reposTools_1.5.19.tar.gz")
 	}
 	
 	if(!is.package.installed(libdir, "Biobase")) {

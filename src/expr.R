@@ -121,11 +121,12 @@ parseCmdLine <- function(...) {
 
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)  {
 	source(paste(libdir, "common.R", sep=''))
+	# DEBUG <<- TRUE
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
 	quantile.normalization <- string.to.boolean(quantile.normalization)
-    background <- string.to.boolean(background)
-    scale <- as.integer(scale)
+	background <- string.to.boolean(background)
+   scale <- as.integer(scale)
 	compute.calls <- string.to.boolean(compute.calls)
 	clm.input.file <<- clm.input.file
 
@@ -242,7 +243,9 @@ gp.rma <- function(cel.files, compressed, normalize, background) {
    n <- length(cel.files)
 	pdata <- data.frame(sample = 1:n, row.names = samplenames)
 	phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
-        
+   
+   log(paste("normalize", normalize))
+   log(paste("background", background))
    eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData)
   # r <- ReadAffy(filenames=cel.files, compress=compressed) 
    #eset <- rma(r, normalize=normalize, background=background, verbose=FALSE, compress=compressed)

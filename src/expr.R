@@ -472,8 +472,8 @@ read.clm <- function(input.file.name, names) {
 	scans <- vector()	
 	for(i in 1:NROW(s)) {
 		scan <- s[i, 1]
-		if(is.na(scans[scan])==FALSE) {
-			exit(paste("Class file contains scan ", scans[i], " more than once"))
+		if(scan %in% scans) {	
+			exit(paste("Class file contains scan ", scan, " more than once"))
 		}
 		scans[i] <- scan
 		

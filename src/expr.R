@@ -197,7 +197,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 				cls <- list(labels=factor,names=levels(factor))
 				output.cls.file.name <<- get.cls.file.name(output.file.name)
 				log(paste("saving cls file to", output.cls.file.name))
-				save.cls(cls, output.cls.file.name)
+				write.cls(cls, output.cls.file.name)
 			}
 		}
 	}

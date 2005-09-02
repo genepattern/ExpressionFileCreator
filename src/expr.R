@@ -11,11 +11,12 @@ zip.file.name <- ''
 output.data.file.name <- ''
 clm.input.file <- ''
 output.cls.file.name <- ''
+exec.log <- 'gp_task_execution_log.txt'
 
 cleanup <- function() {
 	files <- dir()
 	for(file in files) {
-		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file) {
+		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.log) {
 			log(paste("removing", file))
          unlink(file, recursive=TRUE)
       }
@@ -119,17 +120,7 @@ parseCmdLine <- function(...) {
 }
 
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)  {
-	
-	ret <- try(.create.expression.file(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)
-		)
-	if(class(ret)=="try-error") {
-      exit("An error occurred while running the module.")
-   }
-}
-
-.create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)  {
 	source(paste(libdir, "common.R", sep=''))
-	
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
 	quantile.normalization <- string.to.boolean(quantile.normalization)
@@ -146,7 +137,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 
 	library(affy, verbose=FALSE)
 	
-	result <- NULL
+	result <- NULL # data.frame if calls are not computed, else list containing calls and data
 	isRes <- FALSE
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
 		log("reading zip file")
@@ -196,9 +187,11 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			factor <- clm$factor	
 			if(!is.null(factor)) {
 				cls <- list(labels=factor,names=levels(factor))
+				log(paste("cls: ", cls))
 				output.cls.file.name <<- get.cls.file.name(output.file.name)
 				log(paste("saving cls file to", output.cls.file.name))
 				write.cls(cls, output.cls.file.name)
+				log("cls file saved")
 			}
 		}
 	}
@@ -214,9 +207,11 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		output.data.file.name <<- write.res(result, output.file.name)
 		log("finished writing res file")
 	} else {
+		log("writing gct file...")
+		log(paste("dim of result:", dim(result)))
 		gct <- list(data=result, row.descriptions='')
 		output.data.file.name <<- write.gct(gct, output.file.name)
-		log(paste("wrote gct file to",output.data.file.name)) 
+		log(paste("wrote gct file to", output.data.file.name)) 
 	}
 	
 	if(clm.input.file!='') { 
@@ -436,14 +431,14 @@ apply.clm <- function(data, clm.file.name) {
 	clm <- read.clm(clm.file.name, names(data))
    
 	reordered.scan.names <- clm$scan.names
-   	reordered.sample.names <- clm$sample.names
+   reordered.sample.names <- clm$sample.names
    	
-   	i <- 1
-   	order <- list()
-   	for(reordered.scan in reordered.scan.names) {
-   		order[reordered.scan] <- i
-      	i <- i+1
-   	}
+   i <- 1
+   order <- list()
+   for(reordered.scan in reordered.scan.names) {
+   	order[reordered.scan] <- i
+     	i <- i+1
+   }
 	log("reordering...")
 	new.data <- reorder.data.frame(order, data)
 	
@@ -459,9 +454,7 @@ reorder.data.frame <- function(order, data) {
 	new.data <- data.frame(data)
 	
 	for(j in 1:NCOL(data)) {
-		
 		name <- names(data)[j]
-	
 		i <- order[name]
 		i <- i[[1]]
 		new.data[, i] <- data[,j]
@@ -470,30 +463,32 @@ reorder.data.frame <- function(order, data) {
 	new.data
 }
 
-# names - the column names in the expression dataset
+# names - the column names in the expression dataset before clm is applied
 read.clm <- function(input.file.name, names) {
 	s <- read.table(input.file.name, colClasses = "character", sep="\t") 
 	columns <- ncol(s)
 	class.names <- vector() 
 	sample.names <- vector()
 	scans <- vector()	
-	found.scans <- list() # keeps track of scan names in clm file
 	for(i in 1:NROW(s)) {
-		scans[i] <- s[i, 1]
-		if(is.null(found.scans[[scans[i]]])==FALSE) {
-			exit("Class file contains scan ", scans[i], " more than once")
+		scan <- s[i, 1]
+		if(is.na(scans[scan])==FALSE) {
+			exit(paste("Class file contains scan ", scans[i], " more than once"))
 		}
-		found.scans[scans[i]] <- 1
+		scans[i] <- scan
+		
 		sample.names[i] <- s[i, 2]
 		if(columns>2) {
 			class.names[i] <- s[i, 3]
 		}
 	}
-	log(paste("names", names ))
+	
+	log(paste("original names", names))
+	log(paste("scans in clm file", scans))
 	for(name in names) {
 		log(paste("checking if clm file contains:", name))
-		if(is.null(found.scans[[scans[i]]])) {	
-			exit("Class file missing scan ", name)	
+		if(!(name %in% scans)) {	
+			exit(paste("Clm file missing scan", name))	
 		}
 	}
 	log("Finished reading clm file")

@@ -143,15 +143,16 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
 		log("reading zip file")
 		#afbatch <- gp.readAffyBatch(input.file.name)
-      f <- get.cel.file.names(input.file.name)
+      	f <- get.cel.file.names(input.file.name)
 		if(method=='dChip') {
+			afbatch <- ReadAffy(filenames=f$cel.files, compress=f$compressed) 
 			eset <- gp.dchip(afbatch)
 		} else if(method=='RMA'){
 			log(paste("running with", f$cel.files))
 			eset <- gp.rma(f$cel.files, f$compressed, quantile.normalization, background)
 		} else {
-         eset <- gp.gcrma(afbatch)
-      }
+       		# eset <- gp.gcrma(afbatch)
+      	}
 		data <- as.data.frame(exprs(eset))
 		result <- data
 		log(paste("Finished running", method))
@@ -196,6 +197,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			}
 		}
 	}
+	
 	if(isRes) {
 		log("normalizing res file...")
 		result$data <- normalize(result$data, normalization.method, reference.sample.name)
@@ -203,6 +205,15 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	} else {
 		result <- normalize(result, normalization.method, reference.sample.name)
 	}
+	
+#	if(includeDescriptions) {
+#		library(annaffy)
+ #		cdf <- cleancdfname(afbatch@cdfName) # e.g "hgu133acdf"
+ #		cdf <- substring(cdf, 0, nchar(cdf)-3)# remove cdf from end
+ #		gene.descriptions <- aafDescription(row.names(data),chip=cdf)
+ #		gene.descriptions <- sapply(gene.descriptions, getText)
+#	}
+	
 	if(isRes) {
 		log("writing res file...")
 		output.data.file.name <<- write.res(result, output.file.name)

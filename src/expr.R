@@ -38,8 +38,8 @@ get.median.index <- function(data) {
 # new.value.i <- sample.i/mean.of.sample.i * ref.sample
 # constant <- mean.of.sample.i * ref.sample
 
-normalize <- function(data, method, reference.sample.name='') {
-	log(paste("normalizing...", method))
+my.normalize <- function(data, method, reference.sample.name='') {
+	log(paste("my normalize function...", method))
 	if(method=='none' || method=='') {
 		log("not normalizing, returning data")
 		return(data)
@@ -141,7 +141,7 @@ parseCmdLine <- function(...) {
 
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)  {
 	source(paste(libdir, "common.R", sep=''))
-	DEBUG <<- FALSE
+	DEBUG <<- TRUE
 	log(paste("normalization.method", normalization.method))
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
@@ -187,10 +187,10 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	
 	if(isRes) {
 		log("normalizing res file...")
-		result$data <- normalize(result$data, normalization.method, reference.sample.name)
+		result$data <- my.normalize(result$data, normalization.method, reference.sample.name)
 		log("finished normalizing res file")
 	} else {
-		result <- normalize(result, normalization.method, reference.sample.name)
+		result <- my.normalize(result, normalization.method, reference.sample.name)
 	}
 	
 	if(clm.input.file!='') { 

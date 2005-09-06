@@ -1,9 +1,8 @@
-#Wed Jul 13 14:43:58 EDT 2005
 author=Joshua Gould, gp-help@broad.mit.edu, Broad Institute
 commandLine=<R> <libdir>expr.R parseCmdLine -i<input.filename> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct> -s<scale.value> -c<compute.present.absent.calls> -n<normalization> -x<reference.sample.name> -l<libdir> -f<clm.filename>
 cpuType=any
 description=Creates a res or gct file from a set of Affymetrix CEL files
-fileFormat=res;gct
+fileFormat=res;gct;cls
 JVMLevel=2.0.1
 language=R
 privacy=public
@@ -12,10 +11,9 @@ quality=production
 taskType=Preprocess & Utilities
 userid=GenePattern
 version=
-
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00041\:999999999
 name=ExpressionFileCreator
 os=any
+
 p1_default_value=
 p1_description=A zip file containing CEL files or zipped CEL files
 p1_fileFormat=zip
@@ -27,75 +25,79 @@ p1_TYPE=FILE
 p1_type=java.io.File
 p1_value=
 
-p2_default_value=<input.filename_basename>
-p2_description=The base name of the output file
-p2_name=output.file
+p2_default_value=
+p2_description=The method to use
+p2_name=method
 p2_optional=
 p2_prefix_when_specified=
 p2_type=java.lang.String
-p2_value=
+p2_value=RMA;MAS5;dChip
+
 p3_default_value=
-p3_description=The method to use
-p3_name=method
-p3_optional=
+p3_description=(RMA only) Whether to normalize data using quantile normalization
+p3_name=quantile.normalization
+p3_optional=on
 p3_prefix_when_specified=
 p3_type=java.lang.String
-p3_value=RMA;MAS5;dChip
+p3_value=yes;no
+
 p4_default_value=
-p4_description=(RMA only) Whether to normalize data using quantile normalization
-p4_name=quantile.normalization
+p4_description=(RMA only) Whether to background correct using RMA background correction
+p4_name=background.correct
 p4_optional=on
 p4_prefix_when_specified=
 p4_type=java.lang.String
 p4_value=yes;no
+
 p5_default_value=
-p5_description=(RMA only) Whether to background correct using RMA background correction
-p5_name=background.correct
+p5_description=(MAS5 only) Whether to compute Present/Absent calls
+p5_name=compute.present.absent.calls
 p5_optional=on
 p5_prefix_when_specified=
 p5_type=java.lang.String
-p5_value=yes;no
+p5_value=yes\=yes (create res file);no\=no (create gct file)
 
-p6_default_value=500
-p6_description=(MAS5 only) Value at which all arrays will be scaled to
-p6_name=scale.value
+p6_default_value=none
+p6_description=The normalization method to apply after expression values are computed
+p6_name=normalization
 p6_optional=on
 p6_prefix_when_specified=
 p6_type=java.lang.String
+p6_value=\=none;mean scaling;median scaling
 
-p6_value=
 p7_default_value=
-p7_description=(MAS5 only) Whether to compute Present/Absent calls
-p7_name=compute.present.absent.calls
+p7_description=(mean or median scaling only) The sample name to be used as a reference for normalization
+p7_name=reference.sample.name
 p7_optional=on
 p7_prefix_when_specified=
-p7_type=java.lang.String
-p7_value=yes\=yes (create res file);no\=no (create gct file)
-p8_default_value=none
-p8_description=The normalization method to apply after expression values are computed
-p8_name=normalization
+p7_type=java.lang.Integer
+p7_value=
+
+p8_default_value=500
+p8_description=(MAS5 only) Value at which all arrays will be scaled to
+p8_name=scale.value
 p8_optional=on
 p8_prefix_when_specified=
 p8_type=java.lang.String
-p8_value=\=none;mean scaling;median scaling
+p8_value=
 
 p9_default_value=
-p9_description=(mean or median scaling only) The sample name to be used as a reference for normalization
-p9_name=reference.sample.name
+p9_description=A tab-delimited text file containing one scan, sample, and class per line
+p9_fileFormat=
+p9_MODE=IN
+p9_name=clm.filename
 p9_optional=on
 p9_prefix_when_specified=
-p9_type=java.lang.Integer
+p9_TYPE=FILE
+p9_type=java.io.File
 p9_value=
 
-p10_default_value=
-p10_description=A tab-delimited text file containing one scan, sample, and class per line
-p10_fileFormat=
-p10_MODE=IN
-p10_name=clm.filename
-p10_optional=on
+p10_default_value=<input.filename_basename>
+p10_description=The base name of the output file
+p10_name=output.file
+p10_optional=
 p10_prefix_when_specified=
-p10_TYPE=FILE
-p10_type=java.io.File
+p10_type=java.lang.String
 p10_value=
 
 

@@ -30,17 +30,28 @@ normalize <- function(data, method, reference.sample.name) {
 	if(method=='') {
 		return(data)
 	}
-	
-	# get index of reference.sample.name in data
-	colnames <- colnames(data)
-	index <- 1
 	refindex <- NULL
-	for(name in colnames) {
-		if(name==reference.sample.name) {
-			refindex <- index
-			break
+	
+	if(reference.sample.name=='') {
+		medians <- vector(mode="numeric") # find median scan in data
+		for(col in 1:ncol(data)) {
+			medians[col] <- median(data[,col])
 		}
-		index <- index + 1
+	
+		index <- sort(medians, index=TRUE)$ix
+		refindex <- index[length(index)/2
+	} else {
+		# get index of reference.sample.name in data
+		colnames <- colnames(data)
+		index <- 1
+	
+		for(name in colnames) {
+			if(name==reference.sample.name) {
+				refindex <- index
+				break
+			}
+			index <- index + 1
+		}
 	}
 	
 	log(paste("refindex", refindex))

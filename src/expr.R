@@ -38,8 +38,9 @@ get.median.index <- function(data) {
 # new.value.i <- sample.i/mean.of.sample.i * ref.sample
 # constant <- mean.of.sample.i * ref.sample
 
-normalize <- function(data, method, reference.sample.name) {
-	if(method=='') {
+normalize <- function(data, method, reference.sample.name='') {
+	if(method=='none' || method=='') {
+		log("not normalizing, returning data")
 		return(data)
 	}
 	refindex <- NULL

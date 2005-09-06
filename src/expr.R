@@ -30,7 +30,7 @@ get.median.index <- function(data) {
 	}
 
 	index <- sort(medians, index=TRUE)$ix
-	refindex <- index[length(index)/2
+	refindex <- index[length(index)/2]
 	return(refindex)
 }
 

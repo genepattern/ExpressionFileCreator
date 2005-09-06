@@ -1,5 +1,5 @@
 author=Joshua Gould, gp-help@broad.mit.edu, Broad Institute
-commandLine=<R> <libdir>expr.R parseCmdLine -i<input.filename> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct> -s<scale.value> -c<compute.present.absent.calls> -n<normalization> -x<reference.sample.name> -l<libdir> -f<clm.filename>
+commandLine=<R> <libdir>expr.R parseCmdLine -i<input.filename> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct> -s<scale.value> -c<compute.present.absent.calls> -n<normalization> -x<reference.scan.name> -l<libdir> -f<clm.filename>
 cpuType=any
 description=Creates a res or gct file from a set of Affymetrix CEL files
 fileFormat=res;gct;cls
@@ -66,8 +66,8 @@ p6_type=java.lang.String
 p6_value=\=none;mean scaling;median scaling
 
 p7_default_value=
-p7_description=(mean or median scaling only) The sample name to be used as a reference for normalization. Leave blank to use median scan as reference.
-p7_name=reference.sample.name
+p7_description=(mean or median scaling only) The scan name to be used as a reference for normalization. Leave blank to use median scan as reference.
+p7_name=reference.scan.name
 p7_optional=on
 p7_prefix_when_specified=
 p7_type=java.lang.String

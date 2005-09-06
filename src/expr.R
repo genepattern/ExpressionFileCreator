@@ -22,6 +22,18 @@ cleanup <- function() {
       }
 	}		
 }
+
+get.median.index(data) {
+	medians <- vector(mode="numeric") # find median scan in data
+	for(col in 1:ncol(data)) {
+		medians[col] <- median(data[,col])
+	}
+
+	index <- sort(medians, index=TRUE)$ix
+	refindex <- index[length(index)/2
+	return(refindex)
+}
+
 # Scales all arrays so they have the same mean or median value
 # new.value.i <- sample.i/mean.of.sample.i * ref.sample
 # constant <- mean.of.sample.i * ref.sample
@@ -33,13 +45,7 @@ normalize <- function(data, method, reference.sample.name) {
 	refindex <- NULL
 	
 	if(reference.sample.name=='') {
-		medians <- vector(mode="numeric") # find median scan in data
-		for(col in 1:ncol(data)) {
-			medians[col] <- median(data[,col])
-		}
-	
-		index <- sort(medians, index=TRUE)$ix
-		refindex <- index[length(index)/2
+		refindex <- get.median.index(data)
 	} else {
 		# get index of reference.sample.name in data
 		colnames <- colnames(data)
@@ -56,8 +62,8 @@ normalize <- function(data, method, reference.sample.name) {
 	
 	log(paste("refindex", refindex))
 	if(is.null(refindex)) {
-		warning("Could not find reference sample name. Skipping scaling.")
-		return(data)
+		refindex <- get.median.index(data)
+		warning("Could not find reference scan name. Using median scan.")
 	}
 	if(method=='mean scaling' || method=='median scaling') {
 		if(method=='mean scaling') {
@@ -176,6 +182,16 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 	
 	
+	
+	
+	if(isRes) {
+		log("normalizing res file...")
+		result$data <- normalize(result$data, normalization.method, reference.sample.name)
+		log("finished normalizing res file")
+	} else {
+		result <- normalize(result, normalization.method, reference.sample.name)
+	}
+	
 	if(clm.input.file!='') { 
 		if(isRes) {
 			# reorder data
@@ -207,14 +223,6 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 				log("cls file saved")
 			}
 		}
-	}
-	
-	if(isRes) {
-		log("normalizing res file...")
-		result$data <- normalize(result$data, normalization.method, reference.sample.name)
-		log("finished normalizing res file")
-	} else {
-		result <- normalize(result, normalization.method, reference.sample.name)
 	}
 	
 #	if(includeDescriptions) {

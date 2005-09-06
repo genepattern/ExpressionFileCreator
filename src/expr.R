@@ -23,7 +23,7 @@ cleanup <- function() {
 	}		
 }
 
-get.median.index(data) {
+get.median.index <- function(data) {
 	medians <- vector(mode="numeric") # find median scan in data
 	for(col in 1:ncol(data)) {
 		medians[col] <- median(data[,col])

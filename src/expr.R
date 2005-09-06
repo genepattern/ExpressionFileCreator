@@ -39,6 +39,7 @@ get.median.index <- function(data) {
 # constant <- mean.of.sample.i * ref.sample
 
 normalize <- function(data, method, reference.sample.name='') {
+	log(paste("normalizing...", method))
 	if(method=='none' || method=='') {
 		log("not normalizing, returning data")
 		return(data)
@@ -112,7 +113,7 @@ parseCmdLine <- function(...) {
 		} else if(flag=='-o') {
 			output.file.name <- value
 		} else if(flag=='-m') {
-			method <- value
+			method <- value # RMA, mas5, dchip
 		} else if(flag=='-q') {
 			quantile.normalization <- value
 		} else if(flag=='-b') { # whether to background correct when using RMA
@@ -122,7 +123,7 @@ parseCmdLine <- function(...) {
 		} else if(flag=='-c') {
 			compute.calls <- value
 		} else if(flag=='-n') {
-			normalization.method <- value
+			normalization.method <- value # none, mean, median
 		} else if(flag=='-x') {
 			reference.sample.name <- value
 		} else if(flag=='-f') {
@@ -132,6 +133,7 @@ parseCmdLine <- function(...) {
 		}  else  {
 			exit(paste("unknown option", flag, sep=": "))
 		} 
+		
 	}
 	create.expression.file(input.file.name, output.file.name, method, 	quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)
 
@@ -139,7 +141,8 @@ parseCmdLine <- function(...) {
 
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)  {
 	source(paste(libdir, "common.R", sep=''))
-	# DEBUG <<- TRUE
+	DEBUG <<- FALSE
+	log(paste("normalization.method", normalization.method))
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
 	quantile.normalization <- string.to.boolean(quantile.normalization)
@@ -181,9 +184,6 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	} else {
 		exit('Unknown method')	
 	}
-	
-	
-	
 	
 	if(isRes) {
 		log("normalizing res file...")
@@ -287,7 +287,9 @@ gp.rma <- function(cel.files, compressed, normalize, background) {
 
 
 gp.dchip <- function(afbatch) {
+	log("running dchip")
 	eset <- expresso(afbatch, normalize.method="invariantset", bg.correct=FALSE, pmcorrect.method="pmonly",summary.method="liwong", verbose=FALSE) 
+	log("finished running dchip")
 	return(eset)
 }
 

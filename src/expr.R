@@ -141,7 +141,7 @@ parseCmdLine <- function(...) {
 
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)  {
 	source(paste(libdir, "common.R", sep=''))
-	DEBUG <<- TRUE
+	DEBUG <<- FALSE
 	log(paste("normalization.method", normalization.method))
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup

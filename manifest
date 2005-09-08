@@ -31,7 +31,7 @@ p2_name=method
 p2_optional=
 p2_prefix_when_specified=
 p2_type=java.lang.String
-p2_value=RMA;MAS5;dChip
+p2_value=RMA;MAS5
 
 p3_default_value=
 p3_description=(RMA only) Whether to normalize data using quantile normalization

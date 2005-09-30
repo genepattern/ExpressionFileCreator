@@ -91,6 +91,9 @@ my.normalize <- function(data, method, reference.sample.name='') {
 }
 
 parseCmdLine <- function(...) {
+	if (.Platform$OS.type == "windows") {
+      memory.limit(6000000000)
+   }
 	args <- list(...)
 	input.file.name <- ''
 	output.file.name <- ''

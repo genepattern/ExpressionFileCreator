@@ -91,9 +91,7 @@ my.normalize <- function(data, method, reference.sample.name='') {
 }
 
 parseCmdLine <- function(...) {
-	if (.Platform$OS.type == "windows") {
-      memory.limit(6000000000)
-   }
+	
 	args <- list(...)
 	input.file.name <- ''
 	output.file.name <- ''
@@ -106,6 +104,7 @@ parseCmdLine <- function(...) {
 	reference.sample.name <- ''
 	libdir <- ''
 	clm.input.file <- ''
+	
 	
 	for(i in 1:length(args)) {
 		flag <- substring(args[[i]], 0, 2)
@@ -133,11 +132,17 @@ parseCmdLine <- function(...) {
 			clm.input.file <- value
 		} else if(flag=='-l') {
 			libdir <- value
+		} else if(flag=='-a') {
+			if (value !='' && .Platform$OS.type == "windows") {
+      		memory.limit(size=as.numeric(value))
+   		}
 		}  else  {
-			exit(paste("unknown option", flag, sep=": "))
+			stop(paste("unknown option", flag, sep=": "), call.=FALSE)
+			
 		} 
 		
 	}
+	
 	create.expression.file(input.file.name, output.file.name, method, 	quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)
 
 }

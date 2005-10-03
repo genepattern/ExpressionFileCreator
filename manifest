@@ -1,5 +1,5 @@
 author=Joshua Gould, gp-help@broad.mit.edu, Broad Institute
-commandLine=<R> <libdir>expr.R parseCmdLine -i<input.filename> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct> -s<scale.value> -c<compute.present.absent.calls> -n<normalization> -x<reference.scan.name> -l<libdir> -f<clm.filename>
+commandLine=<R> <libdir>expr.R parseCmdLine -i<input.filename> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct> -s<scale.value> -c<compute.present.absent.calls> -n<normalization> -x<reference.scan.name> -l<libdir> -f<clm.filename> -a<memory>
 cpuType=any
 description=Creates a res or gct file from a set of Affymetrix CEL files
 fileFormat=res;gct;cls
@@ -99,5 +99,13 @@ p10_optional=
 p10_prefix_when_specified=
 p10_type=java.lang.String
 p10_value=
+
+p11_default_value=1024
+p11_description=The memory in megabytes to allocate if running on Windows
+p11_name=memory
+p11_optional=on
+p11_prefix_when_specified=
+p11_type=java.lang.Integer
+p11_value=
 
 

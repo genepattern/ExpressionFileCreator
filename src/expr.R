@@ -34,27 +34,62 @@ get.median.index <- function(data) {
 	return(refindex)
 }
 
+# returns a matrix with the same number of rows as calls and one column containing the sum of the number of P calls for that row
+get.p.indices <- function(calls) {
+	 temp <- apply(calls, 1, function(val) {
+     	 return(sum(val=="P"))
+    })
+    expected.number <- ncol(calls)
+    temp <- as.matrix(temp)
+    ok <- (temp >= expected.number)
+    return(ok)
+}
+
+# returns a new data matrix containing only those genes which have all P calls
+get.p.only.data <- function(data, calls) {
+	return(data[get.p.indices(calls), ])
+}
+
+
 # Scales all arrays so they have the same mean or median value
 # new.value.i <- sample.i/mean.of.sample.i * ref.sample
 # constant <- mean.of.sample.i * ref.sample
 
-my.normalize <- function(data, method, reference.sample.name='') {
+my.normalize <- function(data, method, reference.sample.name='', sc=NULL, calls=NULL) {
 	log(paste("my normalize function...", method))
 	if(method=='none' || method=='') {
 		log("not normalizing, returning data")
 		return(data)
 	}
+	
+	data.subset <- data
+	if(!is.null(calls)) {
+		data.subset <- get.p.only.data(data, calls)
+	}
+	
+	if(method=='target signal') {
+		nf <- 1
+		for (i in 1:ncol(data)) {
+        slg <- data.subset[, i]
+        sf <- sc/mean(slg, trim = 0.02)
+        reported.value <- nf * sf * slg
+        data[, i] <- reported.value
+    	}
+    	return(data) 
+    } 
+    
 	refindex <- NULL
 	
+
 	if(reference.sample.name=='') {
-		refindex <- get.median.index(data)
+		refindex <- get.median.index(data.subset) # FIXME should ref scan include all genes or only P-P genes
 	} else {
 		# get index of reference.sample.name in data
 		colnames <- colnames(data)
 		index <- 1
 	
 		for(name in colnames) {
-			if(name==reference.sample.name) {
+			if(name==reference.sample.name) { 
 				refindex <- index
 				break
 			}
@@ -64,10 +99,13 @@ my.normalize <- function(data, method, reference.sample.name='') {
 	
 	log(paste("refindex", refindex))
 	if(is.null(refindex)) {
-		refindex <- get.median.index(data)
+		refindex <- get.median.index(data.subset) # FIXME should ref scan include all genes or only P-P genes
 		warning("Could not find reference scan name. Using median scan.")
 	}
+	
 	if(method=='mean scaling' || method=='median scaling') {
+    	scale.factor <- vector()
+    	
 		if(method=='mean scaling') {
 			FUN <- 'mean'
 		}
@@ -75,16 +113,34 @@ my.normalize <- function(data, method, reference.sample.name='') {
 			FUN <- 'median'
 		}
 		function.to.apply <- get(FUN)
-		ref.mean.or.median <- function.to.apply(data[,refindex])
+		ref.mean.or.median <- function.to.apply(data.subset[,refindex])
 		for(i in 1:ncol(data)) {
 			if(i!=refindex) {
-				scaling.factor <- function.to.apply(data[,i])/ref.mean.or.median
+				scaling.factor <- function.to.apply(data.subset[,i])/ref.mean.or.median
 				data[, i] <- data[, i] / scaling.factor
-			}
+				scale.factor[i] <- paste("scale factor=", scaling.factor, sep='')
+			} else {
+				scale.factor[i] <- "scale factor=1"
+			}	
 		}
+		attr(data, "scale.factor") <-  scale.factor
 		return(data)
 	} else if(method=='rank normalization') {
 		return(rank.normalize(data))
+	} else if(method=='linear fit') {
+		scale.factor <- vector()
+ 
+		for(i in 1:ncol(data)) {
+			if(i!=refindex) {
+				scaling.factor <- linear.fit(data.subset[,refindex], data.subset[,i])$m
+				data[, i] <- data[, i] * scaling.factor
+				scale.factor[i] <- paste("scale factor=", scaling.factor, sep='')
+			} else {
+				scale.factor[i] <- "scale factor=1"
+			}	
+		}
+		attr(data, "scale.factor") <-  scale.factor
+		return(data)
 	} else {
 		warning(paste("Unknown normalization method:", method, sep=''))	
 	}
@@ -104,7 +160,7 @@ parseCmdLine <- function(...) {
 	reference.sample.name <- ''
 	libdir <- ''
 	clm.input.file <- ''
-	
+	use.p.p.genes <- FALSE
 	
 	for(i in 1:length(args)) {
 		flag <- substring(args[[i]], 0, 2)
@@ -132,22 +188,24 @@ parseCmdLine <- function(...) {
 			clm.input.file <- value
 		} else if(flag=='-l') {
 			libdir <- value
+		} else if(flag=='-p') {
+			use.p.p.genes <- value
 		} else if(flag=='-a') {
 			if (value !='' && .Platform$OS.type == "windows") {
       		memory.limit(size=as.numeric(value))
    		}
 		}  else  {
 			stop(paste("unknown option", flag, sep=": "), call.=FALSE)
-			
 		} 
 		
 	}
 	
-	create.expression.file(input.file.name, output.file.name, method, 	quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)
+	
+	create.expression.file(input.file.name, output.file.name, method, 	quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir, use.p.p.genes)
 
 }
 
-create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir)  {
+create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir, use.p.p.genes)  {
 	source(paste(libdir, "common.R", sep=''))
 	DEBUG <<- FALSE
 	log(paste("normalization.method", normalization.method))
@@ -155,8 +213,22 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	zip.file.name <<- input.file.name # for cleanup
 	quantile.normalization <- string.to.boolean(quantile.normalization)
 	background <- string.to.boolean(background)
+	use.p.p.genes <- string.to.boolean(use.p.p.genes)
    scale <- as.integer(scale)
+   if(normalization.method=='target signal' && is.na(scale)) {
+		stop("Target signal value required when scaling method is target signal", call.=FALSE)
+	}
 	compute.calls <- string.to.boolean(compute.calls)
+	if(method=='MAS5' && use.p.p.genes && !compute.calls) {
+		stop("Must create res file if using only P-P genes for scaling.", call.=FALSE)
+	}
+	if(compute.calls && method!='MAS5') {
+		compute.calls <- FALSE
+	}
+	if(use.p.p.genes && !compute.calls) {
+		use.p.p.genes <- FALSE
+	}
+	
 	clm.input.file <<- clm.input.file
 
 	if(libdir!='') {
@@ -187,7 +259,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		log(paste("Finished running", method))
 	} else if(method=='MAS5'){
 		isRes <- compute.calls
-		result <- gp.mas5(input.file.name, compute.calls, scale)
+		result <- gp.mas5(input.file.name, compute.calls)
 		log("Finished running mas5")
 	} else {
 		exit('Unknown method')	
@@ -195,10 +267,14 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	
 	if(isRes) {
 		log("normalizing res file...")
-		result$data <- my.normalize(result$data, normalization.method, reference.sample.name)
+		calls.param <- NULL
+		if(use.p.p.genes) {
+			calls.param <- result$calls
+		}
+		result$data <- my.normalize(result$data, normalization.method, reference.sample.name, scale, calls=calls.param)
 		log("finished normalizing res file")
 	} else {
-		result <- my.normalize(result, normalization.method, reference.sample.name)
+		result <- my.normalize(result, normalization.method, reference.sample.name, scale)
 	}
 	
 	if(clm.input.file!='') { 
@@ -244,6 +320,8 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	
 	if(isRes) {
 		log("writing res file...")
+		result$column.descriptions <- attr(result$data, "scale.factor")
+		
 		output.data.file.name <<- write.res(result, output.file.name)
 		log("finished writing res file")
 	} else {
@@ -303,19 +381,13 @@ gp.dchip <- function(afbatch) {
 
 #normalize: logical. If 'TRUE' scale normalization is used after we obtain an instance of 'exprSet-class'
 
-#sc: Value at which all arrays will be scaled to.
-
 #analysis: should we do absolute or comparison analysis, although "comparison" is still not implemented.
 
-gp.mas5 <- function(input.file.name, compute.calls, scale) {
+gp.mas5 <- function(input.file.name, compute.calls) {
 	r <- gp.readAffyBatch(input.file.name)
-	if(!is.na(scale)) {
-		log("mas5: normalizing and scaling data")
-		eset <- mas5(r, normalize=TRUE, sc=scale)
-	} else {
-		log("mas5: normalizing and scaling data")
-		eset <- mas5(r, normalize=FALSE)
-	}
+	
+	log("mas5: normalizing and scaling data")
+	eset <- mas5(r, normalize=FALSE)
 	
 	if(!compute.calls) {
 		data <- as.data.frame(exprs(eset))
@@ -554,5 +626,24 @@ rank.normalize <- function(data) {
 	}
 	return(data)
 }
+
+
+linear.fit <- function(xpoints, ypoints) {
+	n <- length(xpoints)
+	xBar_yBar <- sum(xpoints*ypoints)
+	xBar <- sum(xpoints)
+	yBar <- sum(ypoints)
+	x2Bar <- sum(xpoints*xpoints)
+	
+	xBar_yBar <- xBar_yBar / n
+	xBar <- xBar / n
+	yBar <- yBar / n
+	x2Bar <- x2Bar / n
+	deltaX2 <- x2Bar - xBar * xBar
+	m <- (xBar_yBar - xBar * yBar) / deltaX2
+	b <- yBar - m * xBar
+	return(list("m"=m, "b"=b))
+}
+
 
 

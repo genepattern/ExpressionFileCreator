@@ -1,5 +1,6 @@
 author=Joshua Gould, gp-help@broad.mit.edu, Broad Institute
-commandLine=<R> <libdir>expr.R parseCmdLine -i<input.filename> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct> -s<target.signal> -c<compute.present.absent.calls> -n<scaling.method> -x<reference.scan.name> -l<libdir> -f<clm.filename> -p<genes.to.use.for.scaling>
+commandLine=<R> <libdir>expr.R parseCmdLine -i<input.filename> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct>  -c<compute.present.absent.calls> -l<libdir> -f<clm.filename> -r<probe.descriptions.filename>
+
 cpuType=any
 description=Creates a res or gct file from a set of Affymetrix CEL files
 fileFormat=res;gct;cls
@@ -57,56 +58,35 @@ p5_prefix_when_specified=
 p5_type=java.lang.String
 p5_value=yes\=yes (create res file);no\=no (create gct file)
 
-p6_default_value=none
-p6_description=The scaling method to apply after expression values are computed
-p6_name=scaling.method
+p6_default_value=
+p6_description=A tab-delimited text file containing one scan, sample, and class per line
+p6_fileFormat=
+p6_MODE=IN
+p6_name=clm.filename
 p6_optional=on
 p6_prefix_when_specified=
-p6_type=java.lang.String
-p6_value=none;mean scaling;median scaling;target signal;linear fit
+p6_TYPE=FILE
+p6_type=java.io.File
+p6_value=
 
 p7_default_value=
-p7_description=(mean or median scaling only) The scan name to be used as a reference for normalization. Leave blank to use median scan as reference.
-p7_name=reference.scan.name
+p7_description=A tab-delimited text file containing one probe set ID and one description per line
+p7_fileFormat=
+p7_MODE=IN
+p7_name=probe.descriptions.filename
 p7_optional=on
 p7_prefix_when_specified=
-p7_type=java.lang.String
+p7_TYPE=FILE
+p7_type=java.io.File
 p7_value=
 
-p8_default_value=all genes
-p8_description=(mean or median scaling only) Whether to use all genes or only genes for which all samples have P calls
-p8_name=genes.to.use.for.scaling
-p8_optional=on
+p8_default_value=<input.filename_basename>
+p8_description=The base name of the output file
+p8_name=output.file
+p8_optional=
 p8_prefix_when_specified=
 p8_type=java.lang.String
-p8_value=no=all genes;yes=P-P genes
-
-p9_default_value=500
-p9_description=Value at which all arrays will be scaled to using the method described in the Affymetrix user manual if scaling method is fixed value 
-p9_name=target.signal
-p9_optional=on
-p9_prefix_when_specified=
-p9_type=java.lang.Float
-p9_value=
-
-p10_default_value=
-p10_description=A tab-delimited text file containing one scan, sample, and class per line
-p10_fileFormat=
-p10_MODE=IN
-p10_name=clm.filename
-p10_optional=on
-p10_prefix_when_specified=
-p10_TYPE=FILE
-p10_type=java.io.File
-p10_value=
-
-p11_default_value=<input.filename_basename>
-p11_description=The base name of the output file
-p11_name=output.file
-p11_optional=
-p11_prefix_when_specified=
-p11_type=java.lang.String
-p11_value=
+p8_value=
 
 
 

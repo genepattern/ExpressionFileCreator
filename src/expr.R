@@ -311,10 +311,12 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 	
 	if(!is.null(clm)) { 
-		if(isRes) {
-			names(result$data) <- clm$sample.names
-		} else {
-			names(result) <- clm$sample.names	
+		if(!is.null(clm$sample.names)) {
+			if(isRes) {
+				names(result$data) <- clm$sample.names
+			} else {
+				names(result) <- clm$sample.names	
+			}
 		}
 		
 		factor <- clm$factor
@@ -554,7 +556,12 @@ read.clm <- function(input.file.name) {
 	s <- read.table(input.file.name, colClasses = "character", sep="\t") 
 	columns <- ncol(s)
 	scan.names <- s[,1]
-	sample.names <- s[,2]
+	sample.names <- NULL
+	if(columns>2) {
+		sample.names <- s[,2]
+	}
+	
+	
 	class.names <- NULL
 	if(columns>2) {
 		class.names <- s[, 3]

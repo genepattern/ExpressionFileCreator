@@ -536,8 +536,8 @@ get.cel.file.names <- function(input.file.name) {
 		 system(paste(zip, "-q", input.file.name))
 	}
 
-	
-	cel.files <- list.celfiles(recursive=TRUE)
+	files <- list.files(recursive=TRUE)
+   cel.files <- files[grep(".[cC][eE][lL].gz$|.[cC][eE][lL]$", files)]
 	return(cel.files)
 }
 

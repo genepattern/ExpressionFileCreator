@@ -346,7 +346,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	
 	
 	includeDescriptionsFromR <- FALSE
-	row.descriptions <- ''
+	row.descriptions <- NULL
 	if(includeDescriptionsFromR) {
 		if(!require("annaffy", quietly=TRUE, character.only=TRUE)) {
 			source("http://www.bioconductor.org/getBioC.R")
@@ -364,7 +364,6 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			} else {
 				row.descriptions <- get.row.descriptions(result, 	row.descriptions.file)
 			}
-			print(row.descriptions)
 		}
 	}
 	

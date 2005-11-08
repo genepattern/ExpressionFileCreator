@@ -265,22 +265,50 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	
 	result <- NULL # data.frame if calls are not computed, else list containing calls and data
 	isRes <- FALSE
-	cel.file.names <- get.cel.file.names(input.file.name)
-	log(paste("cel.file.names", cel.file.names))
-	log(paste("class cel.file.names", class(cel.file.names)))
+	
+	zipFileGiven <- TRUE
 	clm <- NULL
-	if(clm.input.file!='') { 
+	if(input.file.name!='') {
+		cel.file.names <- get.cel.file.names(input.file.name)
+	} else if(clm.input.file!='') {
+		if(output.file.name=='') {
+			output.file.name <- sub(".clm$", '', clm.input.file, ignore.case=TRUE)
+		}
+			
+		zipFileGiven <- FALSE
+		clm <- read.clm(clm.input.file)
+		scan.names <- clm$scan.names
+		cel.file.names <- paste(scan.names, ".CEL", sep='')
+		bzip.names <- paste("/xchip/data/Affy/Genechip/RawCelFiles/", cel.file.names, ".bz2", sep='')
+		for(i in 1:length(bzip.names)) {
+			bz <- bzip.names[i]
+			cel <- cel.file.names[i]
+			if(!file.exists(bz)) {
+				exit(paste("Unable to find scan", cel))
+			}
+			cmd <- paste("bzcat ", bz, " > ", cel, sep='')
+			log(cmd)
+			system(cmd)
+		}
+	} else {
+		exit("Either a zip of CEL files or a clm file is required.")
+	}
+	
+	if(zipFileGiven && clm.input.file!='') { # reorder scan names
 		clm <- read.clm(clm.input.file)
 		scan.names <- clm$scan.names
 		log(paste("scan.names", scan.names))
 		new.cel.file.names <- vector("character")
 		index <- 1
 		for(scan in scan.names) {
-			index <- grep(paste(scan,"$",sep=''), cel.file.names, ignore.case=TRUE)
+			s1 <- paste(scan, '.cel', "$",sep='')
+			s2 <- paste(scan, '.cel.gz', "$",sep='')
+			s <- paste(s1, "|", s2, sep="")
+			index <- grep(s, cel.file.names, ignore.case=TRUE)
 			if(length(index) == 0) {
-				cat(paste("Scan ", scan, "in clm file not found."))
+				cat(paste("Scan ", scan, "in clm file not found.\n"))
 			} else if(length(index)>1) {
-				cat(paste("Scan ", scan, "in clm file matches more than one CEL file."))
+				cat(paste("Scan ", scan, "in clm file matches more than one CEL file.\n"))
 			} else {
 				new.cel.file.names[index] <- cel.file.names[index[1]]
 				index <- index + 1
@@ -312,6 +340,8 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	
 	if(!is.null(clm)) { 
 		if(!is.null(clm$sample.names)) {
+			cat("setting names")
+			cat(clm$sample.names)
 			if(isRes) {
 				names(result$data) <- clm$sample.names
 			} else {
@@ -370,6 +400,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	if(isRes) {
 		log("writing res file...")
 		#result$column.descriptions <- attr(result$data, "scale.factor")
+		result$column.descriptions <- NULL
 		result$row.descriptions <- row.descriptions
 		output.data.file.name <<- write.res(result, output.file.name)
 		log("finished writing res file")
@@ -556,7 +587,7 @@ read.clm <- function(input.file.name) {
 	columns <- ncol(s)
 	scan.names <- s[,1]
 	sample.names <- NULL
-	if(columns>2) {
+	if(columns > 1) {
 		sample.names <- s[,2]
 	}
 	

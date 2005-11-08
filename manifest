@@ -2,7 +2,7 @@ author=Joshua Gould, gp-help@broad.mit.edu, Broad Institute
 commandLine=<R> <libdir>expr.R parseCmdLine -i<input.filename> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct>  -c<compute.present.absent.calls> -l<libdir> -f<clm.filename> -r<probe.descriptions.filename>
 
 cpuType=any
-description=Creates a res or gct file from a set of Affymetrix CEL files
+description=Creates a RES or GCT file from a set of Affymetrix CEL files
 fileFormat=res;gct;cls
 JVMLevel=2.0.1
 language=R
@@ -16,11 +16,11 @@ name=ExpressionFileCreator
 os=any
 
 p1_default_value=
-p1_description=A zip file containing CEL files or zipped CEL files
+p1_description=A zip file containing CEL files or gzipped CEL files
 p1_fileFormat=zip
 p1_MODE=IN
 p1_name=input.filename
-p1_optional=
+p1_optional=on
 p1_prefix_when_specified=
 p1_TYPE=FILE
 p1_type=java.io.File

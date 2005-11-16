@@ -11,12 +11,13 @@ zip.file.name <- ''
 output.data.file.name <- ''
 clm.input.file <- ''
 output.cls.file.name <- ''
+probe.descriptions.file.name <- ''
 exec.log <- 'gp_task_execution_log.txt'
 
 cleanup <- function() {
 	files <- dir()
 	for(file in files) {
-		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.log) {
+		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.log && file!=probe.descriptions.file.name) {
 			log(paste("removing", file))
          unlink(file, recursive=TRUE)
       }
@@ -214,6 +215,7 @@ parseCmdLine <- function(...) {
 			use.p.p.genes <- value
 		} else if(flag=='-r') {
 			row.descriptions.file <- value
+			probe.descriptions.file.name <<- value # for cleanup
 		} else if(flag=='-a') {
 			if (value !='' && .Platform$OS.type == "windows") {
       		memory.limit(size=as.numeric(value))

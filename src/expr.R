@@ -248,9 +248,6 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	if(method=='MAS5' && use.p.p.genes && !compute.calls) {
 		stop("Must create res file if using only P-P genes for scaling.", call.=FALSE)
 	}
-	if(compute.calls && method!='MAS5') {
-		compute.calls <- FALSE
-	}
 	if(use.p.p.genes && !compute.calls) {
 		use.p.p.genes <- FALSE
 	}
@@ -296,6 +293,8 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		exit("Either a zip of CEL files or a clm file is required.")
 	}
 	
+	
+	
 	if(zipFileGiven && clm.input.file!='') { # reorder scan names
 		clm <- read.clm(clm.input.file)
 		scan.names <- clm$scan.names
@@ -320,20 +319,18 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 	
 	is.compressed <- is.compressed(cel.file.names)
+	isRes <- compute.calls
 	
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
 		log("reading zip file")
 		if(method=='dChip') {
 			log("running dChip")
-			eset <- gp.dchip(cel.file.names, is.compressed)
+			result <- gp.dchip(cel.file.names, is.compressed, compute.calls)
 		} else if(method=='RMA'){
-			eset <- gp.rma(cel.file.names, is.compressed, quantile.normalization, background)
+			result <- gp.rma(cel.file.names, is.compressed, quantile.normalization, background, compute.calls)
 		} 
-		data <- as.data.frame(exprs(eset))
-		result <- data
 		log(paste("Finished running", method))
 	} else if(method=='MAS5'){
-		isRes <- compute.calls
 		result <- gp.mas5(cel.file.names, is.compressed, compute.calls)
 		log("Finished running mas5")
 	} else {
@@ -345,9 +342,9 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			cat("setting names")
 			cat(clm$sample.names)
 			if(isRes) {
-				names(result$data) <- clm$sample.names
+				colnames(result$data) <- clm$sample.names
 			} else {
-				names(result) <- clm$sample.names	
+				colnames(result) <- clm$sample.names	
 			}
 		}
 		
@@ -363,16 +360,16 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			
 	} else {  # remove .cel extension from names
 		if(isRes) {
-			col.names <- names(result$data)
+			col.names <- colnames(result$data)
 		} else {
-			col.names <- names(result)
+			col.names <- colnames(result)
 		}
 		log("removing .cel extension")
 		col.names <- sub(".[cC][eE][lL].gz$|.[cC][eE][lL]$", "", col.names)
 		if(isRes) {
-			names(result$data) <- col.names
+			colnames(result$data) <- col.names
 		} else {
-			names(result) <- col.names
+			colnames(result) <- col.names
 		}
 	}
 	
@@ -436,7 +433,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
   #        version 1.0 - 1.0.2 2: use background similar to pure R rma
    #       background given in affy version 1.1 and above
 	
-gp.rma <- function(cel.files, compressed, normalize, background) {
+gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=FALSE) {
 	samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files), 
             extended = TRUE)
    n <- length(cel.files)
@@ -445,39 +442,51 @@ gp.rma <- function(cel.files, compressed, normalize, background) {
    
    log(paste("normalize", normalize))
    log(paste("background", background))
-   eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData)
-  # r <- ReadAffy(filenames=cel.files, compress=compressed) 
-   #eset <- rma(r, normalize=normalize, background=background, verbose=FALSE, compress=compressed)
-   
+   eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData)   
    eset@exprs <- 2^eset@exprs # rma produces values that are log scaled
-   return(eset)
+   data <- exprs(eset)
+   if(!compute.calls) {
+   	return(data)
+   } else {
+   	r <- ReadAffy(filenames=cel.files, compress=compressed) 
+   	calls <- get.calls(r)
+		res <- list(data=data, calls=calls) 
+		return(res)
+   }
 }
 
 
-gp.dchip <- function(cel.file.names, is.compressed) {
+gp.dchip <- function(cel.file.names, is.compressed, compute.calls=FALSE) {
 	log("running dchip")
 	afbatch <- ReadAffy(filenames=cel.file.names, compress=is.compressed)
 	eset <- expresso(afbatch, normalize.method="invariantset", bg.correct=FALSE, pmcorrect.method="pmonly",summary.method="liwong", verbose=FALSE) 
-	log("finished running dchip")
-	return(eset)
+	data <- exprs(eset)
+	if(!compute.calls) {
+		return(data)
+	} else {
+		calls <- get.calls(afbatch)
+		res <- list(data=data, calls=calls) 
+		return(res)
+	}
+}
+
+# r AffyBatch object
+get.calls <- function(r) {
+	calls.eset <- mas5calls.AffyBatch(r, verbose = FALSE) 
+	calls <- exprs(calls.eset)
+	return(calls)
 }
 
 gp.mas5 <- function(cel.file.names, is.compressed, compute.calls) {
 	r <- ReadAffy(filenames=cel.file.names, compress=is.compressed) 
-	log("mas5: normalizing and scaling data")
+	log("running mas5...")
 	eset <- mas5(r, normalize=FALSE)
-	
+	data <- exprs(eset)
 	if(!compute.calls) {
-		data <- as.data.frame(exprs(eset))
-		names(data) <- colnames((exprs(eset)))
 		return(data)
 	} else {
-		calls.eset <- mas5calls.AffyBatch(r, verbose = FALSE) 
-		data <- as.data.frame(exprs(eset))
-		calls <- as.data.frame(exprs(calls.eset))
-		names(data) <- colnames((exprs(eset)))
-		names(calls) <- colnames((exprs(eset)))
-		res <- list(row.descriptions='', column.descriptions='', data=data, calls=calls) 
+		calls <- get.calls(r)
+		res <- list(data=data, calls=calls) 
 		return(res)
 	}
 }

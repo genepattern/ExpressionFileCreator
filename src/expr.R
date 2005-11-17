@@ -261,9 +261,8 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 
 	library(affy, verbose=FALSE)
-	
 	result <- NULL # data.frame if calls are not computed, else list containing calls and data
-	isRes <- FALSE
+	isRes <- compute.calls
 	
 	zipFileGiven <- TRUE
 	clm <- NULL
@@ -319,7 +318,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 	
 	is.compressed <- is.compressed(cel.file.names)
-	isRes <- compute.calls
+	
 	
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
 		log("reading zip file")
@@ -594,7 +593,7 @@ is.compressed <- function(cel.files) {
 
 
 read.clm <- function(input.file.name) {
-	s <- read.table(input.file.name, colClasses = "character", sep="\t") 
+	s <- read.table(input.file.name, colClasses = "character", sep="\t", comment.char="") 
 	columns <- ncol(s)
 	scan.names <- s[,1]
 	sample.names <- NULL
@@ -602,13 +601,13 @@ read.clm <- function(input.file.name) {
 		sample.names <- s[,2]
 	}
 	
-	
 	class.names <- NULL
 	if(columns>2) {
 		class.names <- s[, 3]
 	}
 	
 	for(i in 1:length(scan.names)) { # check for duplicate scans
+		scan.names[i] <- trim(scan.names[i])
 		scan <- scan.names[i]
 		l <- which(scan.names==scan)
 		if(length(l) >= 2) {

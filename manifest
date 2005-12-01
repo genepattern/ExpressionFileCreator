@@ -60,7 +60,7 @@ p5_value=yes\=yes (create res file);no\=no (create gct file)
 
 p6_default_value=
 p6_description=A tab-delimited text file containing one scan, sample, and class per line
-p6_fileFormat=
+p6_fileFormat=clm
 p6_MODE=IN
 p6_name=clm.filename
 p6_optional=on

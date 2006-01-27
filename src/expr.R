@@ -19,7 +19,7 @@ cleanup <- function() {
 	for(file in files) {
 		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.log && file!=probe.descriptions.file.name) {
 			log(paste("removing", file))
-         unlink(file, recursive=TRUE)
+         unlink(paste("'", file, "'", sep=''), recursive=TRUE)
       }
 	}		
 }

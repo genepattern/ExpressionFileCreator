@@ -58,7 +58,7 @@ get.row.descriptions <- function(data, file) {
 	for(i in 1:NROW(table)) {
 		probe <- table[i, 1]
 		index <- which(row.names(data)==probe)
-		if(index > 0) {
+		if(length(index) > 0 && index > 0) {
 			row.descriptions[index] <- table[i, 2]
 		}
 	}

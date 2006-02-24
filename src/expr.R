@@ -338,8 +338,8 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	
 	if(!is.null(clm)) { 
 		if(!is.null(clm$sample.names)) {
-			cat("setting names")
-			cat(clm$sample.names)
+			log("setting names")
+			log(clm$sample.names)
 			if(isRes) {
 				colnames(result$data) <- clm$sample.names
 			} else {

@@ -12,13 +12,13 @@ output.data.file.name <- ''
 clm.input.file <- ''
 output.cls.file.name <- ''
 probe.descriptions.file.name <- ''
-exec.log <- 'gp_task_execution_log.txt'
+exec.info <- 'gp_task_execution_log.txt'
 
 cleanup <- function() {
 	files <- dir()
 	for(file in files) {
-		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.log && file!=probe.descriptions.file.name) {
-			log(paste("removing", file))
+		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.info && file!=probe.descriptions.file.name) {
+			info(paste("removing", file))
          unlink(paste("'", file, "'", sep=''), recursive=TRUE)
       }
 	}		
@@ -70,9 +70,9 @@ get.row.descriptions <- function(data, file) {
 # new.value.i <- sample.i/mean.of.sample.i * ref.sample
 # constant <- mean.of.sample.i * ref.sample
 my.normalize <- function(data, method, reference.sample.name='', sc=NULL, calls=NULL) {
-	log(paste("my normalize function...", method))
+	info(paste("my normalize function...", method))
 	if(method=='none' || method=='') {
-		log("not normalizing, returning data")
+		info("not normalizing, returning data")
 		return(data)
 	}
 
@@ -99,7 +99,7 @@ my.normalize <- function(data, method, reference.sample.name='', sc=NULL, calls=
 		refindex <- which(colnames==name)
 	}
 	
-	log(paste("refindex", refindex))
+	info(paste("refindex", refindex))
 	if(!isTRUE(refindex > 0)) {
 		refindex <- get.median.index(data)
 		warning("Could not find reference scan name. Using median scan.")
@@ -234,7 +234,7 @@ parseCmdLine <- function(...) {
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir, use.p.p.genes, row.descriptions.file)  {
 	source(paste(libdir, "common.R", sep=''))
 	DEBUG <<- FALSE
-	log(paste("normalization.method", normalization.method))
+	info(paste("normalization.method", normalization.method))
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
 	quantile.normalization <- string.to.boolean(quantile.normalization)
@@ -285,7 +285,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 				exit(paste("Unable to find scan", cel))
 			}
 			cmd <- paste("bzcat ", bz, " > ", cel, sep='')
-			log(cmd)
+			info(cmd)
 			system(cmd)
 		}
 	} else {
@@ -297,7 +297,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	if(zipFileGiven && clm.input.file!='') { # reorder scan names
 		clm <- read.clm(clm.input.file)
 		scan.names <- clm$scan.names
-		log(paste("scan.names", scan.names))
+		info(paste("scan.names", scan.names))
 		new.cel.file.names <- vector("character")
 		index <- 1
 		for(scan in scan.names) {
@@ -321,25 +321,25 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	
 	
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
-		log("reading zip file")
+		info("reading zip file")
 		if(method=='dChip') {
-			log("running dChip")
+			info("running dChip")
 			result <- gp.dchip(cel.file.names, is.compressed, compute.calls)
 		} else if(method=='RMA'){
 			result <- gp.rma(cel.file.names, is.compressed, quantile.normalization, background, compute.calls)
 		} 
-		log(paste("Finished running", method))
+		info(paste("Finished running", method))
 	} else if(method=='MAS5'){
 		result <- gp.mas5(cel.file.names, is.compressed, compute.calls)
-		log("Finished running mas5")
+		info("Finished running mas5")
 	} else {
 		exit('Unknown method')	
 	}
 	
 	if(!is.null(clm)) { 
 		if(!is.null(clm$sample.names)) {
-			log("setting names")
-			log(clm$sample.names)
+			info("setting names")
+			info(clm$sample.names)
 			if(isRes) {
 				colnames(result$data) <- clm$sample.names
 			} else {
@@ -350,11 +350,11 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		factor <- clm$factor
 		if(!is.null(factor)) {
 			cls <- list(labels=factor,names=levels(factor))
-			log(paste("cls: ", cls))
+			info(paste("cls: ", cls))
 			output.cls.file.name <<- get.cls.file.name(output.file.name)
-			log(paste("saving cls file to", output.cls.file.name))
+			info(paste("saving cls file to", output.cls.file.name))
 			write.cls(cls, output.cls.file.name)
-			log("cls file saved")
+			info("cls file saved")
 		}
 			
 	} else {  # remove .cel extension from names
@@ -363,7 +363,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		} else {
 			col.names <- colnames(result)
 		}
-		log("removing .cel extension")
+		info("removing .cel extension")
 		col.names <- sub(".[cC][eE][lL].gz$|.[cC][eE][lL]$", "", col.names)
 		if(isRes) {
 			colnames(result$data) <- col.names
@@ -396,18 +396,18 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 	
 	if(isRes) {
-		log("writing res file...")
+		info("writing res file...")
 		#result$column.descriptions <- attr(result$data, "scale.factor")
 		result$column.descriptions <- NULL
 		result$row.descriptions <- row.descriptions
 		output.data.file.name <<- write.res(result, output.file.name)
-		log("finished writing res file")
+		info("finished writing res file")
 	} else {
-		log("writing gct file...")
-		log(paste("dim of result:", dim(result)))
+		info("writing gct file...")
+		info(paste("dim of result:", dim(result)))
 		gct <- list(data=result, row.descriptions=row.descriptions)
 		output.data.file.name <<- write.gct(gct, output.file.name)
-		log(paste("wrote gct file to", output.data.file.name)) 
+		info(paste("wrote gct file to", output.data.file.name)) 
 	}
 	
 	if(clm.input.file!='') { 
@@ -439,10 +439,10 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
 	pdata <- data.frame(sample = 1:n, row.names = samplenames)
 	phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
    
-   log(paste("normalize", normalize))
-   log(paste("background", background))
+   info(paste("normalize", normalize))
+   info(paste("background", background))
    eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData)   
-   eset@exprs <- 2^eset@exprs # rma produces values that are log scaled
+   eset@exprs <- 2^eset@exprs # rma produces values that are info scaled
    data <- exprs(eset)
    if(!compute.calls) {
    	return(data)
@@ -456,7 +456,7 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
 
 
 gp.dchip <- function(cel.file.names, is.compressed, compute.calls=FALSE) {
-	log("running dchip")
+	info("running dchip")
 	afbatch <- ReadAffy(filenames=cel.file.names, compress=is.compressed)
 	eset <- expresso(afbatch, normalize.method="invariantset", bg.correct=FALSE, pmcorrect.method="pmonly",summary.method="liwong", verbose=FALSE) 
 	data <- exprs(eset)
@@ -478,7 +478,7 @@ get.calls <- function(r) {
 
 gp.mas5 <- function(cel.file.names, is.compressed, compute.calls) {
 	r <- ReadAffy(filenames=cel.file.names, compress=is.compressed) 
-	log("running mas5...")
+	info("running mas5...")
 	eset <- mas5(r, normalize=FALSE)
 	data <- exprs(eset)
 	if(!compute.calls) {
@@ -535,18 +535,18 @@ gp.gcrma <- function(afbatch) {
 # MISC FUNCTIONS
 
 install.required.packages <- function(libdir) {
-	log(libdir)
+	info(libdir)
 	if(!is.package.installed(libdir, "reposTools")) {
-		log("installing reposTools")
+		info("installing reposTools")
 		install.package(libdir, "reposTools_1.5.19.zip", "reposTools_1.5.19.tgz", "reposTools_1.5.19.tar.gz")
 	}
 	
 	if(!is.package.installed(libdir, "Biobase")) {
-		log("installing Biobase")
+		info("installing Biobase")
 		install.package(libdir, "Biobase_1.5.0.zip", "Biobase_1.5.0.tgz", "Biobase_1.5.0.tar.gz")
 	}
 	if(!is.package.installed(libdir, "affy")) {
-		log("installing affy")
+		info("installing affy")
 		install.package(libdir, "affy_1.5.8-1.zip", "affy_1.5.8.tgz","affy_1.5.8.tar.gz")
 	}
 }
@@ -617,12 +617,12 @@ read.clm <- function(input.file.name) {
 	
 
 	#for(name in names) {
-	#	log(paste("checking if clm file contains:", name))
+	#	info(paste("checking if clm file contains:", name))
 	#	if(!(name %in% scans)) {	
 	#		exit(paste("Clm file missing scan", name))	
 	#	}
 	#}
-	log("Finished reading clm file")
+	info("Finished reading clm file")
 	f <- NULL
 	if(columns > 2) {
 		f <- factor(class.names)

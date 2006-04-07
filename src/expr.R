@@ -266,15 +266,39 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	
 	zipFileGiven <- TRUE
 	clm <- NULL
+	if(clm.input.file!='') {
+		clm <- read.clm(clm.input.file)
+	}
 	if(input.file.name!='') {
 		cel.file.names <- get.cel.file.names(input.file.name)
+		
+		if(clm.input.file!='') {
+			scan.names <- clm$scan.names
+			new.cel.file.names <- vector("character")
+			i <- 1
+			for(scan in scan.names) {
+				s1 <- paste(scan, '.cel', "$",sep='')
+				s2 <- paste(scan, '.cel.gz', "$",sep='')
+				s <- paste(s1, "|", s2, sep="")
+				index <- grep(s, cel.file.names, ignore.case=TRUE)
+				if(length(index) == 0) {
+					cat(paste("Scan ", scan, "in clm file not found.\n"))
+				} else if(length(index)>1) {
+					cat(paste("Scan ", scan, "in clm file matches more than one CEL file.\n"))
+				} else {
+					new.cel.file.names[i] <- cel.file.names[index[1]]
+					i <- i + 1
+				}
+			}
+			cel.file.names <- new.cel.file.names
+			info(paste("cel.file.names", cel.file.names))
+		}
 	} else if(clm.input.file!='') {
 		if(output.file.name=='') {
 			output.file.name <- sub(".clm$", '', clm.input.file, ignore.case=TRUE)
 		}
 			
 		zipFileGiven <- FALSE
-		clm <- read.clm(clm.input.file)
 		scan.names <- clm$scan.names
 		cel.file.names <- paste(scan.names, ".CEL", sep='')
 		bzip.names <- paste("/xchip/data/Affy/Genechip/RawCelFiles/", cel.file.names, ".bz2", sep='')
@@ -292,40 +316,19 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		exit("Either a zip of CEL files or a clm file is required.")
 	}
 	
-	
-	
-	if(zipFileGiven && clm.input.file!='') { # reorder scan names
-		clm <- read.clm(clm.input.file)
-		scan.names <- clm$scan.names
-		info(paste("scan.names", scan.names))
-		new.cel.file.names <- vector("character")
-		index <- 1
-		for(scan in scan.names) {
-			s1 <- paste(scan, '.cel', "$",sep='')
-			s2 <- paste(scan, '.cel.gz', "$",sep='')
-			s <- paste(s1, "|", s2, sep="")
-			index <- grep(s, cel.file.names, ignore.case=TRUE)
-			if(length(index) == 0) {
-				cat(paste("Scan ", scan, "in clm file not found.\n"))
-			} else if(length(index)>1) {
-				cat(paste("Scan ", scan, "in clm file matches more than one CEL file.\n"))
-			} else {
-				new.cel.file.names[index] <- cel.file.names[index[1]]
-				index <- index + 1
-			}
-		}
-		cel.file.names <- new.cel.file.names
-	}
-	
 	is.compressed <- is.compressed(cel.file.names)
 	
-	
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
-		info("reading zip file")
 		if(method=='dChip') {
 			info("running dChip")
 			result <- gp.dchip(cel.file.names, is.compressed, compute.calls)
 		} else if(method=='RMA'){
+			info("running rma")
+			info(paste("cel.file.names", cel.file.names))
+			info(paste("is.compressed", is.compressed))
+			info(paste("is.compressed", is.compressed))
+			info(paste("quantile.normalization", quantile.normalization))
+			info(paste("background", background))
 			result <- gp.rma(cel.file.names, is.compressed, quantile.normalization, background, compute.calls)
 		} 
 		info(paste("Finished running", method))
@@ -433,8 +436,10 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
    #       background given in affy version 1.1 and above
 	
 gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=FALSE) {
+	info("creating samplenames")
 	samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files), 
             extended = TRUE)
+   info(paste("samplenames", samplenames))
    n <- length(cel.files)
 	pdata <- data.frame(sample = 1:n, row.names = samplenames)
 	phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))

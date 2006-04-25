@@ -233,7 +233,7 @@ parseCmdLine <- function(...) {
 
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir, use.p.p.genes, row.descriptions.file)  {
 	source(paste(libdir, "common.R", sep=''))
-	DEBUG <<- TRUE
+	DEBUG <<- FALSE
 	info(paste("normalization.method", normalization.method))
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
@@ -332,7 +332,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			result <- gp.rma(cel.file.names, is.compressed, quantile.normalization, background, compute.calls)
 		} else if(method=='GCRMA') {
 			library(gcrma, verbose=FALSE)
-			result <- gp.rma(cel.file.names, is.compressed, quantile.normalization, background, compute.calls)
+			result <- gp.rma(cel.file.names, is.compressed, quantile.normalization, compute.calls)
 		}
 		info(paste("Finished running", method))
 	} else if(method=='MAS5'){
@@ -464,7 +464,7 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
    }
 }
 
-gp.gcrma <- function(cel.files, compressed, normalize, background, compute.calls=FALSE) { 
+gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) { 
 	r <- ReadAffy(filenames=cel.files, compress=compressed)
  #  cdf <- cleancdfname(afbatch@cdfName) # e.g "hgu133acdf"
  #  cdf <- substring(cdf, 0, nchar(cdf)-3)# remove cdf from end
@@ -493,7 +493,7 @@ gp.gcrma <- function(cel.files, compressed, normalize, background, compute.calls
     #  info(paste("installing package", pkg))
       # install.packages2(repEntry=r, pkgs=c(pkg), type=type)
    #}
-   eset <- gcrma(r, verbose=FALSE, optical.correct=background, normalize=normalize)
+   eset <- gcrma(r, verbose=FALSE, normalize=normalize)
    eset@exprs <- 2^eset@exprs # produces values that are log scaled
    data <- exprs(eset)
    colnames(data) <- 

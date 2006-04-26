@@ -332,7 +332,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			result <- gp.rma(cel.file.names, is.compressed, quantile.normalization, background, compute.calls)
 		} else if(method=='GCRMA') {
 			library(gcrma, verbose=FALSE)
-			result <- gp.rma(cel.file.names, is.compressed, quantile.normalization, compute.calls)
+			result <- gp.gcrma(cel.file.names, is.compressed, quantile.normalization, compute.calls)
 		}
 		info(paste("Finished running", method))
 	} else if(method=='MAS5'){
@@ -465,21 +465,28 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
 }
 
 gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) { 
-	r <- ReadAffy(filenames=cel.files, compress=compressed)
+	info("creating samplenames")
+	samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files), 
+            extended = TRUE)
+   info(paste("samplenames", samplenames))
+   n <- length(cel.files)
+	pdata <- data.frame(sample = 1:n, row.names = samplenames)
+	phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
+	
  #  cdf <- cleancdfname(afbatch@cdfName) # e.g "hgu133acdf"
  #  cdf <- substring(cdf, 0, nchar(cdf)-3)# remove cdf from end
  #  pkg <- paste(cdf, "probe", sep='') 
-#   if(!is.package.installed(libdir, pkg)) {
+  # if(!is.package.installed(libdir, pkg)) {
   # if(!library(package=pkg, lib.loc=libdir, logical.return=TRUE, version=NULL)) {
- #     repList <- getOptReposList()
- #     n <- repNames(repList)
+   #   repList <- getOptReposList()
+    #  n <- repNames(repList)
       
- #     get.index <- function(n) {
-  #       for(index in 1:length(n)) {
-   #         if(n[index] =='Bioconductor Probe Data Packages') {
-    #           return(index)
-     #       }
-      #   }
+     # get.index <- function(n) {
+      #   for(index in 1:length(n)) {
+       #     if(n[index] =='Bioconductor Probe Data Packages') {
+        #       return(index)
+         #   }
+       #  }
        #  exit("Probe Data repository not found.")
       # }
       # isWindows <- Sys.info()[["sysname"]]=="Windows"
@@ -493,13 +500,14 @@ gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) {
     #  info(paste("installing package", pkg))
       # install.packages2(repEntry=r, pkgs=c(pkg), type=type)
    #}
-   eset <- gcrma(r, verbose=FALSE, normalize=normalize)
+   eset <- just.gcrma(filenames=cel.files, compress=compressed, normalize=normalize, verbose=TRUE, phenoData=phenoData)   
    eset@exprs <- 2^eset@exprs # produces values that are log scaled
    data <- exprs(eset)
-   colnames(data) <- 
+   
    if(!compute.calls) {
    	return(data)
    } else {
+   	r <- ReadAffy(filenames=cel.files, compress=compressed) 
    	calls <- get.calls(r)
 		res <- list(data=data, calls=calls) 
 		return(res)
@@ -559,17 +567,24 @@ install.required.packages <- function(libdir) {
 	if(!is.package.installed(libdir, "affy")) {
 		info("installing affy")
 		install.package(libdir, "affy_1.5.8-1.zip", "affy_1.5.8.tgz","affy_1.5.8.tar.gz")
-	}
+	}	
 	
 	if(!is.package.installed(libdir, "matchprobes")) {
 		info("installing matchprobes")
 		install.package(libdir, "matchprobes_1.0.22.zip", "matchprobes_1.0.22.tar.gz","matchprobes_1.0.22.tar.gz")
 	}
 	
+#	if(!is.package.installed(libdir, "gcrma")) {
+#		info("installing gcrma")
+#		install.package(libdir, "gcrma_1.1.4.zip", "gcrma_1.1.4.tar.gz","gcrma_1.1.4.tar.gz")
+#	}
+	
 	if(!is.package.installed(libdir, "gcrma")) {
 		info("installing gcrma")
-		install.package(libdir, "gcrma_1.1.4.zip", "gcrma_1.1.4.tar.gz","gcrma_1.1.4.tar.gz")
+		install.package(libdir, "gcrma_2.2.1.zip", "gcrma_2.2.1.tar.gz","gcrma_2.2.1.tar.gz")
 	}
+	
+	
 }
 
 

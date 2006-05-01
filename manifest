@@ -11,7 +11,7 @@ publicationDate=07/13/2005 14\:43
 quality=production
 taskType=Preprocess & Utilities
 userid=GenePattern
-version=
+version=Added gcRMA and dChip algorithms
 name=ExpressionFileCreator
 os=any
 

@@ -338,6 +338,9 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	} else if(method=='MAS5'){
 		result <- gp.mas5(cel.file.names, is.compressed, compute.calls)
 		info("Finished running mas5")
+	} else if(method=="FARMS") {
+		result <- gp.farms(cel.file.names, is.compressed, compute.calls, libdir)
+		info("Finished running FARMS")
 	} else {
 		exit('Unknown method')	
 	}
@@ -464,6 +467,8 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
    }
 }
 
+
+
 gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) { 
 	info("creating samplenames")
 	samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files), 
@@ -549,6 +554,24 @@ gp.mas5 <- function(cel.file.names, is.compressed, compute.calls) {
 	}
 }
 
+gp.farms <- function(cel.file.names, is.compressed, compute.calls, libdir)  {
+	if(!is.package.installed(libdir, "farms")) {
+		info("installing farms")
+		install.package(libdir, "farms.zip", "farms_1.0.0.tar.gz", "farms_1.0.0.tar.gz")
+	}
+	library(farms)
+	r <- ReadAffy(filenames=cel.file.names, compress=is.compressed) 
+	info("running farms...")
+	eset <- exp.farms(r, bgcorrect.method = "none", pmcorrect.method = "pmonly", normalize.method = "quantiles")
+	data <- exprs(eset)
+	if(!compute.calls) {
+		return(data)
+	} else {
+		calls <- get.calls(r)
+		res <- list(data=data, calls=calls) 
+		return(res)
+	}
+}
 
 ########################################################
 # MISC FUNCTIONS

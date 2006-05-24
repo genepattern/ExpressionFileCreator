@@ -17,7 +17,7 @@ exec.info <- 'gp_task_execution_log.txt'
 cleanup <- function() {
 	files <- dir()
 	for(file in files) {
-		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.info && file!=probe.descriptions.file.name) {
+		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.info && file!=probe.descriptions.file.name && file!="stdout.txt" && file!="stderr.txt") {
 			info(paste("removing", file))
          unlink(paste("'", file, "'", sep=''), recursive=TRUE)
       }
@@ -233,7 +233,7 @@ parseCmdLine <- function(...) {
 
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir, use.p.p.genes, row.descriptions.file)  {
 	source(paste(libdir, "common.R", sep=''))
-	DEBUG <<- FALSE
+	DEBUG <<- TRUE
 	info(paste("normalization.method", normalization.method))
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup

@@ -19,7 +19,7 @@ cleanup <- function() {
 	for(file in files) {
 		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.info && file!=probe.descriptions.file.name && file!="stdout.txt" && file!="stderr.txt") {
 			info(paste("removing", file))
-         unlink(paste("'", file, "'", sep=''), recursive=TRUE)
+         unlink(paste("'", file, "'", sep=''), recursive=TRUE) # XXX directories fail to delete on windows
       }
 	}		
 }
@@ -225,15 +225,13 @@ parseCmdLine <- function(...) {
 		} 
 		
 	}
-	
-	
 	create.expression.file(input.file.name, output.file.name, method, 	quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir, use.p.p.genes, row.descriptions.file)
 
 }
 
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir, use.p.p.genes, row.descriptions.file)  {
 	source(paste(libdir, "common.R", sep=''))
-	DEBUG <<- TRUE
+	DEBUG <<- FALSE
 	info(paste("normalization.method", normalization.method))
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
@@ -580,7 +578,7 @@ install.required.packages <- function(libdir) {
 	info(libdir)
 	if(!is.package.installed(libdir, "reposTools")) {
 		info("installing reposTools")
-		install.package(libdir, "reposTools_1.5.19.zip", "reposTools_1.5.19.tgz", "reposTools_1.5.19.tar.gz")
+		install.package(libdir, "reposTools_1.8.0.zip", "reposTools_1.8.0.tar.gz", "reposTools_1.8.0.tar.gz")
 	}
 	
 	if(!is.package.installed(libdir, "Biobase")) {

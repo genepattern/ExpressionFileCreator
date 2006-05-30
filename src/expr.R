@@ -24,34 +24,6 @@ cleanup <- function() {
 	}		
 }
 
-get.median.index <- function(data) {
-	medians <- vector(mode="numeric") # find median scan in data
-	for(col in 1:ncol(data)) {
-		medians[col] <- median(data[,col])
-	}
-
-	index <- sort(medians, index=TRUE)$ix
-	refindex <- index[length(index)/2]
-	return(refindex)
-}
-
-# returns a matrix with the same number of rows as calls and one column containing the sum of the number of P calls for that row
-get.p.indices <- function(calls) {
-	 temp <- apply(calls, 1, function(val) {
-     	 return(sum(val=="P"))
-    })
-    expected.number <- ncol(calls)
-    temp <- as.matrix(temp)
-    ok <- (temp >= expected.number)
-    return(ok)
-}
-
-# returns a new data matrix containing only those genes which have all P calls
-get.p.only.data <- function(data, calls) {
-	return(data[get.p.indices(calls), ])
-}
-
-
 get.row.descriptions <- function(data, file) {
 	row.descriptions <- vector("character", length=NROW(data))
 	table <- read.table(file, colClasses="character", header=FALSE, sep="\t")
@@ -65,111 +37,6 @@ get.row.descriptions <- function(data, file) {
 	return(row.descriptions)	
 }
 
-
-# Scales all arrays so they have the same mean or median value
-# new.value.i <- sample.i/mean.of.sample.i * ref.sample
-# constant <- mean.of.sample.i * ref.sample
-my.normalize <- function(data, method, reference.sample.name='', sc=NULL, calls=NULL) {
-	info(paste("my normalize function...", method))
-	if(method=='none' || method=='') {
-		info("not normalizing, returning data")
-		return(data)
-	}
-
-	
-	if(method=='target signal') {
-		nf <- 1
-		for (i in 1:ncol(data)) {
-        slg <- data[, i]
-        sf <- sc/mean(slg, trim = 0.02)
-        reported.value <- nf * sf * slg
-        data[, i] <- reported.value
-    	}
-    	return(data) 
-    } 
-    
-	refindex <- NULL
-	
-
-	if(reference.sample.name=='') {
-		refindex <- get.median.index(data)
-	} else {
-		# get index of reference.sample.name in data
-		colnames <- colnames(data)
-		refindex <- which(colnames==name)
-	}
-	
-	info(paste("refindex", refindex))
-	if(!isTRUE(refindex > 0)) {
-		refindex <- get.median.index(data)
-		warning("Could not find reference scan name. Using median scan.")
-	}
-	
-	if(method=='mean scaling' || method=='median scaling') {
-    	scale.factor <- vector()
-    	scale.factor[refindex] <- "scale factor=1"
-		if(method=='mean scaling') {
-			FUN <- 'mean'
-		}
-		else if(method=='median scaling') {
-			FUN <- 'median'
-		}
-		function.to.apply <- get(FUN)
-		ref.mean.or.median <- function.to.apply(data[,refindex])
-		if(!is.null(calls)) {
-			for(i in 1:ncol(data)) {
-				if(i!=refindex) {
-					p.data <- get.p.only.data(cbind(data[,refindex], data[, i]), cbind(calls[,refindex], calls[, i]))
-					ref.mean.or.median <- function.to.apply(p.data[,refindex])
-					scaling.factor <- function.to.apply(p.data[,i])/ref.mean.or.median 
-					data[, i] <- data[, i] / scaling.factor
-					scale.factor[i] <- paste("scale factor=", scaling.factor, sep='')
-				} 
-			}
-			
-		} else {
-			for(i in 1:ncol(data)) {
-				if(i!=refindex) {
-					scaling.factor <- function.to.apply(data[,i])/ref.mean.or.median
-					data[, i] <- data[, i] / scaling.factor
-					scale.factor[i] <- paste("scale factor=", scaling.factor, sep='')
-				} 
-			}
-			attr(data, "scale.factor") <-  scale.factor
-		}
-		return(data)
-	} else if(method=='rank normalization') {
-		return(rank.normalize(data))
-	} else if(method=='linear fit') {
-		scale.factor <- vector()
-		scale.factor[i] <- "scale factor=1"	
-				
- 		if(!is.null(calls)) {
-			for(i in 1:ncol(data)) {
-				if(i!=refindex) {
-					p.data <- get.p.only.data(cbind(data[,refindex], data[, i]), cbind(calls[,refindex], calls[, i]))
-					scaling.factor <- linear.fit(p.data[,refindex], p.data[,i])$m
-					data[, i] <- data[, i] * scaling.factor	
-					scale.factor[i] <- paste("scale factor=", scaling.factor, sep='')
-				} 
-			}
-			
-		} else {
-			for(i in 1:ncol(data)) {
-				if(i!=refindex) {
-					scaling.factor <- linear.fit(data[,refindex], data[,i])$m
-					data[, i] <- data[, i] * scaling.factor
-					scale.factor[i] <- paste("scale factor=", scaling.factor, sep='')
-				} 
-			}
-		}
-		attr(data, "scale.factor") <-  scale.factor
-		return(data)
-	} else {
-		warning(paste("Unknown normalization method:", method, sep=''))	
-	}
-}
-
 parseCmdLine <- function(...) {
 	args <- list(...)
 	input.file.name <- ''
@@ -177,13 +44,10 @@ parseCmdLine <- function(...) {
 	method <- ''
 	quantile.normalization <- ''
 	background <- ''
-	scale <- ''
 	compute.calls <- ''
 	normalization.method <- ''
-	reference.sample.name <- ''
 	libdir <- ''
 	clm.input.file <- ''
-	use.p.p.genes <- FALSE
 	row.descriptions.file <- ''
 	for(i in 1:length(args)) {
 		flag <- substring(args[[i]], 0, 2)
@@ -199,20 +63,17 @@ parseCmdLine <- function(...) {
 			quantile.normalization <- value
 		} else if(flag=='-b') { # whether to background correct when using RMA
 			background <- value
-		} else if(flag=='-s') {
-			scale <- value
 		} else if(flag=='-c') {
 			compute.calls <- value
 		} else if(flag=='-n') {
-			normalization.method <- value # none, mean, median
-		} else if(flag=='-x') {
-			reference.sample.name <- value
+			normalization.method <- value # none, mean, median, linear fit
+			if(normalization.method=='') {
+				normalization.method <- 'none'
+			}
 		} else if(flag=='-f') {
 			clm.input.file <- value
 		} else if(flag=='-l') {
 			libdir <- value
-		} else if(flag=='-p') {
-			use.p.p.genes <- value
 		} else if(flag=='-r') {
 			row.descriptions.file <- value
 			probe.descriptions.file.name <<- value # for cleanup
@@ -221,15 +82,17 @@ parseCmdLine <- function(...) {
       		memory.limit(size=as.numeric(value))
    		}
 		}  else  {
-			stop(paste("unknown option", flag, sep=": "), call.=FALSE)
+			cat(args)
+			cat("\n")
+			stop(paste("unknown option", flag, sep=": "), .call=FALSE)
 		} 
 		
 	}
-	create.expression.file(input.file.name, output.file.name, method, 	quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir, use.p.p.genes, row.descriptions.file)
+	create.expression.file(input.file.name=input.file.name, output.file.name=output.file.name, method=method, quantile.normalization=quantile.normalization, background=background, compute.calls=compute.calls, normalization.method=normalization.method, clm.input.file=clm.input.file, libdir=libdir, row.descriptions.file=row.descriptions.file)
 
 }
 
-create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, scale, compute.calls, normalization.method, reference.sample.name, clm.input.file, libdir, use.p.p.genes, row.descriptions.file)  {
+create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, compute.calls, normalization.method, clm.input.file, libdir, row.descriptions.file)  {
 	source(paste(libdir, "common.R", sep=''))
 	DEBUG <<- FALSE
 	info(paste("normalization.method", normalization.method))
@@ -237,19 +100,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	zip.file.name <<- input.file.name # for cleanup
 	quantile.normalization <- string.to.boolean(quantile.normalization)
 	background <- string.to.boolean(background)
-	use.p.p.genes <- string.to.boolean(use.p.p.genes)
-   scale <- as.integer(scale)
-   if(normalization.method=='target signal' && is.na(scale)) {
-		stop("Target signal value required when scaling method is target signal", call.=FALSE)
-	}
 	compute.calls <- string.to.boolean(compute.calls)
-	if(method=='MAS5' && use.p.p.genes && !compute.calls) {
-		stop("Must create res file if using only P-P genes for scaling.", call.=FALSE)
-	}
-	if(use.p.p.genes && !compute.calls) {
-		use.p.p.genes <- FALSE
-	}
-	
 	clm.input.file <<- clm.input.file
 
 	if(libdir!='') {
@@ -405,20 +256,21 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 	
 	if(isRes) {
-		info("writing res file...")
-		#result$column.descriptions <- attr(result$data, "scale.factor")
-		result$column.descriptions <- NULL
 		result$row.descriptions <- row.descriptions
-		output.data.file.name <<- write.res(result, output.file.name)
-		info("finished writing res file")
+		struc <- result
+		struc$column.descriptions <- vector(length=length(ncol(result$data)))
 	} else {
-		info("writing gct file...")
-		info(paste("dim of result:", dim(result)))
-		gct <- list(data=result, row.descriptions=row.descriptions)
-		output.data.file.name <<- write.gct(gct, output.file.name)
-		info(paste("wrote gct file to", output.data.file.name)) 
+		struc <- list(data=result, row.descriptions=row.descriptions)		
 	}
-	
+
+	if(method=='MAS5') {
+		result <- gp.normalize(struc, normalization.method)
+	}
+	if(isRes) {
+		output.data.file.name <<- write.res(struc, output.file.name)
+	} else {
+		output.data.file.name <<- write.gct(struc, output.file.name)
+	}
 	if(clm.input.file!='') { 
 		return(list(output.data.file.name, output.cls.file.name))
 	} else {
@@ -699,6 +551,86 @@ rank.normalize <- function(data) {
 	return(data)
 }
 
+gp.normalize <- function(struc, method, reference.column=-1, use.p.p.genes=FALSE, sc=500) {
+	data <- struc$data
+	calls <- struc$calls
+	if(method=="none") {
+		return(struc)
+	}	
+	
+	if(method=='target signal') {
+		nf <- 1
+		for (i in 1:ncol(data)) {
+        slg <- data[, i]
+        sf <- sc/mean(slg, trim = 0.02)
+        reported.value <- nf * sf * slg
+        data[, i] <- reported.value
+    	}
+    	struc$data <- data
+    	return(struc) 
+	} 
+    
+	if(method=="quantile normalization") {
+		data <- normalize.quantiles(data)
+		struc$data <- data
+		return(struc)
+	}
+	
+	if(reference.column==-1) {
+		index <- sort(apply(data, 2, median), index=TRUE)$ix
+		reference.column <- index[length(index)/2]
+	}
+	
+	scalingFactors <- vector(mode="numeric", length=NCOL(data));
+	scalingFactors[reference.column] <- 1;
+	row.indices <- matrix(TRUE, nrow=nrow(data), ncol=ncol(data))
+	if(!is.null(calls) && use.p.p.genes) { # FIXME
+		for(j in 1:NCOL(calls)) {
+			if(j==reference.column) {
+				next
+			}
+			row.indices[,j] <- calls[,j]=='P' && calls[,reference.column]=='P'
+		}
+	}
+
+	if(method=="linear fit") {
+		for(j in 1:NCOL(data)) {
+			if(j==reference.column) {
+				next
+			}
+			linear.fit <- linear.fit(data[,j], data[,reference.column])
+   		scalingFactors[j] <- 1.0/linear.fit$m
+		}
+	} else if(method=='mean scaling' || method=='median scaling') {
+		if(method=='mean scaling') {
+			FUN <- 'mean'
+		}
+		else if(method=='median scaling') {
+			FUN <- 'median'
+		}
+		function.to.apply <- get(FUN)
+		ref.mean.or.median <- function.to.apply(data[,reference.column])
+		for(j in 1:ncol(data)) {
+			if(j!=reference.column) {
+				scaling.factor <- function.to.apply(data[,j])/ref.mean.or.median
+				scalingFactors[j] <- 1.0/scaling.factor
+			}
+		}
+	}
+
+	for(j in 1:NCOL(data)) {
+		if(j==reference.column) {
+			next
+		}
+		data[,j] <- data[,j]*scalingFactors[j]
+		if(!is.null(struc$column.descriptions)) {
+			struc$column.descriptions[j] <- paste(struc$column.descriptions[j], ", scale factor=", scalingFactors[j], sep='')
+		}
+	}
+	struc$data <- data
+	return(struc)
+}
+
 
 linear.fit <- function(xpoints, ypoints) {
 	n <- length(xpoints)
@@ -718,4 +650,5 @@ linear.fit <- function(xpoints, ypoints) {
 }
 
 
+      
 

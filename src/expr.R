@@ -106,7 +106,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	if(libdir!='') {
 		setLibPath(libdir)
 		on.exit(cleanup())
-		install.required.packages(libdir)
+		install.required.packages(libdir, method)
 	}
 
 	library(affy, verbose=FALSE)
@@ -426,7 +426,7 @@ gp.farms <- function(cel.file.names, is.compressed, compute.calls, libdir)  {
 ########################################################
 # MISC FUNCTIONS
 
-install.required.packages <- function(libdir) {
+install.required.packages <- function(libdir, method) {
 	info(libdir)
 	if(!is.package.installed(libdir, "reposTools")) {
 		info("installing reposTools")
@@ -442,7 +442,7 @@ install.required.packages <- function(libdir) {
 		install.package(libdir, "affy_1.5.8-1.zip", "affy_1.5.8.tgz","affy_1.5.8.tar.gz")
 	}	
 	
-	if(!is.package.installed(libdir, "matchprobes")) {
+	if(method=='GCRMA' && !is.package.installed(libdir, "matchprobes")) {
 		info("installing matchprobes")
 		install.package(libdir, "matchprobes_1.0.22.zip", "matchprobes_1.0.22.tar.gz","matchprobes_1.0.22.tar.gz")
 	}
@@ -452,7 +452,7 @@ install.required.packages <- function(libdir) {
 #		install.package(libdir, "gcrma_1.1.4.zip", "gcrma_1.1.4.tar.gz","gcrma_1.1.4.tar.gz")
 #	}
 	
-	if(!is.package.installed(libdir, "gcrma")) {
+	if(method=='GCRMA' && !is.package.installed(libdir, "gcrma")) {
 		info("installing gcrma")
 		install.package(libdir, "gcrma_2.2.1.zip", "gcrma_2.2.1.tar.gz","gcrma_2.2.1.tar.gz")
 	}

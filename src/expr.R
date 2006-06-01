@@ -552,6 +552,9 @@ rank.normalize <- function(data) {
 }
 
 gp.normalize <- function(struc, method, reference.column=-1, use.p.p.genes=FALSE, sc=500) {
+	if(!(method %in% c('none', 'target signal', 'quantile normalization', 'linear fit', 'mean scaling', 'median scaling'))) {
+		stop("Unknown scaling method")
+	}
 	data <- struc$data
 	calls <- struc$calls
 	if(method=="none") {
@@ -576,11 +579,10 @@ gp.normalize <- function(struc, method, reference.column=-1, use.p.p.genes=FALSE
 		return(struc)
 	}
 	
-	if(reference.column==-1) {
+	if(reference.column == -1) {
 		index <- sort(apply(data, 2, median), index=TRUE)$ix
-		reference.column <- index[length(index)/2]
+		reference.column <- index[(length(index)/2) + 1] 
 	}
-	
 	scalingFactors <- vector(mode="numeric", length=NCOL(data));
 	scalingFactors[reference.column] <- 1;
 	row.indices <- matrix(TRUE, nrow=nrow(data), ncol=ncol(data))
@@ -598,7 +600,7 @@ gp.normalize <- function(struc, method, reference.column=-1, use.p.p.genes=FALSE
 			if(j==reference.column) {
 				next
 			}
-			linear.fit <- linear.fit(data[,j], data[,reference.column])
+			linear.fit <- linear.fit(data[,reference.column], data[,j])
    		scalingFactors[j] <- 1.0/linear.fit$m
 		}
 	} else if(method=='mean scaling' || method=='median scaling') {
@@ -624,7 +626,12 @@ gp.normalize <- function(struc, method, reference.column=-1, use.p.p.genes=FALSE
 		}
 		data[,j] <- data[,j]*scalingFactors[j]
 		if(!is.null(struc$column.descriptions)) {
-			struc$column.descriptions[j] <- paste(struc$column.descriptions[j], ", scale factor=", scalingFactors[j], sep='')
+			if(struc$column.descriptions[j]=='') {
+				prev <- ''
+			} else {
+				prev <- paste(struc$column.descriptions[j], ", ", sep='')
+			}
+			struc$column.descriptions[j] <- paste(prev, "scale factor=", scalingFactors[j], sep='')
 		}
 	}
 	struc$data <- data

@@ -258,7 +258,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	if(isRes) {
 		result$row.descriptions <- row.descriptions
 		struc <- result
-		struc$column.descriptions <- vector(length=length(ncol(result$data)))
+		struc$column.descriptions <- vector("character", length=length(ncol(result$data)))
 	} else {
 		struc <- list(data=result, row.descriptions=row.descriptions)		
 	}

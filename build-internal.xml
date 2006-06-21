@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="create-zip" name="ExpressionFileCreator">
+	<property name="dirOffset" value="../"/>
+	<import file="${dirOffset}/commontargets.xml"/>
+
+	<target name="create-zip" depends="init">
+		<antcall target="prezip"/>
+		<zip destfile="${dest.dir}/${ant.project.name}.zip" whenempty="fail" defaultexcludes="true">
+			<fileset dir="." includes="manifest, *.pdf"/>
+			<fileset dir="../common/R">
+				<include name="common.R"/>
+			</fileset>
+			
+			<fileset dir="src">
+				<include name="expr.R"/>
+			</fileset>
+			<fileset dir="lib">
+				<include name="*.tar.gz"/>
+				<include name="*.zip"/>
+            <include name="*.tgz"/>
+			</fileset>
+		</zip>
+		<antcall target="postzip"/>
+	</target>
+
+</project>

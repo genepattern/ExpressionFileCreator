@@ -1,0 +1,100 @@
+author=Joshua Gould, gp-help@broad.mit.edu, Broad Institute
+commandLine=<R> <libdir>expr.R parseCmdLine -i<input.filename> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct>  -c<compute.present.absent.calls> -n<normalization.method> -l<libdir> -f<clm.filename> -r<probe.descriptions.filename> 
+
+cpuType=any
+description=Creates a RES or GCT file from a set of Affymetrix CEL files
+fileFormat=res;gct;cls
+JVMLevel=2.0.1
+language=R
+privacy=public
+publicationDate=07/13/2005 14\:43 
+quality=production
+taskType=Preprocess & Utilities
+userid=GenePattern
+version=Added gcRMA and dChip algorithms
+name=ExpressionFileCreator
+os=any
+
+p1_default_value=
+p1_description=A zip file containing CEL files or gzipped CEL files
+p1_fileFormat=zip
+p1_MODE=IN
+p1_name=input.filename
+p1_optional=on
+p1_prefix_when_specified=
+p1_TYPE=FILE
+p1_type=java.io.File
+p1_value=
+
+p2_default_value=RMA
+p2_description=The method to use
+p2_name=method
+p2_optional=
+p2_prefix_when_specified=
+p2_type=java.lang.String
+p2_value=dChip;FARMS;GCRMA;MAS5;RMA
+
+p3_default_value=
+p3_description=(GCRMA and RMA only) Whether to normalize data using quantile normalization
+p3_name=quantile.normalization
+p3_optional=on
+p3_prefix_when_specified=
+p3_type=java.lang.String
+p3_value=yes;no
+
+p4_default_value=
+p4_description=(RMA only) Whether to background correct using RMA background correction
+p4_name=background.correct
+p4_optional=on
+p4_prefix_when_specified=
+p4_type=java.lang.String
+p4_value=yes;no
+
+p5_default_value=yes
+p5_description=Whether to compute Present/Absent calls
+p5_name=compute.present.absent.calls
+p5_optional=on
+p5_prefix_when_specified=
+p5_type=java.lang.String
+p5_value=yes\=yes (create res file);no\=no (create gct file)
+
+p6_default_value=median scaling
+p6_description=(MAS5 only) The normalization method to apply after expression values are computed. The median column is used as a reference.
+p6_name=normalization.method
+p6_optional=on
+p6_prefix_when_specified=
+p6_type=java.lang.String
+p6_value=linear fit;mean scaling;median scaling;none;quantile normalization
+
+p7_default_value=
+p7_description=A tab-delimited text file containing one scan, sample, and class per line
+p7_fileFormat=clm
+p7_MODE=IN
+p7_name=clm.filename
+p7_optional=on
+p7_prefix_when_specified=
+p7_TYPE=FILE
+p7_type=java.io.File
+p7_value=
+
+p8_default_value=
+p8_description=A tab-delimited text file containing one probe set ID and one description per line
+p8_fileFormat=
+p8_MODE=IN
+p8_name=probe.descriptions.filename
+p8_optional=on
+p8_prefix_when_specified=
+p8_TYPE=FILE
+p8_type=java.io.File
+p8_value=
+
+p9_default_value=<input.filename_basename>
+p9_description=The base name of the output file
+p9_name=output.file
+p9_optional=
+p9_prefix_when_specified=
+p9_type=java.lang.String
+p9_value=
+
+
+

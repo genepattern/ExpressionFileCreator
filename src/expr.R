@@ -130,7 +130,6 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 	if(input.file.name!='') {
 		cel.file.names <- get.cel.file.names(input.file.name)
-		
 		if(clm.input.file!='') {
 			scan.names <- clm$scan.names
 			new.cel.file.names <- vector("character")
@@ -138,7 +137,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			for(scan in scan.names) {
 				s1 <- paste(scan, '.cel', "$",sep='')
 				s2 <- paste(scan, '.cel.gz', "$",sep='')
-				s <- paste(s1, "|", s2, sep="")
+				s <- paste(s1, "|", s2, "|", scan, sep="")
 				index <- grep(s, cel.file.names, ignore.case=TRUE)
 				if(length(index) == 0) {
 					cat(paste("Scan ", scan, "in clm file not found.\n"))

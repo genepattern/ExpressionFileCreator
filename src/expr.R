@@ -104,7 +104,7 @@ parseCmdLine <- function(...) {
 
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, compute.calls, normalization.method, clm.input.file, libdir, row.descriptions.file)  {
 	source(paste(libdir, "common.R", sep=''))
-	DEBUG <<- FALSE
+	DEBUG <<- F
 	info(paste("normalization.method", normalization.method))
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
@@ -453,6 +453,9 @@ install.required.packages <- function(libdir, method) {
 	
 	if(method=='GCRMA' && !is.package.installed(libdir, "matchprobes")) {
 		info("installing matchprobes")
+		if(isMac()) {
+			Sys.putenv(MAKEFLAGS="LIBR= SHLIB_LIBADD= LIBS=")
+		}
 		install.package(libdir, "matchprobes_1.0.22.zip", "matchprobes_1.0.22.tar.gz","matchprobes_1.0.22.tar.gz")
 	}
 	
@@ -463,6 +466,9 @@ install.required.packages <- function(libdir, method) {
 	
 	if(method=='GCRMA' && !is.package.installed(libdir, "gcrma")) {
 		info("installing gcrma")
+		if(isMac()) {
+			Sys.putenv(MAKEFLAGS="LIBR= SHLIB_LIBADD= LIBS=")
+		}
 		install.package(libdir, "gcrma_2.2.1.zip", "gcrma_2.2.1.tar.gz","gcrma_2.2.1.tar.gz")
 	}
 	

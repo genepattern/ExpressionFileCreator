@@ -641,7 +641,7 @@ gp.normalize <- function(struc, method, reference.column=-1, use.p.p.genes=FALSE
 		}
 		data[,j] <- data[,j]*scalingFactors[j]
 		if(!is.null(struc$column.descriptions)) {
-			if(is.null(struc$column.descriptions[j]) || struc$column.descriptions[j]=='') {
+			if(length(struc$column.descriptions[j] <= 0) || struc$column.descriptions[j]=='') {
 				prev <- ''
 			} else {
 				prev <- paste(struc$column.descriptions[j], ", ", sep='')

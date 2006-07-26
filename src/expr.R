@@ -17,6 +17,7 @@ string.to.boolean <- function(s) {
 	return(FALSE)
 }
 
+INTERNAL.USE <<- TRUE
 zip.file.name <- ''
 output.data.file.name <- ''
 clm.input.file <- ''
@@ -120,7 +121,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 
 	library(affy, verbose=FALSE)
-	result <- NULL # data.frame if calls are not computed, else list containing calls and data
+	result <- NULL # list containing data and calls if isRes is true
 	isRes <- compute.calls
 	
 	zipFileGiven <- TRUE
@@ -151,7 +152,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			cel.file.names <- new.cel.file.names
 			info(paste("cel.file.names", cel.file.names))
 		}
-	} else if(clm.input.file!='') {
+	} else if(clm.input.file!='' && INTERNAL.USE) {
 		if(output.file.name=='') {
 			output.file.name <- sub(".clm$", '', clm.input.file, ignore.case=TRUE)
 		}
@@ -207,11 +208,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		if(!is.null(clm$sample.names)) {
 			info("setting names")
 			info(clm$sample.names)
-			if(isRes) {
-				colnames(result$data) <- clm$sample.names
-			} else {
-				colnames(result) <- clm$sample.names	
-			}
+			colnames(result$data) <- clm$sample.names
 		}
 		
 		factor <- clm$factor
@@ -225,60 +222,37 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		}
 			
 	} else {  # remove .cel extension from names
-		if(isRes) {
-			col.names <- colnames(result$data)
-		} else {
-			col.names <- colnames(result)
-		}
-		info(paste("removing .cel extension from sample names", colnames(result)))
+		col.names <- colnames(result$data)		
+		info(paste("removing .cel extension from sample names", colnames(result$data)))
 		col.names <- sub(".[cC][eE][lL].gz$|.[cC][eE][lL]$", "", col.names)
 		info(paste("sample names", col.names))
 		info(paste("isRes", isRes))
-		if(isRes) {
-			colnames(result$data) <- col.names
-		} else {
-			colnames(result) <- col.names
-		}
+		colnames(result$data) <- col.names
 	}
 	
-	
-	includeDescriptionsFromR <- FALSE
 	row.descriptions <- NULL
-	if(includeDescriptionsFromR) {
-		if(!require("annaffy", quietly=TRUE, character.only=TRUE)) {
-			source("http://www.bioconductor.org/getBioC.R")
-			getBioC(pkgs=c("annaffy"), lib=libdir)
-		}
-		library(annaffy)
-		cdf <- cleancdfname(afbatch@cdfName) # e.g "hgu133acdf"
-		cdf <- substring(cdf, 0, nchar(cdf)-3)# remove cdf from end
-		row.descriptions <- aafDescription(row.names(data),chip=cdf)
-		row.descriptions <- sapply(row.descriptions, getText)
+	if(INTERNAL.USE) {
+		cdf <- whatcdf(filename=cel.file.names[1], compress=is.compressed)		
+		try(
+			row.descriptions <- get.internal.row.descriptions(cdf, result$data)
+		)					
 	} else {
 		if(row.descriptions.file!='') {
-			if(isRes) {
-				row.descriptions <- get.row.descriptions(result$data, 	row.descriptions.file)
-			} else {
-				row.descriptions <- get.row.descriptions(result, 	row.descriptions.file)
-			}
+			row.descriptions <- get.row.descriptions(result$data, 	row.descriptions.file)
 		}
 	}
 	
-	if(isRes) {
-		result$row.descriptions <- row.descriptions
-		struc <- result
-		struc$column.descriptions <- vector("character", length=length(ncol(result$data)))
-	} else {
-		struc <- list(data=result, row.descriptions=row.descriptions)		
-	}
+	result$row.descriptions <- row.descriptions
+	result$column.descriptions <- vector("character", length=length(ncol(result$data)))
+
 
 	if(method=='MAS5') {
-		result <- gp.normalize(struc, normalization.method)
+		result <- gp.normalize(result, normalization.method)
 	}
 	if(isRes) {
-		output.data.file.name <<- write.res(struc, output.file.name)
+		output.data.file.name <<- write.res(result, output.file.name)
 	} else {
-		output.data.file.name <<- write.gct(struc, output.file.name)
+		output.data.file.name <<- write.gct(result, output.file.name)
 	}
 	if(clm.input.file!='') { 
 		return(list(output.data.file.name, output.cls.file.name))
@@ -317,12 +291,11 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
    eset@exprs <- 2^eset@exprs # rma produces values that are info scaled
    data <- exprs(eset)
    if(!compute.calls) {
-   	return(data)
+   	return(list(data=data))
    } else {
    	r <- ReadAffy(filenames=cel.files, compress=compressed) 
    	calls <- get.calls(r)
-		res <- list(data=data, calls=calls) 
-		return(res)
+		return(list(data=data, calls=calls)) 
    }
 }
 
@@ -369,12 +342,11 @@ gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) {
    data <- exprs(eset)
    
    if(!compute.calls) {
-   	return(data)
+   	return(list(data=data))
    } else {
    	r <- ReadAffy(filenames=cel.files, compress=compressed) 
    	calls <- get.calls(r)
-		res <- list(data=data, calls=calls) 
-		return(res)
+		return(list(data=data, calls=calls)) 
    }
 }
 
@@ -384,7 +356,7 @@ gp.dchip <- function(cel.file.names, is.compressed, compute.calls=FALSE) {
 	eset <- expresso(afbatch, normalize.method="invariantset", bg.correct=FALSE, pmcorrect.method="pmonly",summary.method="liwong", verbose=FALSE) 
 	data <- exprs(eset)
 	if(!compute.calls) {
-		return(data)
+		return(list(data=data))
 	} else {
 		calls <- get.calls(afbatch)
 		res <- list(data=data, calls=calls) 
@@ -405,7 +377,7 @@ gp.mas5 <- function(cel.file.names, is.compressed, compute.calls) {
 	eset <- mas5(r, normalize=FALSE)
 	data <- exprs(eset)
 	if(!compute.calls) {
-		return(data)
+		return(list(data=data))
 	} else {
 		calls <- get.calls(r)
 		res <- list(data=data, calls=calls) 
@@ -424,7 +396,7 @@ gp.farms <- function(cel.file.names, is.compressed, compute.calls, libdir)  {
 	eset <- exp.farms(r, bgcorrect.method = "none", pmcorrect.method = "pmonly", normalize.method = "quantiles")
 	data <- exprs(eset)
 	if(!compute.calls) {
-		return(data)
+		return(list(data=data))
 	} else {
 		calls <- get.calls(r)
 		res <- list(data=data, calls=calls) 
@@ -653,6 +625,26 @@ gp.normalize <- function(struc, method, reference.column=-1, use.p.p.genes=FALSE
 	return(struc)
 }
 
+get.internal.row.descriptions <- function(cdf, data) {
+	if(!require(annaffy, quietly=TRUE)) {
+		source("http://www.bioconductor.org/getBioC.R")		
+		getBioC(pkgs=c("annaffy"))
+	}
+	library(annaffy)
+	cdf <- tolower(sub("_", "", cdf))
+	if(!require(cdf, quietly=TRUE, character.only=TRUE)) {
+			info(paste("installing", cdf, "..."))
+			source("http://www.bioconductor.org/getBioC.R")		
+			getBioC(pkgs=c(cdf))
+			info(paste(cdf, "installed"))
+	}	
+	affy.descriptions <- aafDescription(row.names(data),chip=cdf)
+	affy.descriptions <- sapply(affy.descriptions, getText)	
+	gene.symbols <- aafSymbol(row.names(data), chip=cdf)
+	gene.symbols <- sapply(gene.symbols, getText)
+	row.descriptions <- paste(affy.descriptions, gene.symbols, sep=", ")	
+	return(row.descriptions)
+}
 
 linear.fit <- function(xpoints, ypoints) {
 	n <- length(xpoints)

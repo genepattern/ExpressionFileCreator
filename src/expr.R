@@ -17,7 +17,7 @@ string.to.boolean <- function(s) {
 	return(FALSE)
 }
 
-INTERNAL.USE <<- TRUE
+INTERNAL.USE <<- F
 zip.file.name <- ''
 output.data.file.name <- ''
 clm.input.file <- ''

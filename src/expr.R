@@ -538,14 +538,15 @@ rank.normalize <- function(data) {
 	return(data)
 }
 
-gp.normalize <- function(struc, method, reference.column=-1, use.p.p.genes=FALSE, sc=500) {
+gp.normalize <- function(dataset, method, reference.column=-1, use.p.p.genes=FALSE, sc=500) {
+	info(paste("scaling with method", method))
 	if(!(method %in% c('none', 'target signal', 'quantile normalization', 'linear fit', 'mean scaling', 'median scaling'))) {
 		stop("Unknown scaling method")
 	}
-	data <- struc$data
-	calls <- struc$calls
+	data <- dataset$data
+	calls <- dataset$calls
 	if(method=="none") {
-		return(struc)
+		return(dataset)
 	}	
 	
 	if(method=='target signal') {
@@ -556,14 +557,14 @@ gp.normalize <- function(struc, method, reference.column=-1, use.p.p.genes=FALSE
         reported.value <- nf * sf * slg
         data[, i] <- reported.value
     	}
-    	struc$data <- data
-    	return(struc) 
+    	dataset$data <- data
+    	return(dataset) 
 	} 
     
 	if(method=="quantile normalization") {
 		data <- normalize.quantiles(data)
-		struc$data <- data
-		return(struc)
+		dataset$data <- data
+		return(dataset)
 	}
 	
 	if(reference.column == -1) {
@@ -612,17 +613,18 @@ gp.normalize <- function(struc, method, reference.column=-1, use.p.p.genes=FALSE
 			next
 		}
 		data[,j] <- data[,j]*scalingFactors[j]
-		if(!is.null(struc$column.descriptions)) {
-			if(length(struc$column.descriptions[j] <= 0) || struc$column.descriptions[j]=='') {
+		if(!is.null(dataset$column.descriptions)) {
+			if(length(dataset$column.descriptions[j] <= 0) || dataset$column.descriptions[j]=='') {
 				prev <- ''
 			} else {
-				prev <- paste(struc$column.descriptions[j], ", ", sep='')
+				prev <- paste(dataset$column.descriptions[j], ", ", sep='')
 			}
-			struc$column.descriptions[j] <- paste(prev, "scale factor=", scalingFactors[j], sep='')
+			dataset$column.descriptions[j] <- paste(prev, "scale factor=", scalingFactors[j], sep='')
 		}
 	}
-	struc$data <- data
-	return(struc)
+	info(scalingFactors)
+	dataset$data <- data
+	return(dataset)
 }
 
 get.internal.row.descriptions <- function(cdf, data) {

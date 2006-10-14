@@ -121,7 +121,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 
 	library(affy, verbose=FALSE)
-	result <- NULL # list containing data and calls if isRes is true
+	dataset <- NULL # list containing data and calls if isRes is true
 	isRes <- compute.calls
 	
 	zipFileGiven <- TRUE
@@ -180,7 +180,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
 		if(method=='dChip') {
 			info("running dChip")
-			result <- gp.dchip(cel.file.names, is.compressed, compute.calls)
+			dataset <- gp.dchip(cel.file.names, is.compressed, compute.calls)
 		} else if(method=='RMA'){
 			info("running rma")
 			info(paste("cel.file.names", cel.file.names))
@@ -188,17 +188,17 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			info(paste("is.compressed", is.compressed))
 			info(paste("quantile.normalization", quantile.normalization))
 			info(paste("background", background))
-			result <- gp.rma(cel.file.names, is.compressed, quantile.normalization, background, compute.calls)
+			dataset <- gp.rma(cel.file.names, is.compressed, quantile.normalization, background, compute.calls)
 		} else if(method=='GCRMA') {
 			library(gcrma, verbose=FALSE)
-			result <- gp.gcrma(cel.file.names, is.compressed, quantile.normalization, compute.calls)
+			dataset <- gp.gcrma(cel.file.names, is.compressed, quantile.normalization, compute.calls)
 		}
 		info(paste("Finished running", method))
 	} else if(method=='MAS5'){
-		result <- gp.mas5(cel.file.names, is.compressed, compute.calls)
+		dataset <- gp.mas5(cel.file.names, is.compressed, compute.calls)
 		info("Finished running mas5")
 	} else if(method=="FARMS") {
-		result <- gp.farms(cel.file.names, is.compressed, compute.calls, libdir)
+		dataset <- gp.farms(cel.file.names, is.compressed, compute.calls, libdir)
 		info("Finished running FARMS")
 	} else {
 		exit('Unknown method')	
@@ -208,7 +208,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		if(!is.null(clm$sample.names)) {
 			info("setting names")
 			info(clm$sample.names)
-			colnames(result$data) <- clm$sample.names
+			colnames(dataset$data) <- clm$sample.names
 		}
 		
 		factor <- clm$factor
@@ -222,37 +222,37 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		}
 			
 	} else {  # remove .cel extension from names
-		col.names <- colnames(result$data)		
-		info(paste("removing .cel extension from sample names", colnames(result$data)))
+		col.names <- colnames(dataset$data)		
+		info(paste("removing .cel extension from sample names", colnames(dataset$data)))
 		col.names <- sub(".[cC][eE][lL].gz$|.[cC][eE][lL]$", "", col.names)
 		info(paste("sample names", col.names))
 		info(paste("isRes", isRes))
-		colnames(result$data) <- col.names
+		colnames(dataset$data) <- col.names
 	}
 	
 	row.descriptions <- NULL
 	if(INTERNAL.USE) {
 		cdf <- whatcdf(filename=cel.file.names[1], compress=is.compressed)		
 		try(
-			row.descriptions <- get.internal.row.descriptions(cdf, result$data)
+			row.descriptions <- get.internal.row.descriptions(cdf, dataset$data)
 		)					
 	} else {
 		if(row.descriptions.file!='') {
-			row.descriptions <- get.row.descriptions(result$data, 	row.descriptions.file)
+			row.descriptions <- get.row.descriptions(dataset$data, 	row.descriptions.file)
 		}
 	}
 	
-	result$row.descriptions <- row.descriptions
-	result$column.descriptions <- vector("character", length=length(ncol(result$data)))
+	dataset$row.descriptions <- row.descriptions
+	dataset$column.descriptions <- vector("character", length=length(ncol(dataset$data)))
 
 
 	if(method=='MAS5') {
-		result <- gp.normalize(result, normalization.method)
+		dataset <- gp.normalize(dataset, normalization.method)
 	}
 	if(isRes) {
-		output.data.file.name <<- write.res(result, output.file.name)
+		output.data.file.name <<- write.res(dataset, output.file.name)
 	} else {
-		output.data.file.name <<- write.gct(result, output.file.name)
+		output.data.file.name <<- write.gct(dataset, output.file.name)
 	}
 	if(clm.input.file!='') { 
 		return(list(output.data.file.name, output.cls.file.name))
@@ -552,10 +552,10 @@ gp.normalize <- function(dataset, method, reference.column=-1, use.p.p.genes=FAL
 	if(method=='target signal') {
 		nf <- 1
 		for (i in 1:ncol(data)) {
-        slg <- data[, i]
-        sf <- sc/mean(slg, trim = 0.02)
-        reported.value <- nf * sf * slg
-        data[, i] <- reported.value
+        	slg <- data[, i]
+        	sf <- sc/mean(slg, trim = 0.02)
+        	reported.value <- nf * sf * slg
+        	data[, i] <- reported.value
     	}
     	dataset$data <- data
     	return(dataset) 

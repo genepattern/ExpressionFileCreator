@@ -252,7 +252,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 
 
 	if(method=='MAS5') {
-		dataset <- gp.normalize(dataset=dataset, normalization.method=normalization.method, value.to.scale.to=value.to.scale.to)
+		dataset <- gp.normalize(dataset=dataset, method=normalization.method, value.to.scale.to=value.to.scale.to)
 	}
 	if(isRes) {
 		output.data.file.name <<- write.res(dataset, output.file.name)

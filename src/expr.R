@@ -580,14 +580,16 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 	
 	if(reference.column == -1) {
 		means <- apply(data, 2, mean)
-		info("means")
-		info(means)
+		#info("means")
+		#info(means)
 		#if(method %in% c('mean scaling', 'median scaling')) {
 		#	value.to.scale.to <- median(means)
 		#} else {
-			median.index <- length(means)/2 + 1
+			median.index <- as.integer(length(means)/2) + 1
+			info(paste("median.index", median.index))
 			reference.column <- which(rank(means, ties="first")==median.index)
 		#}
+		info(paste("reference.column a", reference.column))
 	}
 	if(!is.null(value.to.scale.to) && method %in% c('mean scaling', 'median scaling')) {
 		reference.column <- -1
@@ -641,12 +643,16 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 		}
 		data[,j] <- data[,j]*scalingFactors[j]
 		if(!is.null(dataset$column.descriptions)) {
-			if(length(dataset$column.descriptions[j] <= 0) || dataset$column.descriptions[j]=='') {
+			
+			if(length(dataset$column.descriptions[j]) <= 0 || dataset$column.descriptions[j]=='') {
 				prev <- ''
+				
+				#info(paste("prev ", j, " is empty"))
 			} else {
 				prev <- paste(dataset$column.descriptions[j], ", ", sep='')
+				#info(paste("prev", prev))
 			}
-			dataset$column.descriptions[j] <- paste(prev, "scale factor=", scalingFactors[j], sep='')
+			dataset$column.descriptions[j] <- paste(prev, "scaling factor=", scalingFactors[j], sep='')
 		}
 	}
 	info("scaling factors")

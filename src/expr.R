@@ -546,6 +546,9 @@ rank.normalize <- function(data) {
 # reference.column - reference column to use for scaling. Use median column if -1
 # value.to.scale.to) - if mean/median scaling, scale all column means/medians to this value
 gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to=NULL) {
+	if(reference.column!=-1 && reference.column > NCOL(dataset)) {
+		stop("Invalid reference column")
+	}
 	use.p.p.genes <- F # FIXME
 	info(paste("scaling with method", method))
 	if(!(method %in% c('none', 'target signal', 'quantile normalization', 'linear fit', 'mean scaling', 'median scaling'))) {

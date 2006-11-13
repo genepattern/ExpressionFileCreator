@@ -11,7 +11,7 @@ publicationDate=07/13/2005 14\:43
 quality=production
 taskType=Preprocess & Utilities
 userid=GenePattern
-version=Fixed scaling bug.
+version=Fixes scaling bug.
 name=ExpressionFileCreator
 os=any
 

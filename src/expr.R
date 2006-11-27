@@ -37,11 +37,11 @@ cleanup <- function() {
 
 get.row.descriptions <- function(data, file) {
 	row.descriptions <- vector("character", length=NROW(data))
-	table <- read.table(file, colClasses="character", header=FALSE, sep="\t")
+	table <- read.table(file, colClasses="character", header=FALSE, sep="\t", quote = "", comment.char='',  fill=T)
 	for(i in 1:NROW(table)) {
 		probe <- table[i, 1]
 		index <- which(row.names(data)==probe)
-		if(length(index) > 0 && index > 0) {
+		if(length(index) > 0 && index > 0 && length(table[i,]) >= 2) {
 			row.descriptions[index] <- table[i, 2]
 		}
 	}

@@ -642,15 +642,11 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 			next
 		}
 		data[,j] <- data[,j]*scalingFactors[j]
-		if(!is.null(dataset$column.descriptions)) {
-			
+		if(!is.null(dataset$column.descriptions) && length(dataset$column.descriptions) >= j) {
 			if(length(dataset$column.descriptions[j]) <= 0 || dataset$column.descriptions[j]=='') {
 				prev <- ''
-				
-				#info(paste("prev ", j, " is empty"))
 			} else {
 				prev <- paste(dataset$column.descriptions[j], ", ", sep='')
-				#info(paste("prev", prev))
 			}
 			dataset$column.descriptions[j] <- paste(prev, "scaling factor=", scalingFactors[j], sep='')
 		}

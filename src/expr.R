@@ -98,8 +98,6 @@ parseCmdLine <- function(...) {
    				value.to.scale.to <- as.integer(value)
    			}  			
 		}  else  {
-			cat(args)
-			cat("\n")
 			stop(paste("unknown option", flag, sep=": "), .call=FALSE)
 		} 
 		

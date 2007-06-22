@@ -1,6 +1,6 @@
 # The Broad Institute
 # SOFTWARE COPYRIGHT NOTICE AGREEMENT
-# This software and its documentation are copyright (2003-2006) by the
+# This software and its documentation are copyright (2003-2007) by the
 # Broad Institute/Massachusetts Institute of Technology. All rights are
 # reserved.
 
@@ -291,8 +291,8 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
    info(paste("normalize", normalize))
    info(paste("background", background))
    eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData)   
-   eset@exprs <- 2^eset@exprs # rma produces values that are info scaled
    data <- exprs(eset)
+   data <- 2^data # rma produces values that are log scaled
    if(!compute.calls) {
    	return(list(data=data))
    } else {
@@ -341,9 +341,9 @@ gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) {
       # install.packages2(repEntry=r, pkgs=c(pkg), type=type)
    #}
    eset <- just.gcrma(filenames=cel.files, compress=compressed, normalize=normalize, verbose=TRUE, phenoData=phenoData)   
-   eset@exprs <- 2^eset@exprs # produces values that are log scaled
-   data <- exprs(eset)
    
+   data <- exprs(eset)
+   data <- 2^data # produces values that are log scaled
    if(!compute.calls) {
    	return(list(data=data))
    } else {
@@ -412,39 +412,36 @@ gp.farms <- function(cel.file.names, is.compressed, compute.calls, libdir)  {
 
 install.required.packages <- function(libdir, method) {
 	info(libdir)
-	if(!is.package.installed(libdir, "reposTools")) {
-		info("installing reposTools")
-		install.package(libdir, "reposTools_1.8.0.zip", "reposTools_1.8.0.tar.gz", "reposTools_1.8.0.tar.gz")
-	}
 	
 	if(!is.package.installed(libdir, "Biobase")) {
 		info("installing Biobase")
-		install.package(libdir, "Biobase_1.5.0.zip", "Biobase_1.5.0.tgz", "Biobase_1.5.0.tar.gz")
+		install.package(libdir, "Biobase_1.14.0.zip", "Biobase_1.14.0.tgz", "Biobase_1.14.0.tar.gz")
 	}
+	
+	if(!is.package.installed(libdir, "affyio")) {
+		info("installing affyio")
+		install.package(libdir, "affyio_1.4.0.zip", "affyio_1.4.0.tgz", "affyio_1.4.0.tar.gz")
+	}
+	
 	if(!is.package.installed(libdir, "affy")) {
 		info("installing affy")
-		install.package(libdir, "affy_1.5.8-1.zip", "affy_1.5.8.tgz","affy_1.5.8.tar.gz")
+		install.package(libdir, "affy_1.14.1.zip", "affy_1.14.1.tgz","affy_1.14.1.tar.gz")
 	}	
-	
+
 	if(method=='GCRMA' && !is.package.installed(libdir, "matchprobes")) {
 		info("installing matchprobes")
-		if(isMac()) {
-			Sys.putenv(MAKEFLAGS="LIBR= SHLIB_LIBADD= LIBS=")
-		}
-		install.package(libdir, "matchprobes_1.0.22.zip", "matchprobes_1.0.22.tar.gz","matchprobes_1.0.22.tar.gz")
+		#if(isMac()) {
+		#	Sys.putenv(MAKEFLAGS="LIBR= SHLIB_LIBADD= LIBS=")
+		#}
+		install.package(libdir, "matchprobes_1.8.1.zip", "matchprobes_1.8.1.tgz","matchprobes_1.8.1.tar.gz")
 	}
-	
-#	if(!is.package.installed(libdir, "gcrma")) {
-#		info("installing gcrma")
-#		install.package(libdir, "gcrma_1.1.4.zip", "gcrma_1.1.4.tar.gz","gcrma_1.1.4.tar.gz")
-#	}
-	
+
 	if(method=='GCRMA' && !is.package.installed(libdir, "gcrma")) {
 		info("installing gcrma")
-		if(isMac()) {
-			Sys.putenv(MAKEFLAGS="LIBR= SHLIB_LIBADD= LIBS=")
-		}
-		install.package(libdir, "gcrma_2.2.1.zip", "gcrma_2.2.1.tar.gz","gcrma_2.2.1.tar.gz")
+		#if(isMac()) {
+		#	Sys.putenv(MAKEFLAGS="LIBR= SHLIB_LIBADD= LIBS=")
+		#}
+		install.package(libdir, "gcrma_2.8.1.zip", "gcrma_2.8.1.tgz","gcrma_2.8.1.tar.gz")
 	}
 	
 	

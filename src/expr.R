@@ -29,8 +29,7 @@ cleanup <- function() {
 	files <- dir()
 	for(file in files) {
 		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.info && file!=probe.descriptions.file.name && file!="stdout.txt" && file!="stderr.txt") {
-			info(paste("removing", file))
-         unlink(paste("'", file, "'", sep=''), recursive=TRUE) # XXX directories fail to delete on windows
+         unlink(file, recursive=T)
       }
 	}		
 }
@@ -108,7 +107,7 @@ parseCmdLine <- function(...) {
 
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, compute.calls, normalization.method, clm.input.file, libdir, row.descriptions.file, value.to.scale.to=value.to.scale.to)  {
 	source(paste(libdir, "common.R", sep=''))
-	DEBUG <<- T
+	DEBUG <<- F
 	info(paste("normalization.method", normalization.method))
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup

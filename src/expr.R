@@ -23,7 +23,7 @@ output.data.file.name <- ''
 clm.input.file <- ''
 output.cls.file.name <- ''
 probe.descriptions.file.name <- ''
-exec.info <- 'gp_task_execution_log.txt'
+exec.info <- 'gp_module_execution_log.txt'
 
 cleanup <- function() {
 	files <- dir()
@@ -108,7 +108,7 @@ parseCmdLine <- function(...) {
 
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, compute.calls, normalization.method, clm.input.file, libdir, row.descriptions.file, value.to.scale.to=value.to.scale.to)  {
 	source(paste(libdir, "common.R", sep=''))
-	DEBUG <<- F
+	DEBUG <<- T
 	info(paste("normalization.method", normalization.method))
 	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
@@ -136,17 +136,22 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		cel.file.names <- get.cel.file.names(input.file.name)
 		if(clm.input.file!='') {
 			scan.names <- clm$scan.names
+		
 			new.cel.file.names <- vector("character")
 			i <- 1
 			for(scan in scan.names) {
-				s1 <- paste(scan, '.cel', "$",sep='')
-				s2 <- paste(scan, '.cel.gz', "$",sep='')
-				s <- paste(s1, "|", s2, "|", scan, sep="")
-				index <- grep(s, cel.file.names, ignore.case=TRUE)
+				if(length(grep('cel$', scan, ignore.case=T)) == 0) { # check if scan name ends with .cel
+					s1 <- paste(scan, '.cel', "$",sep='')
+					s2 <- paste(scan, '.cel.gz', "$",sep='')
+					s <- paste(s1, "|", s2, sep="")
+				} else {
+					s <- scan
+				}
+				index <- grep(s, cel.file.names, ignore.case=T)
 				if(length(index) == 0) {
-					cat(paste("Scan ", scan, "in clm file not found.\n"))
+					cat(paste("Scan", scan, "in clm file not found.\n"))
 				} else if(length(index)>1) {
-					cat(paste("Scan ", scan, "in clm file matches more than one CEL file.\n"))
+					cat(paste("Scan", scan, "in clm file matches more than one CEL file.\n"))
 				} else {
 					new.cel.file.names[i] <- cel.file.names[index[1]]
 					i <- i + 1
@@ -216,12 +221,8 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		
 		factor <- clm$factor
 		if(!is.null(factor)) {
-			cls <- list(labels=factor,names=levels(factor))
-			info(paste("cls: ", cls))
-			output.cls.file.name <<- get.cls.file.name(output.file.name)
-			info(paste("saving cls file to", output.cls.file.name))
-			write.cls(cls, output.cls.file.name)
-			info("cls file saved")
+			output.cls.file.name <<- get.cls.file.name(output.file.name)		
+			write.factor.to.cls (factor, output.cls.file.name)
 		}
 			
 	} else {  # remove .cel extension from names
@@ -489,17 +490,12 @@ is.compressed <- function(cel.files) {
 
 
 read.clm <- function(input.file.name) {
-	s <- read.table(input.file.name, colClasses = "character", sep="\t", comment.char="") 
+	s <- read.table(input.file.name, colClasses = "character", sep="\t", comment.char="", quote="", strip.white=T) 
 	columns <- ncol(s)
 	scan.names <- s[,1]
-	sample.names <- NULL
+	sample.names <- NULL # names to use in the gct file instead of the scan name
 	if(columns > 1) {
 		sample.names <- s[,2]
-	}
-	
-	class.names <- NULL
-	if(columns>2) {
-		class.names <- s[, 3]
 	}
 	
 	for(i in 1:length(scan.names)) { # check for duplicate scans
@@ -507,21 +503,16 @@ read.clm <- function(input.file.name) {
 		scan <- scan.names[i]
 		l <- which(scan.names==scan)
 		if(length(l) >= 2) {
-			exit(paste("Duplicate scan:", scan))
+			exit(paste("Duplicate scan name:", scan))
 		}
 	}
 	
-
-	#for(name in names) {
-	#	info(paste("checking if clm file contains:", name))
-	#	if(!(name %in% scans)) {	
-	#		exit(paste("Clm file missing scan", name))	
-	#	}
-	#}
-	info("Finished reading clm file")
+	
 	f <- NULL
 	if(columns > 2) {
+		class.names <- s[, 3]
 		f <- factor(class.names)
+		info("Factor", f)
 	}
 	list("factor"=f, "scan.names"=scan.names , "sample.names"=sample.names)
 }

@@ -109,7 +109,6 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	source(paste(libdir, "common.R", sep=''))
 	DEBUG <<- F
 	info(paste("normalization.method", normalization.method))
-	options("warn"=-1)
 	zip.file.name <<- input.file.name # for cleanup
 	quantile.normalization <- string.to.boolean(quantile.normalization)
 	background <- string.to.boolean(background)
@@ -121,8 +120,10 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		on.exit(cleanup())
 		install.required.packages(libdir, method)
 	}
-
-	library(affy, verbose=FALSE)
+	library(tools)
+	library(Biobase)
+	library(affy)
+	library(affyio)
 	dataset <- NULL # list containing data and calls if isRes is true
 	isRes <- compute.calls
 	

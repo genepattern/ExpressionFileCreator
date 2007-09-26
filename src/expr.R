@@ -120,10 +120,12 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		on.exit(cleanup())
 		install.required.packages(libdir, method)
 	}
+	sink(stdout(), type = "output")
 	library(tools)
 	library(Biobase)
 	library(affy)
 	library(affyio)
+	sink(NULL, type = "output")
 	dataset <- NULL # list containing data and calls if isRes is true
 	isRes <- compute.calls
 	

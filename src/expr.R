@@ -238,9 +238,9 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		if(row.descriptions.file!='') {
 			row.descriptions <- get.row.descriptions(dataset$data, 	row.descriptions.file)
 		} else {
-			cdf <- whatcdf(filename=cel.file.names[1], compress=compressed)
-			cdf <- substring(cdf, 0, nchar(cdf)-3)# remove cdf from end
-			row.descriptions <- get.row.descriptions.chip(dataset$data, cdf, libdir)
+			# cdf <- whatcdf(filename=cel.file.names[1], compress=compressed)
+			# cdf <- substring(cdf, 0, nchar(cdf)-3)# remove cdf from end
+			# row.descriptions <- get.row.descriptions.chip(dataset$data, cdf, libdir)
 		}
 	}
 	

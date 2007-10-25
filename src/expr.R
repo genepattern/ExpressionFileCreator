@@ -34,19 +34,6 @@ cleanup <- function() {
 	}		
 }
 
-get.row.descriptions <- function(data, file) {
-	row.descriptions <- vector("character", length=NROW(data))
-	table <- read.table(file, colClasses="character", header=FALSE, sep="\t", quote = "", comment.char='',  fill=T)
-	for(i in 1:NROW(table)) {
-		probe <- table[i, 1]
-		index <- which(row.names(data)==probe)
-		if(length(index) > 0 && index > 0 && length(table[i,]) >= 2) {
-			row.descriptions[index] <- table[i, 2]
-		}
-	}
-	return(row.descriptions)	
-}
-
 parseCmdLine <- function(...) {
 	args <- list(...)
 	input.file.name <- ''
@@ -108,37 +95,43 @@ parseCmdLine <- function(...) {
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, compute.calls, normalization.method, clm.input.file, libdir, row.descriptions.file, value.to.scale.to=value.to.scale.to)  {
 	source(paste(libdir, "common.R", sep=''))
 	DEBUG <<- F
-	info(paste("normalization.method", normalization.method))
+	info("normalization.method: ", normalization.method)
 	zip.file.name <<- input.file.name # for cleanup
 	quantile.normalization <- string.to.boolean(quantile.normalization)
 	background <- string.to.boolean(background)
 	compute.calls <- string.to.boolean(compute.calls)
 	clm.input.file <<- clm.input.file
-
+	
+	sink(stdout(), type = "output")
+	sink(stdout(), type = "message")
 	if(libdir!='') {
 		setLibPath(libdir)
 		on.exit(cleanup())
 		install.required.packages(libdir, method)
 	}
-	sink(stdout(), type = "output")
+	
 	library(tools)
 	library(Biobase)
 	library(affy)
 	library(affyio)
+	
 	sink(NULL, type = "output")
+	sink(NULL, type = "message")
 	dataset <- NULL # list containing data and calls if isRes is true
 	isRes <- compute.calls
 	
 	zipFileGiven <- TRUE
 	clm <- NULL
 	if(clm.input.file!='') {
+		info("reading clm file...")
 		clm <- read.clm(clm.input.file)
 	}
+	
+	cel.file.names <- NULL
 	if(input.file.name!='') {
-		cel.file.names <- get.cel.file.names(input.file.name)
-		if(clm.input.file!='') {
+		cel.file.names <- get.celfilenames(input.file.name)	
+		if(!is.null(clm)) {
 			scan.names <- clm$scan.names
-		
 			new.cel.file.names <- vector("character")
 			i <- 1
 			for(scan in scan.names) {
@@ -157,11 +150,10 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 				} else {
 					new.cel.file.names[i] <- cel.file.names[index[1]]
 					i <- i + 1
-				}
-			}
+				}	
+			} # for
 			cel.file.names <- new.cel.file.names
-			info(paste("cel.file.names", cel.file.names))
-		}
+		} # clm
 	} else if(clm.input.file!='' && INTERNAL.USE) {
 		if(output.file.name=='') {
 			output.file.name <- sub(".clm$", '', clm.input.file, ignore.case=TRUE)
@@ -185,30 +177,29 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		exit("Either a zip of CEL files or a clm file is required.")
 	}
 	
-	is.compressed <- is.compressed(cel.file.names)
-	
+	compressed <- is.compressed(cel.file.names)
+	info("is.compressed ", compressed)
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
 		if(method=='dChip') {
 			info("running dChip")
-			dataset <- gp.dchip(cel.file.names, is.compressed, compute.calls)
+			dataset <- gp.dchip(cel.file.names, compressed, compute.calls)
 		} else if(method=='RMA'){
 			info("running rma")
 			info(paste("cel.file.names", cel.file.names))
-			info(paste("is.compressed", is.compressed))
-			info(paste("is.compressed", is.compressed))
 			info(paste("quantile.normalization", quantile.normalization))
 			info(paste("background", background))
-			dataset <- gp.rma(cel.file.names, is.compressed, quantile.normalization, background, compute.calls)
+			dataset <- gp.rma(cel.file.names, compressed, quantile.normalization, background, compute.calls)
 		} else if(method=='GCRMA') {
 			library(gcrma, verbose=FALSE)
-			dataset <- gp.gcrma(cel.file.names, is.compressed, quantile.normalization, compute.calls)
+			dataset <- gp.gcrma(cel.file.names, compressed, quantile.normalization, compute.calls)
 		}
 		info(paste("Finished running", method))
 	} else if(method=='MAS5'){
-		dataset <- gp.mas5(cel.file.names, is.compressed, compute.calls)
+		info("running MAS5 with parameters: ", cel.file.names, compressed, compute.calls)
+		dataset <- gp.mas5(cel.file.names, compressed, compute.calls)
 		info("Finished running mas5")
 	} else if(method=="FARMS") {
-		dataset <- gp.farms(cel.file.names, is.compressed, compute.calls, libdir)
+		dataset <- gp.farms(cel.file.names, compressed, compute.calls, libdir)
 		info("Finished running FARMS")
 	} else {
 		exit('Unknown method')	
@@ -238,13 +229,18 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	
 	row.descriptions <- NULL
 	if(INTERNAL.USE) {
-		cdf <- whatcdf(filename=cel.file.names[1], compress=is.compressed)		
+		cdf <- whatcdf(filename=cel.file.names[1], compress=compressed)		
 		try(
-			row.descriptions <- get.internal.row.descriptions(cdf, dataset$data)
+			row.descriptions <- get.row.descriptions.annaffy(cdf, dataset$data)
 		)					
 	} else {
+	
 		if(row.descriptions.file!='') {
 			row.descriptions <- get.row.descriptions(dataset$data, 	row.descriptions.file)
+		} else {
+			cdf <- whatcdf(filename=cel.file.names[1], compress=compressed)
+			cdf <- substring(cdf, 0, nchar(cdf)-3)# remove cdf from end
+			row.descriptions <- get.row.descriptions.chip(dataset$data, cdf, libdir)
 		}
 	}
 	
@@ -356,9 +352,9 @@ gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) {
    }
 }
 
-gp.dchip <- function(cel.file.names, is.compressed, compute.calls=FALSE) {
+gp.dchip <- function(cel.file.names, compressed, compute.calls=FALSE) {
 	info("running dchip")
-	afbatch <- ReadAffy(filenames=cel.file.names, compress=is.compressed)
+	afbatch <- ReadAffy(filenames=cel.file.names, compress=compressed)
 	eset <- expresso(afbatch, normalize.method="invariantset", bg.correct=FALSE, pmcorrect.method="pmonly",summary.method="liwong", verbose=FALSE) 
 	data <- exprs(eset)
 	if(!compute.calls) {
@@ -377,9 +373,9 @@ get.calls <- function(r) {
 	return(calls)
 }
 
-gp.mas5 <- function(cel.file.names, is.compressed, compute.calls) {
-	r <- ReadAffy(filenames=cel.file.names, compress=is.compressed) 
-	info("running mas5...")
+gp.mas5 <- function(cel.file.names, compressed, compute.calls) {
+	r <- read.affybatch(filenames=cel.file.names) 
+	info("Done reading CEL files")
 	eset <- mas5(r, normalize=FALSE)
 	data <- exprs(eset)
 	if(!compute.calls) {
@@ -391,13 +387,13 @@ gp.mas5 <- function(cel.file.names, is.compressed, compute.calls) {
 	}
 }
 
-gp.farms <- function(cel.file.names, is.compressed, compute.calls, libdir)  {
+gp.farms <- function(cel.file.names, compressed, compute.calls, libdir)  {
 	if(!is.package.installed(libdir, "farms")) {
 		info("installing farms")
 		install.package(libdir, "farms.zip", "farms_1.0.0.tar.gz", "farms_1.0.0.tar.gz")
 	}
 	library(farms)
-	r <- ReadAffy(filenames=cel.file.names, compress=is.compressed) 
+	r <- ReadAffy(filenames=cel.file.names, compress=compressed) 
 	info("running farms...")
 	eset <- exp.farms(r, bgcorrect.method = "none", pmcorrect.method = "pmonly", normalize.method = "quantiles")
 	data <- exprs(eset)
@@ -418,7 +414,7 @@ install.required.packages <- function(libdir, method) {
 	
 	if(!is.package.installed(libdir, "Biobase")) {
 		info("installing Biobase")
-		install.package(libdir, "Biobase_1.14.0.zip", "Biobase_1.14.0.tgz", "Biobase_1.14.0.tar.gz")
+		install.package(libdir, "Biobase_1.16.1.zip", "Biobase_1.16.1.tgz", "Biobase_1.16.1.tar.gz")
 	}
 	
 	if(!is.package.installed(libdir, "affyio")) {
@@ -466,7 +462,7 @@ get.cls.file.name <- function(data.output.file.name) {
 	return(paste(data.output.file.name, ".cls", sep=""))
 }
 
-get.cel.file.names <- function(input.file.name) {
+get.celfilenames <- function(input.file.name) {
 	isWindows <- Sys.info()[["sysname"]]=="Windows"
 	if(isWindows) {
 		zip.unpack(input.file.name, dest=getwd())
@@ -475,7 +471,7 @@ get.cel.file.names <- function(input.file.name) {
 		 system(paste(zip, "-q", input.file.name))
 	}
 
-	files <- list.files(recursive=TRUE)
+	files <- list.celfiles(path = ".", recursive=TRUE, full.names=TRUE)
    cel.files <- files[grep(".[cC][eE][lL].gz$|.[cC][eE][lL]$", files)]
 	return(cel.files)
 }
@@ -645,11 +641,43 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 	return(dataset)
 }
 
-get.internal.row.descriptions <- function(cdf, data) {
-	if(!require(annaffy, quietly=TRUE)) {
-		source("http://www.bioconductor.org/getBioC.R")		
-		getBioC(pkgs=c("annaffy"))
+get.row.descriptions <- function(data, file) {
+	row.descriptions <- vector("character", length=NROW(data))
+	table <- read.table(file, colClasses="character", header=FALSE, sep="\t", quote = "", comment.char='',  fill=T)
+	for(i in 1:NROW(table)) {
+		probe <- table[i, 1]
+		index <- which(row.names(data)==probe)
+		if(length(index) > 0 && index > 0 && length(table[i,]) >= 2) {
+			row.descriptions[index] <- table[i, 2]
+		}
 	}
+	return(row.descriptions)	
+}
+
+get.row.descriptions.chip <- function(data, chip, libdir) {
+	f <- paste(chip, ".chip", sep='')
+	info("chip file: ", f)
+	if(!file.exists(f)) {
+		url <- paste("ftp://ftp.broad.mit.edu/pub/gsea/annotations/", f, sep='')
+		try(download.file(url, quiet=T, destfile=paste(libdir, f, sep='')), silent=T)
+	}
+	
+	row.descriptions <- vector("character", length=NROW(data))
+	if(!file.exists(f)) {
+		return(row.descriptions)
+	}
+	table <- read.table(f, colClasses="character", header=T, sep="\t", quote = "", comment.char='',  fill=T)
+	for(i in 1:NROW(table)) {
+		probe <- table[i, 1]
+		index <- which(row.names(data)==probe)
+		if(length(index) > 0 && index > 0 && length(table[i,]) >= 2) {
+			row.descriptions[index] <- paste(table[i, 2], table[i, 3], sep=", ")
+		}
+	}
+	return(row.descriptions)	
+}
+
+get.row.descriptions.annaffy <- function(cdf, data) {
 	library(annaffy)
 	cdf <- tolower(sub("_", "", cdf))
 	if(!require(cdf, quietly=TRUE, character.only=TRUE)) {

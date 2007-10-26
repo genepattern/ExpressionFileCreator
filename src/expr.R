@@ -414,7 +414,7 @@ install.required.packages <- function(libdir, method) {
 	
 	if(!is.package.installed(libdir, "Biobase")) {
 		info("installing Biobase")
-		install.package(libdir, "Biobase_1.16.1.zip", "Biobase_1.16.1.tgz", "Biobase_1.16.1.tar.gz")
+		install.package(libdir, "Biobase_1.14.1.zip", "Biobase_1.14.1.tgz", "Biobase_1.14.1.tar.gz")
 	}
 	
 	if(!is.package.installed(libdir, "affyio")) {

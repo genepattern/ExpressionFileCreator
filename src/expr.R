@@ -115,8 +115,9 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	library(affy)
 	library(affyio)
 	
+	# redirect again b/c download.file (called when reading CEL files) writes to stderr
 	sink(NULL, type = "output")
-	sink(NULL, type = "message")
+	sink(stdout(), type = "message")
 	dataset <- NULL # list containing data and calls if isRes is true
 	isRes <- compute.calls
 	
@@ -289,7 +290,9 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
    
    info(paste("normalize", normalize))
    info(paste("background", background))
+   sink(stdout(), type = "message")
    eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData)   
+   sink(NULL, type = "message")
    data <- exprs(eset)
    data <- 2^data # rma produces values that are log scaled
    if(!compute.calls) {
@@ -354,7 +357,9 @@ gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) {
 
 gp.dchip <- function(cel.file.names, compressed, compute.calls=FALSE) {
 	info("running dchip")
+	sink(stdout(), type = "message")
 	afbatch <- ReadAffy(filenames=cel.file.names, compress=compressed)
+	sink(NULL, type = "message")
 	eset <- expresso(afbatch, normalize.method="invariantset", bg.correct=FALSE, pmcorrect.method="pmonly",summary.method="liwong", verbose=FALSE) 
 	data <- exprs(eset)
 	if(!compute.calls) {
@@ -374,7 +379,9 @@ get.calls <- function(r) {
 }
 
 gp.mas5 <- function(cel.file.names, compressed, compute.calls) {
+	sink(stdout(), type = "message") 
 	r <- read.affybatch(filenames=cel.file.names) 
+	sink(NULL, type = "message")
 	info("Done reading CEL files")
 	eset <- mas5(r, normalize=FALSE)
 	data <- exprs(eset)

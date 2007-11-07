@@ -12,7 +12,7 @@
 			</fileset>
 			
 			<fileset dir="src">
-				<include name="expr.R"/>
+				<include name="*.R"/>
 			</fileset>
 			<fileset dir="lib">
 				<include name="*.tar.gz"/>

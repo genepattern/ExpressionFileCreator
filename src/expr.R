@@ -17,6 +17,10 @@ string.to.boolean <- function(s) {
 	return(FALSE)
 }
 
+message <- function (..., domain = NULL, appendLF = TRUE) {
+
+}
+
 INTERNAL.USE <<- F
 zip.file.name <- ''
 output.data.file.name <- ''
@@ -24,6 +28,7 @@ clm.input.file <- ''
 output.cls.file.name <- ''
 probe.descriptions.file.name <- ''
 exec.info <- 'gp_module_execution_log.txt'
+mycdfenv <<- NULL
 
 cleanup <- function() {
 	files <- dir()
@@ -107,6 +112,11 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	compute.calls <- string.to.boolean(compute.calls)
 	clm.input.file <<- clm.input.file
 	
+	cdf.file <- ''
+	if(cdf.file != '') {
+		mycdfenv <- make.cdf.env(cdf.file)
+		dat@cdfName <- "mycdfenv"
+	}
 	
 	if(libdir!='') {
 		setLibPath(libdir)
@@ -291,13 +301,18 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
    
    info(paste("normalize", normalize))
    info(paste("background", background))
-   eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData)   
+  
+	
+   eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData, cdfname=mycdfenv)   
    data <- exprs(eset)
    data <- 2^data # rma produces values that are log scaled
    if(!compute.calls) {
    	return(list(data=data))
    } else {
    	r <- ReadAffy(filenames=cel.files, compress=compressed) 
+   	if(!is.null(mycdfenv)) {
+   		r@cdfName <- mycdfenv
+   	}
    	calls <- get.calls(r)
 		return(list(data=data, calls=calls)) 
    }
@@ -349,6 +364,9 @@ gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) {
    	return(list(data=data))
    } else {
    	r <- ReadAffy(filenames=cel.files, compress=compressed) 
+   	if(!is.null(mycdfenv)) {
+   		r@cdfName <- mycdfenv
+   	}
    	calls <- get.calls(r)
 		return(list(data=data, calls=calls)) 
    }
@@ -357,6 +375,10 @@ gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) {
 gp.dchip <- function(cel.file.names, compressed, compute.calls=FALSE) {
 	info("running dchip")
 	afbatch <- ReadAffy(filenames=cel.file.names, compress=compressed)
+	if(!is.null(mycdfenv)) {
+   	afbatch@cdfName <- mycdfenv
+   }
+   	
 	eset <- expresso(afbatch, normalize.method="invariantset", bg.correct=FALSE, pmcorrect.method="pmonly",summary.method="liwong", verbose=FALSE) 
 	data <- exprs(eset)
 	if(!compute.calls) {
@@ -396,6 +418,9 @@ gp.farms <- function(cel.file.names, compressed, compute.calls, libdir)  {
 	}
 	library(farms)
 	r <- ReadAffy(filenames=cel.file.names, compress=compressed) 
+	if(!is.null(mycdfenv)) {
+		r@cdfName <- mycdfenv
+	}
 	info("running farms...")
 	eset <- exp.farms(r, bgcorrect.method = "none", pmcorrect.method = "pmonly", normalize.method = "quantiles")
 	data <- exprs(eset)

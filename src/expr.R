@@ -40,6 +40,10 @@ cleanup <- function() {
 }
 
 parseCmdLine <- function(...) {
+	suppressMessages(.parseCmdLine(...))
+}
+
+.parseCmdLine <- function(...) {
 	args <- list(...)
 	input.file.name <- ''
 	output.file.name <- ''

@@ -31,9 +31,11 @@ exec.info <- 'gp_module_execution_log.txt'
 mycdfenv <<- NULL
 
 cleanup <- function() {
+	info("zip.file.name ", zip.file.name)
 	files <- dir()
 	for(file in files) {
 		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.info && file!=probe.descriptions.file.name && file!="stdout.txt" && file!="stderr.txt") {
+         info("deleting ", file)
          unlink(file, recursive=T)
       }
 	}		
@@ -186,7 +188,6 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 				exit(paste("Unable to find scan", cel))
 			}
 			cmd <- paste("bzcat ", bz, " > ", cel, sep='')
-			info(cmd)
 			system(cmd)
 		}
 	} else {
@@ -194,14 +195,10 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 	
 	compressed <- is.compressed(cel.file.names)
-	info("is.compressed ", compressed)
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
 		if(method=='dChip') {
-			info("running dChip")
 			dataset <- gp.dchip(cel.file.names, compressed, compute.calls)
 		} else if(method=='RMA'){
-			info("running rma")
-			info(paste("cel.file.names", cel.file.names))
 			info(paste("quantile.normalization", quantile.normalization))
 			info(paste("background", background))
 			dataset <- gp.rma(cel.file.names, compressed, quantile.normalization, background, compute.calls)
@@ -209,7 +206,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			library(gcrma, verbose=FALSE)
 			dataset <- gp.gcrma(cel.file.names, compressed, quantile.normalization, compute.calls)
 		}
-		info(paste("Finished running", method))
+		
 	} else if(method=='MAS5'){
 		info("running MAS5 with parameters: ", cel.file.names, compressed, compute.calls)
 		dataset <- gp.mas5(cel.file.names, compressed, compute.calls)
@@ -223,7 +220,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	
 	if(!is.null(clm)) { 
 		if(!is.null(clm$sample.names)) {
-			info("setting names")
+			info("setting names to ")
 			info(clm$sample.names)
 			colnames(dataset$data) <- clm$sample.names
 		}
@@ -239,7 +236,6 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		info(paste("removing .cel extension from sample names", colnames(dataset$data)))
 		col.names <- sub(".[cC][eE][lL].gz$|.[cC][eE][lL]$", "", col.names)
 		info(paste("sample names", col.names))
-		info(paste("isRes", isRes))
 		colnames(dataset$data) <- col.names
 	}
 	
@@ -302,11 +298,7 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
    n <- length(cel.files)
 	pdata <- data.frame(sample = 1:n, row.names = samplenames)
 	phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
-   
-   info(paste("normalize", normalize))
-   info(paste("background", background))
-  
-	
+   	
    eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData, cdfname=mycdfenv)   
    data <- exprs(eset)
    data <- 2^data # rma produces values that are log scaled
@@ -403,7 +395,6 @@ get.calls <- function(r) {
 
 gp.mas5 <- function(cel.file.names, compressed, compute.calls) {
 	r <- read.affybatch(filenames=cel.file.names) 
-	info("Done reading CEL files")
 	eset <- mas5(r, normalize=FALSE)
 	data <- exprs(eset)
 	if(!compute.calls) {
@@ -441,7 +432,7 @@ gp.farms <- function(cel.file.names, compressed, compute.calls, libdir)  {
 # MISC FUNCTIONS
 
 install.required.packages <- function(libdir, method) {
-	info(libdir)
+	info("libdir ", libdir)
 	
 	if(!is.package.installed(libdir, "Biobase")) {
 		info("installing Biobase")
@@ -595,8 +586,6 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 	
 	if(reference.column == -1) {
 		means <- apply(data, 2, mean)
-		#info("means")
-		#info(means)
 		#if(method %in% c('mean scaling', 'median scaling')) {
 		#	value.to.scale.to <- median(means)
 		#} else {
@@ -604,7 +593,7 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 			info(paste("median.index", median.index))
 			reference.column <- which(rank(means, ties="first")==median.index)
 		#}
-		info(paste("reference.column a", reference.column))
+		info(paste("reference.column ", reference.column))
 	}
 	if(!is.null(value.to.scale.to) && method %in% c('mean scaling', 'median scaling')) {
 		reference.column <- -1

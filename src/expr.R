@@ -21,7 +21,6 @@ message <- function (..., domain = NULL, appendLF = TRUE) {
 
 }
 
-INTERNAL.USE <<- F
 zip.file.name <- ''
 output.data.file.name <- ''
 clm.input.file <- ''
@@ -172,24 +171,6 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			} # for
 			cel.file.names <- new.cel.file.names
 		} # clm
-	} else if(clm.input.file!='' && INTERNAL.USE) {
-		if(output.file.name=='') {
-			output.file.name <- sub(".clm$", '', clm.input.file, ignore.case=TRUE)
-		}
-			
-		zipFileGiven <- FALSE
-		scan.names <- clm$scan.names
-		cel.file.names <- paste(scan.names, ".CEL", sep='')
-		bzip.names <- paste("/xchip/data/Affy/Genechip/RawCelFiles/", cel.file.names, ".bz2", sep='')
-		for(i in 1:length(bzip.names)) {
-			bz <- bzip.names[i]
-			cel <- cel.file.names[i]
-			if(!file.exists(bz)) {
-				exit(paste("Unable to find scan", cel))
-			}
-			cmd <- paste("bzcat ", bz, " > ", cel, sep='')
-			system(cmd)
-		}
 	} else {
 		exit("Either a zip of CEL files or a clm file is required.")
 	}
@@ -240,20 +221,13 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 	
 	row.descriptions <- NULL
-	if(INTERNAL.USE) {
-		cdf <- whatcdf(filename=cel.file.names[1], compress=compressed)		
-		try(
-			row.descriptions <- get.row.descriptions.annaffy(cdf, dataset$data)
-		)					
+
+	if(row.descriptions.file!='') {
+		row.descriptions <- get.row.descriptions(dataset$data, 	row.descriptions.file)
 	} else {
-	
-		if(row.descriptions.file!='') {
-			row.descriptions <- get.row.descriptions(dataset$data, 	row.descriptions.file)
-		} else {
-			# cdf <- whatcdf(filename=cel.file.names[1], compress=compressed)
-			# cdf <- substring(cdf, 0, nchar(cdf)-3)# remove cdf from end
-			# row.descriptions <- get.row.descriptions.chip(dataset$data, cdf, libdir)
-		}
+		# cdf <- whatcdf(filename=cel.file.names[1], compress=compressed)
+		# cdf <- substring(cdf, 0, nchar(cdf)-3)# remove cdf from end
+		# row.descriptions <- get.row.descriptions.chip(dataset$data, cdf, libdir)
 	}
 	
 	dataset$row.descriptions <- row.descriptions

@@ -55,7 +55,6 @@ parseCmdLine <- function(...) {
 	normalization.method <- ''
 	libdir <- ''
 	clm.input.file <- ''
-	row.descriptions.file <- ''
 	value.to.scale.to <- NULL
 	for(i in 1:length(args)) {
 		flag <- substring(args[[i]], 0, 2)
@@ -82,9 +81,6 @@ parseCmdLine <- function(...) {
 			clm.input.file <- value
 		} else if(flag=='-l') {
 			libdir <- value
-		} else if(flag=='-r') {
-			row.descriptions.file <- value
-			probe.descriptions.file.name <<- value # for cleanup
 		} else if(flag=='-a') {
 			if (value !='' && .Platform$OS.type == "windows") {
       			memory.limit(size=as.numeric(value))
@@ -98,11 +94,11 @@ parseCmdLine <- function(...) {
 		} 
 		
 	}
-	create.expression.file(input.file.name=input.file.name, output.file.name=output.file.name, method=method, quantile.normalization=quantile.normalization, background=background, compute.calls=compute.calls, normalization.method=normalization.method, clm.input.file=clm.input.file, libdir=libdir, row.descriptions.file=row.descriptions.file, value.to.scale.to=value.to.scale.to)
+	create.expression.file(input.file.name=input.file.name, output.file.name=output.file.name, method=method, quantile.normalization=quantile.normalization, background=background, compute.calls=compute.calls, normalization.method=normalization.method, clm.input.file=clm.input.file, libdir=libdir, value.to.scale.to=value.to.scale.to)
 
 }
 
-create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, compute.calls, normalization.method, clm.input.file, libdir, row.descriptions.file, value.to.scale.to=value.to.scale.to)  {
+create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, compute.calls, normalization.method, clm.input.file, libdir, value.to.scale.to=value.to.scale.to)  {
 	source(paste(libdir, "common.R", sep=''))
 	source(paste(libdir, "packages.R", sep=''))
 	source(paste(libdir, "packages2.R", sep=''))
@@ -220,17 +216,11 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		colnames(dataset$data) <- col.names
 	}
 	
-	row.descriptions <- NULL
-
-	if(row.descriptions.file!='') {
-		row.descriptions <- get.row.descriptions(dataset$data, 	row.descriptions.file)
-	} else {
-		# cdf <- whatcdf(filename=cel.file.names[1], compress=compressed)
-		# cdf <- substring(cdf, 0, nchar(cdf)-3)# remove cdf from end
-		# row.descriptions <- get.row.descriptions.chip(dataset$data, cdf, libdir)
+	cdf <- whatcdf(filename=cel.file.names[1], compress=compressed)
+	row.descriptions <- get.row.descriptions.csv(dataset$data, cdf, libdir)
+	if(!is.null(row.descriptions) && row.descriptions!='') {
+		dataset$row.descriptions <- row.descriptions
 	}
-	
-	dataset$row.descriptions <- row.descriptions
 	dataset$column.descriptions <- vector("character", length=length(ncol(dataset$data)))
 
 
@@ -648,27 +638,33 @@ get.row.descriptions <- function(data, file) {
 	return(row.descriptions)	
 }
 
-get.row.descriptions.chip <- function(data, chip, libdir) {
-	f <- paste(chip, ".chip", sep='')
-	info("chip file: ", f)
-	if(!file.exists(f)) {
-		url <- paste("ftp://ftp.broad.mit.edu/pub/gsea/annotations/", f, sep='')
-		try(download.file(url, quiet=T, destfile=paste(libdir, f, sep='')), silent=T)
+get.row.descriptions.csv <- function(data, cdf, libdir) {
+	file.name <- paste(cdf, ".zip", sep='')
+	url <- paste("ftp://ftp.broad.mit.edu/pub/gsea/annotations/", file.name, sep='')
+	
+	on.exit(unlink(file.name))
+	try(download.file(url, quiet=T, destfile=file.name, silent=T)
+	if(!file.exists(file.name)) {
+		return(NULL)
 	}
 	
-	row.descriptions <- vector("character", length=NROW(data))
-	if(!file.exists(f)) {
-		return(row.descriptions)
+	rc <- .Internal(int.unzip(file.path(getwd(), file.name), NULL, getwd()))
+	csv.file <- rc@extracted
+	on.exit(unlink(csv.file))
+	t <- read.table(row.names=1, file=csv.file, header=F, quote='"', comment.char='', fill=T, sep=",")
+	probeids <- row.names(data)
+	result <- vector("list", length(probeids))
+	for(probe in probeids) {
+		row <- t[probe,]
+		ann <- NULL
+		if(is.na(row)[[1]])
+            ann <- character(0)
+        else {
+        	ann <- paste(row[[13]],", ", row[[14]], sep='')
+        }
+        result[[i]] <- ann
 	}
-	table <- read.table(f, colClasses="character", header=T, sep="\t", quote = "", comment.char='',  fill=T)
-	for(i in 1:NROW(table)) {
-		probe <- table[i, 1]
-		index <- which(row.names(data)==probe)
-		if(length(index) > 0 && index > 0 && length(table[i,]) >= 2) {
-			row.descriptions[index] <- paste(table[i, 2], table[i, 3], sep=", ")
-		}
-	}
-	return(row.descriptions)	
+	return(result)	
 }
 
 get.row.descriptions.annaffy <- function(cdf, data) {

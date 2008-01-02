@@ -1,5 +1,5 @@
 author=Joshua Gould, gp-help@broad.mit.edu, Broad Institute
-commandLine=<R2.5> <libdir>expr.R parseCmdLine -i<input.file> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct>  -c<compute.present.absent.calls> -n<normalization.method> -l<libdir> -f<clm.file> -r<probe.descriptions.file> -v<value.to.scale.to>
+commandLine=<R2.5> <libdir>expr.R parseCmdLine -i<input.file> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct>  -c<compute.present.absent.calls> -n<normalization.method> -l<libdir> -f<clm.file> -v<value.to.scale.to>
 
 requiredPatchLSIDs=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.server.patch\:00009\:1
 requiredPatchURLs=http://www.broad.mit.edu/webservices/gpModuleRepository/download/prod/patch/?file=/R_2_5_Check/broad.mit.edu:cancer.software.genepattern.server.patch/00009/1/R2_5.zip
@@ -19,7 +19,7 @@ name=ExpressionFileCreator
 os=any
 
 p1_default_value=
-p1_description=A zip file containing CEL files or gzipped CEL files
+p1_description=A zip file containing CEL files
 p1_fileFormat=zip
 p1_MODE=IN
 p1_name=input.file
@@ -88,24 +88,10 @@ p8_TYPE=FILE
 p8_type=java.io.File
 p8_value=
 
-p9_default_value=
-p9_description=A tab-delimited text file containing one probe set ID and one description per line. Leave blank to use default descriptions for Human chips. 
-p9_fileFormat=
-p9_MODE=IN
-p9_name=probe.descriptions.file
-p9_optional=on
+p9_default_value=<input.file_basename>
+p9_description=The base name of the output file
+p9_name=output.file
+p9_optional=
 p9_prefix_when_specified=
-p9_TYPE=FILE
-p9_type=java.io.File
+p9_type=java.lang.String
 p9_value=
-
-p10_default_value=<input.file_basename>
-p10_description=The base name of the output file
-p10_name=output.file
-p10_optional=
-p10_prefix_when_specified=
-p10_type=java.lang.String
-p10_value=
-
-
-

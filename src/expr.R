@@ -55,6 +55,7 @@ parseCmdLine <- function(...) {
 	normalization.method <- ''
 	libdir <- ''
 	clm.input.file <- ''
+	annotate.probes <- ''
 	value.to.scale.to <- NULL
 	for(i in 1:length(args)) {
 		flag <- substring(args[[i]], 0, 2)
@@ -81,24 +82,22 @@ parseCmdLine <- function(...) {
 			clm.input.file <- value
 		} else if(flag=='-l') {
 			libdir <- value
-		} else if(flag=='-a') {
-			if (value !='' && .Platform$OS.type == "windows") {
-      			memory.limit(size=as.numeric(value))
-   			}
    		} else if(flag=='-v') {
    			if(value!='') {
    				value.to.scale.to <- as.integer(value)
-   			}  			
+   			}  	
+   		} else if(flag=='-a') {
+   			annotate.probes <- value
 		}  else  {
 			stop(paste("unknown option", flag, sep=": "), .call=FALSE)
 		} 
 		
 	}
-	create.expression.file(input.file.name=input.file.name, output.file.name=output.file.name, method=method, quantile.normalization=quantile.normalization, background=background, compute.calls=compute.calls, normalization.method=normalization.method, clm.input.file=clm.input.file, libdir=libdir, value.to.scale.to=value.to.scale.to)
+	create.expression.file(input.file.name=input.file.name, output.file.name=output.file.name, method=method, quantile.normalization=quantile.normalization, background=background, compute.calls=compute.calls, normalization.method=normalization.method, clm.input.file=clm.input.file, libdir=libdir, value.to.scale.to=value.to.scale.to, annotate.probes=annotate.probes)
 
 }
 
-create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, compute.calls, normalization.method, clm.input.file, libdir, value.to.scale.to=value.to.scale.to)  {
+create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, compute.calls, normalization.method, clm.input.file, libdir, value.to.scale.to, annotate.probes)  {
 	source(paste(libdir, "common.R", sep=''))
 	source(paste(libdir, "packages.R", sep=''))
 	source(paste(libdir, "packages2.R", sep=''))
@@ -111,6 +110,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	quantile.normalization <- string.to.boolean(quantile.normalization)
 	background <- string.to.boolean(background)
 	compute.calls <- string.to.boolean(compute.calls)
+	annotate.probes <- string.to.boolean(annotate.probes)
 	clm.input.file <<- clm.input.file
 	
 	cdf.file <- ''
@@ -216,13 +216,15 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		colnames(dataset$data) <- col.names
 	}
 	
-	cdf <- whatcdf(filename=cel.file.names[1], compress=compressed)
-	row.descriptions <- get.row.descriptions.csv(dataset$data, cdf, libdir)
-	if(!is.null(row.descriptions) && row.descriptions!='') {
-		dataset$row.descriptions <- row.descriptions
+	if(annotate.probes) {
+		cdf <- whatcdf(filename=cel.file.names[1], compress=compressed)
+		row.descriptions <- try(get.row.descriptions.csv(dataset$data, cdf))
+		if(!is.null(row.descriptions) && class(row.descriptions)!="try-error" && row.descriptions!='') {
+			dataset$row.descriptions <- row.descriptions
+		}
 	}
+	
 	dataset$column.descriptions <- vector("character", length=length(ncol(dataset$data)))
-
 
 	if(method=='MAS5') {
 		dataset <- gp.normalize(dataset=dataset, method=normalization.method, value.to.scale.to=value.to.scale.to)
@@ -638,22 +640,26 @@ get.row.descriptions <- function(data, file) {
 	return(row.descriptions)	
 }
 
-get.row.descriptions.csv <- function(data, cdf, libdir) {
-	file.name <- paste(cdf, ".zip", sep='')
-	url <- paste("ftp://ftp.broad.mit.edu/pub/gsea/annotations/", file.name, sep='')
-	
-	on.exit(unlink(file.name))
-	try(download.file(url, quiet=T, destfile=file.name, silent=T)
-	if(!file.exists(file.name)) {
-		return(NULL)
+get.row.descriptions.csv <- function(data, cdf, file=NULL) {
+	if(is.null(file)) {
+		file.name <- paste(cdf, ".zip", sep='')
+		url <- paste("ftp://ftp.broad.mit.edu/pub/genepattern/csv/Affymetrix/", file.name, sep='')
+		on.exit(unlink(file.name))
+		try(download.file(url, quiet=T, destfile=file.name))
+		if(!file.exists(file.name)) {
+			cat(paste("No annotations found for chip ", cdf, "\n", sep=''))
+			return(NULL)
+		}
+		rc <- .Internal(int.unzip(file.path(getwd(), file.name), NULL, getwd()))
+		csv.file <- rc@extracted
+		on.exit(unlink(csv.file))
+	} else {
+		csv.file <- file
 	}
-	
-	rc <- .Internal(int.unzip(file.path(getwd(), file.name), NULL, getwd()))
-	csv.file <- rc@extracted
-	on.exit(unlink(csv.file))
 	t <- read.table(row.names=1, file=csv.file, header=F, quote='"', comment.char='', fill=T, sep=",")
 	probeids <- row.names(data)
-	result <- vector("list", length(probeids))
+	result <- vector("character", length(probeids))
+	i <- 1
 	for(probe in probeids) {
 		row <- t[probe,]
 		ann <- NULL
@@ -661,8 +667,13 @@ get.row.descriptions.csv <- function(data, cdf, libdir) {
             ann <- character(0)
         else {
         	ann <- paste(row[[13]],", ", row[[14]], sep='')
+        	cat(ann)
+        	if(ann == ', ') {
+        		ann <- ''
+        	}
         }
         result[[i]] <- ann
+        i <- i + 1
 	}
 	return(result)	
 }

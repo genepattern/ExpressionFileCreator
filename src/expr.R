@@ -667,7 +667,6 @@ get.row.descriptions.csv <- function(data, cdf, file=NULL) {
             ann <- character(0)
         else {
         	ann <- paste(row[[13]],", ", row[[14]], sep='')
-        	cat(ann)
         	if(ann == ', ') {
         		ann <- ''
         	}

@@ -30,11 +30,9 @@ exec.info <- 'gp_module_execution_log.txt'
 mycdfenv <<- NULL
 
 cleanup <- function() {
-	info("zip.file.name ", zip.file.name)
 	files <- dir()
 	for(file in files) {
 		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.info && file!=probe.descriptions.file.name && file!="stdout.txt" && file!="stderr.txt") {
-         info("deleting ", file)
          unlink(file, recursive=T)
       }
 	}		
@@ -105,7 +103,6 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	source(paste(libdir, "install.packages.mac.R", sep=''))
 
 	DEBUG <<- F
-	info("normalization.method: ", normalization.method)
 	zip.file.name <<- input.file.name # for cleanup
 	quantile.normalization <- string.to.boolean(quantile.normalization)
 	background <- string.to.boolean(background)
@@ -133,10 +130,8 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	dataset <- NULL # list containing data and calls if isRes is true
 	isRes <- compute.calls
 	
-	zipFileGiven <- TRUE
 	clm <- NULL
 	if(clm.input.file!='') {
-		info("reading clm file...")
 		clm <- read.clm(clm.input.file)
 	}
 	
@@ -176,8 +171,6 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		if(method=='dChip') {
 			dataset <- gp.dchip(cel.file.names, compressed, compute.calls)
 		} else if(method=='RMA'){
-			info(paste("quantile.normalization", quantile.normalization))
-			info(paste("background", background))
 			dataset <- gp.rma(cel.file.names, compressed, quantile.normalization, background, compute.calls)
 		} else if(method=='GCRMA') {
 			library(gcrma, verbose=FALSE)
@@ -185,20 +178,15 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		}
 		
 	} else if(method=='MAS5'){
-		info("running MAS5 with parameters: ", cel.file.names, compressed, compute.calls)
 		dataset <- gp.mas5(cel.file.names, compressed, compute.calls)
-		info("Finished running mas5")
 	} else if(method=="FARMS") {
 		dataset <- gp.farms(cel.file.names, compressed, compute.calls, libdir)
-		info("Finished running FARMS")
 	} else {
 		exit('Unknown method')	
 	}
 	
 	if(!is.null(clm)) { 
 		if(!is.null(clm$sample.names)) {
-			info("setting names to ")
-			info(clm$sample.names)
 			colnames(dataset$data) <- clm$sample.names
 		}
 		
@@ -210,9 +198,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			
 	} else {  # remove .cel extension from names
 		col.names <- colnames(dataset$data)		
-		info(paste("removing .cel extension from sample names", colnames(dataset$data)))
 		col.names <- sub(".[cC][eE][lL].gz$|.[cC][eE][lL]$", "", col.names)
-		info(paste("sample names", col.names))
 		colnames(dataset$data) <- col.names
 	}
 	
@@ -257,10 +243,8 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
    #       background given in affy version 1.1 and above
 	
 gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=FALSE) {
-	info("creating samplenames")
 	samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files), 
             extended = TRUE)
-   info(paste("samplenames", samplenames))
    n <- length(cel.files)
 	pdata <- data.frame(sample = 1:n, row.names = samplenames)
 	phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
@@ -283,10 +267,8 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
 
 
 gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) { 
-	info("creating samplenames")
 	samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files), 
             extended = TRUE)
-   info(paste("samplenames", samplenames))
    n <- length(cel.files)
 	pdata <- data.frame(sample = 1:n, row.names = samplenames)
 	phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
@@ -335,7 +317,6 @@ gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) {
 }
 
 gp.dchip <- function(cel.file.names, compressed, compute.calls=FALSE) {
-	info("running dchip")
 	afbatch <- ReadAffy(filenames=cel.file.names, compress=compressed)
 	if(!is.null(mycdfenv)) {
    	afbatch@cdfName <- mycdfenv
@@ -374,7 +355,6 @@ gp.mas5 <- function(cel.file.names, compressed, compute.calls) {
 
 gp.farms <- function(cel.file.names, compressed, compute.calls, libdir)  {
 	if(!is.package.installed(libdir, "farms")) {
-		info("installing farms")
 		install.package(libdir, "farms.zip", "farms_1.0.0.tar.gz", "farms_1.0.0.tar.gz")
 	}
 	library(farms)
@@ -382,7 +362,6 @@ gp.farms <- function(cel.file.names, compressed, compute.calls, libdir)  {
 	if(!is.null(mycdfenv)) {
 		r@cdfName <- mycdfenv
 	}
-	info("running farms...")
 	eset <- exp.farms(r, bgcorrect.method = "none", pmcorrect.method = "pmonly", normalize.method = "quantiles")
 	data <- exprs(eset)
 	if(!compute.calls) {
@@ -398,25 +377,20 @@ gp.farms <- function(cel.file.names, compressed, compute.calls, libdir)  {
 # MISC FUNCTIONS
 
 install.required.packages <- function(libdir, method) {
-	info("libdir ", libdir)
 	
 	if(!is.package.installed(libdir, "Biobase")) {
-		info("installing Biobase")
 		install.package(libdir, "Biobase_1.14.1.zip", "Biobase_1.14.1.tgz", "Biobase_1.14.1.tar.gz")
 	}
 	
 	if(!is.package.installed(libdir, "affyio")) {
-		info("installing affyio")
 		install.package(libdir, "affyio_1.4.0.zip", "affyio_1.4.0.tgz", "affyio_1.4.0.tar.gz")
 	}
 	
 	if(!is.package.installed(libdir, "affy")) {
-		info("installing affy")
 		install.package(libdir, "affy_1.14.1.zip", "affy_1.14.1.tgz","affy_1.14.1.tar.gz")
 	}	
 
 	if(method=='GCRMA' && !is.package.installed(libdir, "matchprobes")) {
-		info("installing matchprobes")
 		#if(isMac()) {
 		#	Sys.putenv(MAKEFLAGS="LIBR= SHLIB_LIBADD= LIBS=")
 		#}
@@ -424,7 +398,6 @@ install.required.packages <- function(libdir, method) {
 	}
 
 	if(method=='GCRMA' && !is.package.installed(libdir, "gcrma")) {
-		info("installing gcrma")
 		#if(isMac()) {
 		#	Sys.putenv(MAKEFLAGS="LIBR= SHLIB_LIBADD= LIBS=")
 		#}
@@ -498,7 +471,6 @@ read.clm <- function(input.file.name) {
 	if(columns > 2) {
 		class.names <- s[, 3]
 		f <- factor(class.names)
-		info("Factor", f)
 	}
 	list("factor"=f, "scan.names"=scan.names , "sample.names"=sample.names)
 }
@@ -522,7 +494,6 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 		stop("Invalid reference column")
 	}
 	use.p.p.genes <- F # FIXME
-	info(paste("scaling with method", method))
 	if(!(method %in% c('none', 'target signal', 'quantile normalization', 'linear fit', 'mean scaling', 'median scaling'))) {
 		stop("Unknown scaling method")
 	}
@@ -556,15 +527,13 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 		#	value.to.scale.to <- median(means)
 		#} else {
 			median.index <- as.integer(length(means)/2) + 1
-			info(paste("median.index", median.index))
 			reference.column <- which(rank(means, ties="first")==median.index)
 		#}
-		info(paste("reference.column ", reference.column))
 	}
 	if(!is.null(value.to.scale.to) && method %in% c('mean scaling', 'median scaling')) {
 		reference.column <- -1
 	}
-	info(paste("reference.column", reference.column))
+	
 	scalingFactors <- vector(mode="numeric", length=NCOL(data));
 	scalingFactors[reference.column] <- 1;
 	row.indices <- matrix(TRUE, nrow=nrow(data), ncol=ncol(data))
@@ -621,8 +590,6 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 			dataset$column.descriptions[j] <- paste(prev, "scaling factor=", scalingFactors[j], sep='')
 		}
 	}
-	info("scaling factors")
-	info(scalingFactors)
 	dataset$data <- data
 	return(dataset)
 }
@@ -640,23 +607,39 @@ get.row.descriptions <- function(data, file) {
 	return(row.descriptions)	
 }
 
-get.row.descriptions.csv <- function(data, cdf, file=NULL) {
-	if(is.null(file)) {
+# data - matrix 
+# cdf - the cdf file for data
+# file.name - csv zip file or NULL to download from ftp site
+
+get.row.descriptions.csv <- function(data, cdf,file.name=NULL) {
+
+	if(is.null(file.name)) {
 		file.name <- paste(cdf, ".zip", sep='')
 		url <- paste("ftp://ftp.broad.mit.edu/pub/genepattern/csv/Affymetrix/", file.name, sep='')
 		on.exit(unlink(file.name))
-		try(download.file(url, quiet=T, destfile=file.name))
+		try(download.file(url, quiet=T, destfile=file.name, mode="wb"))
 		if(!file.exists(file.name)) {
 			cat(paste("No annotations found for chip ", cdf, "\n", sep=''))
 			return(NULL)
 		}
+	}
+	
+	isWindows <- Sys.info()[["sysname"]]=="Windows"
+	
+	if(isWindows) {
+		rc <- zip.unpack(file.name, dest=getwd())
+		csv.file <- rc@extracted
+	} else {
 		rc <- .Internal(int.unzip(file.path(getwd(), file.name), NULL, getwd()))
 		csv.file <- rc@extracted
-		on.exit(unlink(csv.file))
-	} else {
-		csv.file <- file
 	}
+	
+	on.exit(unlink(csv.file))
+	
+	info("reading csv file...")
+	info(file.exists(csv.file))
 	t <- read.table(row.names=1, file=csv.file, header=F, quote='"', comment.char='', fill=T, sep=",")
+	info("Read csv file")
 	probeids <- row.names(data)
 	result <- vector("character", length(probeids))
 	i <- 1

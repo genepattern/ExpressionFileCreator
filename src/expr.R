@@ -608,12 +608,11 @@ get.row.descriptions <- function(data, file) {
 }
 
 # data - matrix 
-# cdf - the cdf file for data
-# file.name - csv zip file or NULL to download from ftp site
-
-get.row.descriptions.csv <- function(data, cdf,file.name=NULL) {
-
-	if(is.null(file.name)) {
+# cdf - the cdf file for data, used to construct the URL to download
+# file.name - csv zip file
+# t - result of read.table(csv)
+get.row.descriptions.csv <- function(data, cdf,file.name, t=NULL) {
+	if(is.null(t)) {
 		file.name <- paste(cdf, ".zip", sep='')
 		url <- paste("ftp://ftp.broad.mit.edu/pub/genepattern/csv/Affymetrix/", file.name, sep='')
 		on.exit(unlink(file.name))
@@ -622,28 +621,21 @@ get.row.descriptions.csv <- function(data, cdf,file.name=NULL) {
 			cat(paste("No annotations found for chip ", cdf, "\n", sep=''))
 			return(NULL)
 		}
+		isWindows <- Sys.info()[["sysname"]]=="Windows"
+		if(isWindows) {
+			rc <- zip.unpack(file.name, dest=getwd())
+			csv.file <- rc@extracted
+       	} else {
+			rc <- .Internal(int.unzip(file.path(getwd(), file.name), NULL, getwd()))
+		}
+		
+		csv.file <- rc@extracted	
+		on.exit(unlink(csv.file))
+		t <- as.matrix(read.table(row.names=1, file=csv.file, header=F, quote='"', comment.char='', fill=T, sep=","))
 	}
-	
-	isWindows <- Sys.info()[["sysname"]]=="Windows"
-	
-	if(isWindows) {
-		rc <- zip.unpack(file.name, dest=getwd())
-		csv.file <- rc@extracted
-	} else {
-		rc <- .Internal(int.unzip(file.path(getwd(), file.name), NULL, getwd()))
-		csv.file <- rc@extracted
-	}
-	
-	on.exit(unlink(csv.file))
-	
-	info("reading csv file...")
-	info(file.exists(csv.file))
-	t <- read.table(row.names=1, file=csv.file, header=F, quote='"', comment.char='', fill=T, sep=",")
-	info("Read csv file")
+
 	probeids <- row.names(data)
-	result <- vector("character", length(probeids))
-	i <- 1
-	for(probe in probeids) {
+	get.ann <- function(probe) {
 		row <- t[probe,]
 		ann <- NULL
 		if(is.na(row)[[1]])
@@ -654,9 +646,10 @@ get.row.descriptions.csv <- function(data, cdf,file.name=NULL) {
         		ann <- ''
         	}
         }
-        result[[i]] <- ann
-        i <- i + 1
+        ann
 	}
+	
+	result <- lapply(probeids, get.ann)
 	return(result)	
 }
 

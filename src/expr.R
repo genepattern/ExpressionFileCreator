@@ -88,7 +88,7 @@ parseCmdLine <- function(...) {
    			}  	
    		} else if(flag=='-a') {
    			annotate.probes <- value
-   		} else if(flag=='u') {
+   		} else if(flag=='-e') {
    			cdf.file <<- value
 		}  else {
 			stop(paste("unknown flag ", flag, " value ", value, sep=""), .call=FALSE)

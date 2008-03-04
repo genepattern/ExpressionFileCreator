@@ -1,22 +1,22 @@
+#Tue Mar 04 15:47:12 EST 2008
 author=Joshua Gould, gp-help@broad.mit.edu, Broad Institute
-commandLine=<R2.5> <libdir>expr.R parseCmdLine -i<input.file> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct> -c<compute.present.absent.calls> -n<normalization.method> -l<libdir> -f<clm.file> -v<value.to.scale.to> -a<annotate.probes>
-
-requiredPatchLSIDs=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.server.patch\:00009\:1
-requiredPatchURLs=http://www.broad.mit.edu/webservices/gpModuleRepository/download/prod/patch/?file=/R_2_5_Check/broad.mit.edu:cancer.software.genepattern.server.patch/00009/1/R2_5.zip
-
+commandLine=<R2.5> <libdir>expr.R parseCmdLine -i<input.file> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct> -c<compute.present.absent.calls> -n<normalization.method> -l<libdir> -f<clm.file> -v<value.to.scale.to> -a<annotate.probes> -u<cdf.file>
 cpuType=any
 description=Creates a RES or GCT file from a set of Affymetrix CEL files
 fileFormat=res;gct;cls
 JVMLevel=2.5.0
 language=R
-privacy=public
-publicationDate=07/13/2005 14\:43 
-quality=production
-taskType=Preprocess & Utilities
-userid=GenePattern
-version=Updated for R 2.5.0
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00041\:999999999
 name=ExpressionFileCreator
 os=any
+privacy=public
+publicationDate=03/04/2008 15\:47 
+quality=production
+requiredPatchLSIDs=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.server.patch\:00009\:1
+requiredPatchURLs=http\://www.broad.mit.edu/webservices/gpModuleRepository/download/prod/patch/?file\=/R_2_5_Check/broad.mit.edu\:cancer.software.genepattern.server.patch/00009/1/R2_5.zip
+taskType=Preprocess & Utilities
+userid=GenePattern
+version=Added option to provide custom CDF file
 
 p1_default_value=
 p1_description=A zip file containing CEL files
@@ -96,10 +96,22 @@ p9_prefix_when_specified=
 p9_type=java.lang.String
 p9_value=yes;no
 
-p10_default_value=<input.file_basename>
-p10_description=The base name of the output file
-p10_name=output.file
-p10_optional=
+p10_default_value=
+p10_description=Custom CDF file. Leave blank to use default internally provided CDF file.
+p10_fileFormat=cdf
+p10_MODE=IN
+p10_name=cdf.file
+p10_optional=on
 p10_prefix_when_specified=
-p10_type=java.lang.String
+p10_TYPE=FILE
+p10_type=java.io.File
 p10_value=
+
+p11_default_value=<input.file_basename>
+p11_description=The base name of the output file
+p11_name=output.file
+p11_optional=
+p11_prefix_when_specified=
+p11_type=java.lang.String
+p11_value=
+

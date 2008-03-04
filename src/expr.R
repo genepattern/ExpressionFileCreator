@@ -28,11 +28,12 @@ output.cls.file.name <- ''
 probe.descriptions.file.name <- ''
 exec.info <- 'gp_module_execution_log.txt'
 mycdfenv <<- NULL
+cdf.file <<- NULL
 
 cleanup <- function() {
 	files <- dir()
 	for(file in files) {
-		if(file != zip.file.name && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.info && file!=probe.descriptions.file.name && file!="stdout.txt" && file!="stderr.txt") {
+		if(file != zip.file.name && file!=cdf.file && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.info && file!=probe.descriptions.file.name && file!="stdout.txt" && file!="stderr.txt") {
          unlink(file, recursive=T)
       }
 	}		
@@ -55,6 +56,7 @@ parseCmdLine <- function(...) {
 	clm.input.file <- ''
 	annotate.probes <- ''
 	value.to.scale.to <- NULL
+	
 	for(i in 1:length(args)) {
 		flag <- substring(args[[i]], 0, 2)
 		value <- substring(args[[i]], 3, nchar(args[[i]]))
@@ -86,16 +88,18 @@ parseCmdLine <- function(...) {
    			}  	
    		} else if(flag=='-a') {
    			annotate.probes <- value
-		}  else  {
-			stop(paste("unknown option", flag, sep=": "), .call=FALSE)
+   		} else if(flag=='u') {
+   			cdf.file <<- value
+		}  else {
+			stop(paste("unknown flag ", flag, " value ", value, sep=""), .call=FALSE)
 		} 
 		
 	}
-	create.expression.file(input.file.name=input.file.name, output.file.name=output.file.name, method=method, quantile.normalization=quantile.normalization, background=background, compute.calls=compute.calls, normalization.method=normalization.method, clm.input.file=clm.input.file, libdir=libdir, value.to.scale.to=value.to.scale.to, annotate.probes=annotate.probes)
+	create.expression.file(input.file.name=input.file.name, output.file.name=output.file.name, method=method, quantile.normalization=quantile.normalization, background=background, compute.calls=compute.calls, normalization.method=normalization.method, clm.input.file=clm.input.file, libdir=libdir, value.to.scale.to=value.to.scale.to, annotate.probes=annotate.probes, cdf.file=cdf.file)
 
 }
 
-create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, compute.calls, normalization.method, clm.input.file, libdir, value.to.scale.to, annotate.probes)  {
+create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, compute.calls, normalization.method, clm.input.file, libdir, value.to.scale.to, annotate.probes, cdf.file)  {
 	source(paste(libdir, "common.R", sep=''))
 	source(paste(libdir, "packages.R", sep=''))
 	source(paste(libdir, "packages2.R", sep=''))
@@ -109,12 +113,6 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	compute.calls <- string.to.boolean(compute.calls)
 	annotate.probes <- string.to.boolean(annotate.probes)
 	clm.input.file <<- clm.input.file
-	
-	cdf.file <- ''
-	if(cdf.file != '') {
-		mycdfenv <- make.cdf.env(cdf.file)
-		dat@cdfName <- "mycdfenv"
-	}
 	
 	if(libdir!='') {
 		setLibPath(libdir)
@@ -164,6 +162,14 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		} # clm
 	} else {
 		exit("Either a zip of CEL files or a clm file is required.")
+	}
+	
+	if(!is.null(cdf.file) && cdf.file!='') {
+		if(!is.package.installed(libdir, "makecdfenv")) {
+			install.package(libdir, "makecdfenv_1.16.0.zip", "makecdfenv_1.16.0.tgz", "makecdfenv_1.16.0.tar.gz")
+		}
+		library(makecdfenv)
+		mycdfenv <- make.cdf.env(cdf.file)
 	}
 	
 	compressed <- is.compressed(cel.file.names)
@@ -255,7 +261,7 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
    if(!compute.calls) {
    	return(list(data=data))
    } else {
-   	r <- ReadAffy(filenames=cel.files, compress=compressed) 
+	r <- ReadAffy(filenames=cel.files, compress=compressed) 
    	if(!is.null(mycdfenv)) {
    		r@cdfName <- mycdfenv
    	}
@@ -319,8 +325,8 @@ gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) {
 gp.dchip <- function(cel.file.names, compressed, compute.calls=FALSE) {
 	afbatch <- ReadAffy(filenames=cel.file.names, compress=compressed)
 	if(!is.null(mycdfenv)) {
-   	afbatch@cdfName <- mycdfenv
-   }
+   		afbatch@cdfName <- mycdfenv
+   	}
    	
 	eset <- expresso(afbatch, normalize.method="invariantset", bg.correct=FALSE, pmcorrect.method="pmonly",summary.method="liwong", verbose=FALSE) 
 	data <- exprs(eset)

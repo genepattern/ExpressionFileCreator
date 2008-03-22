@@ -166,10 +166,10 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	
 	if(!is.null(cdf.file) && cdf.file!='') {
 		if(!is.package.installed(libdir, "makecdfenv")) {
-			install.package(libdir, "makecdfenv_1.16.0.zip", "makecdfenv_1.16.0.tgz", "makecdfenv_1.16.0.tar.gz")
+			install.package(libdir, "makecdfenv_1.14.0.zip", "makecdfenv_1.14.0.tgz", "makecdfenv_1.14.0.tar.gz")
 		}
 		library(makecdfenv)
-		mycdfenv <- make.cdf.env(cdf.file)
+		mycdfenv <<- make.cdf.env(filename=basename(cdf.file), cdf.path=dirname(cdf.file), verbose=F)
 	}
 	
 	compressed <- is.compressed(cel.file.names)
@@ -408,9 +408,7 @@ install.required.packages <- function(libdir, method) {
 		#	Sys.putenv(MAKEFLAGS="LIBR= SHLIB_LIBADD= LIBS=")
 		#}
 		install.package(libdir, "gcrma_2.8.1.zip", "gcrma_2.8.1.tgz","gcrma_2.8.1.tar.gz")
-	}
-	
-	
+	}	
 }
 
 
@@ -430,17 +428,17 @@ get.cls.file.name <- function(data.output.file.name) {
 }
 
 get.celfilenames <- function(input.file.name) {
-	isWindows <- Sys.info()[["sysname"]]=="Windows"
-	if(isWindows) {
-		zip.unpack(input.file.name, dest=getwd())
-	} else {
-		 zip <- getOption("unzip")
-		 system(paste(zip, "-q", input.file.name))
+	if(!file.info(input.file.name)[['isdir']]) {
+		isWindows <- Sys.info()[["sysname"]]=="Windows"
+		if(isWindows) {
+			zip.unpack(input.file.name, dest=getwd())
+		} else {
+			 zip <- getOption("unzip")
+			 system(paste(zip, "-q", input.file.name))
+		}
 	}
-
 	files <- list.celfiles(path = ".", recursive=TRUE, full.names=TRUE)
-   cel.files <- files[grep(".[cC][eE][lL].gz$|.[cC][eE][lL]$", files)]
-	return(cel.files)
+	return(files)
 }
 
 is.compressed <- function(cel.files) {

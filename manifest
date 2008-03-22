@@ -19,7 +19,7 @@ userid=GenePattern
 version=Added option to provide custom CDF file
 
 p1_default_value=
-p1_description=A zip file containing CEL files
+p1_description=A zip file of CEL files or a network directory containing CEL files
 p1_fileFormat=zip
 p1_MODE=IN
 p1_name=input.file
@@ -79,7 +79,7 @@ p7_value=
 
 p8_default_value=
 p8_description=A tab-delimited text file containing one scan, sample, and class per line
-p8_fileFormat=clm
+p8_fileFormat=txt;clm
 p8_MODE=IN
 p8_name=clm.file
 p8_optional=on

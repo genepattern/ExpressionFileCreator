@@ -255,7 +255,12 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
     pdata <- data.frame(sample = 1:n, row.names = samplenames)
     phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
     
-    eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData, cdfname=mycdfenv)   
+    if(is.null(mycdfenv)) {
+        eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData)   
+    } else {
+        eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData, cdfname='mycdfenv')   
+    }
+    
     data <- exprs(eset)
     data <- 2^data # rma produces values that are log scaled
     if(!compute.calls) {
@@ -263,7 +268,7 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
     } else {
         r <- ReadAffy(filenames=cel.files, compress=compressed) 
         if(!is.null(mycdfenv)) {
-            r@cdfName <- mycdfenv
+            r@cdfName <- 'mycdfenv'
         }
         calls <- get.calls(r)
         return(list(data=data, calls=calls)) 
@@ -279,35 +284,11 @@ gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) {
 	pdata <- data.frame(sample = 1:n, row.names = samplenames)
 	phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
 	
- #  cdf <- cleancdfname(afbatch@cdfName) # e.g "hgu133acdf"
- #  cdf <- substring(cdf, 0, nchar(cdf)-3)# remove cdf from end
- #  pkg <- paste(cdf, "probe", sep='') 
-  # if(!is.package.installed(libdir, pkg)) {
-  # if(!library(package=pkg, lib.loc=libdir, logical.return=TRUE, version=NULL)) {
-   #   repList <- getOptReposList()
-    #  n <- repNames(repList)
-      
-     # get.index <- function(n) {
-      #   for(index in 1:length(n)) {
-       #     if(n[index] =='Bioconductor Probe Data Packages') {
-        #       return(index)
-         #   }
-       #  }
-       #  exit("Probe Data repository not found.")
-      # }
-      # isWindows <- Sys.info()[["sysname"]]=="Windows"
-       
-      # if(isWindows) {
-      #   type <- "Win32"  
-      # } else {
-      #    type <- "Source"
-      # }
-      # r <- getRepEntry(repList, get.index(n))
-    #  info(paste("installing package", pkg))
-      # install.packages2(repEntry=r, pkgs=c(pkg), type=type)
-   #}
-   eset <- just.gcrma(filenames=cel.files, compress=compressed, normalize=normalize, verbose=TRUE, phenoData=phenoData)   
-   
+   if(is.null(mycdfenv)) {
+        eset <- just.gcrma(filenames=cel.files, compress=compressed, normalize=normalize, verbose=TRUE, phenoData=phenoData)   
+   } else {
+        eset <- just.gcrma(filenames=cel.files, compress=compressed, normalize=normalize, verbose=TRUE, phenoData=phenoData, cdfname='mycdfenv')  
+   }
    data <- exprs(eset)
    data <- 2^data # produces values that are log scaled
    if(!compute.calls) {
@@ -315,7 +296,7 @@ gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) {
    } else {
    	r <- ReadAffy(filenames=cel.files, compress=compressed) 
    	if(!is.null(mycdfenv)) {
-   		r@cdfName <- mycdfenv
+   		r@cdfName <- 'mycdfenv'
    	}
    	calls <- get.calls(r)
 		return(list(data=data, calls=calls)) 
@@ -325,7 +306,7 @@ gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) {
 gp.dchip <- function(cel.file.names, compressed, compute.calls=FALSE) {
 	afbatch <- ReadAffy(filenames=cel.file.names, compress=compressed)
 	if(!is.null(mycdfenv)) {
-   		afbatch@cdfName <- mycdfenv
+   		afbatch@cdfName <- 'mycdfenv'
    	}
    	
 	eset <- expresso(afbatch, normalize.method="invariantset", bg.correct=FALSE, pmcorrect.method="pmonly",summary.method="liwong", verbose=FALSE) 
@@ -348,6 +329,9 @@ get.calls <- function(r) {
 
 gp.mas5 <- function(cel.file.names, compressed, compute.calls) {
 	r <- read.affybatch(filenames=cel.file.names) 
+	if(!is.null(mycdfenv)) {
+		r@cdfName <- 'mycdfenv'
+	}
 	eset <- mas5(r, normalize=FALSE)
 	data <- exprs(eset)
 	if(!compute.calls) {
@@ -366,7 +350,7 @@ gp.farms <- function(cel.file.names, compressed, compute.calls, libdir)  {
 	library(farms)
 	r <- ReadAffy(filenames=cel.file.names, compress=compressed) 
 	if(!is.null(mycdfenv)) {
-		r@cdfName <- mycdfenv
+		r@cdfName <- 'mycdfenv'
 	}
 	eset <- exp.farms(r, bgcorrect.method = "none", pmcorrect.method = "pmonly", normalize.method = "quantiles")
 	data <- exprs(eset)

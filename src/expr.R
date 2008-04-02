@@ -249,25 +249,25 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
    #       background given in affy version 1.1 and above
 	
 gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=FALSE) {
-	samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files), 
-            extended = TRUE)
-   n <- length(cel.files)
-	pdata <- data.frame(sample = 1:n, row.names = samplenames)
-	phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
-   	
-   eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData, cdfname=mycdfenv)   
-   data <- exprs(eset)
-   data <- 2^data # rma produces values that are log scaled
-   if(!compute.calls) {
-   	return(list(data=data))
-   } else {
-	r <- ReadAffy(filenames=cel.files, compress=compressed) 
-   	if(!is.null(mycdfenv)) {
-   		r@cdfName <- mycdfenv
-   	}
-   	calls <- get.calls(r)
-		return(list(data=data, calls=calls)) 
-   }
+    samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files), 
+    extended = TRUE)
+    n <- length(cel.files)
+    pdata <- data.frame(sample = 1:n, row.names = samplenames)
+    phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
+    
+    eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData, cdfname=mycdfenv)   
+    data <- exprs(eset)
+    data <- 2^data # rma produces values that are log scaled
+    if(!compute.calls) {
+        return(list(data=data))
+    } else {
+        r <- ReadAffy(filenames=cel.files, compress=compressed) 
+        if(!is.null(mycdfenv)) {
+            r@cdfName <- mycdfenv
+        }
+        calls <- get.calls(r)
+        return(list(data=data, calls=calls)) 
+    }
 }
 
 
@@ -615,7 +615,7 @@ get.row.descriptions <- function(data, file) {
 # cdf - the cdf file for data, used to construct the URL to download
 # file.name - csv zip file
 # t - result of read.table(csv)
-get.row.descriptions.csv <- function(data, cdf,file.name, t=NULL) {
+get.row.descriptions.csv <- function(data, cdf, file.name, t=NULL) {
 	if(is.null(t)) {
 		file.name <- paste(cdf, ".zip", sep='')
 		url <- paste("ftp://ftp.broad.mit.edu/pub/genepattern/csv/Affymetrix/", file.name, sep='')
@@ -640,9 +640,10 @@ get.row.descriptions.csv <- function(data, cdf,file.name, t=NULL) {
 
 	probeids <- row.names(data)
 	get.ann <- function(probe) {
+	    
 		row <- t[probe,]
 		ann <- NULL
-		if(is.na(row)[[1]])
+		if(is.null(row) || is.na(row)[[1]])
             ann <- character(0)
         else {
         	ann <- paste(row[[13]],", ", row[[14]], sep='')
@@ -654,6 +655,7 @@ get.row.descriptions.csv <- function(data, cdf,file.name, t=NULL) {
 	}
 	
 	result <- lapply(probeids, get.ann)
+	class(result) <- "character"
 	return(result)	
 }
 

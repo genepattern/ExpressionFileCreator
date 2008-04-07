@@ -1,6 +1,6 @@
 #Tue Mar 04 15:47:12 EST 2008
 author=Joshua Gould, gp-help@broad.mit.edu, Broad Institute
-commandLine=<R2.5> <libdir>expr.R parseCmdLine -i<input.file> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct> -c<compute.present.absent.calls> -n<normalization.method> -l<libdir> -f<clm.file> -v<value.to.scale.to> -e<cdf.file> -a<annotate.probes>
+commandLine=<R2.5> <libdir>expr.R parseCmdLine -i<input.file> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct> -c<compute.present.absent.calls> -n<normalization.method> -l<libdir> -f<clm.file> -v<value.to.scale.to> -e<cdf.file> -a<annotate.probes> -s<http.proxy.server> -u<http.proxy.user> -p<http.proxy.password>
 cpuType=any
 description=Creates a RES or GCT file from a set of Affymetrix CEL files
 fileFormat=res;gct;cls
@@ -115,3 +115,25 @@ p11_prefix_when_specified=
 p11_type=java.lang.String
 p11_value=
 
+p12_description=HTTP Proxy server
+p12_name=http.proxy.server
+p12_optional=on
+p12_prefix_when_specified=
+p12_type=java.lang.String
+p12_value=
+
+p13_default_value=
+p13_description=HTTP Proxy username
+p13_name=http.proxy.username
+p13_optional=on
+p13_prefix_when_specified=
+p13_type=java.lang.String
+p13_value=
+
+p14_default_value=
+p14_description=HTTP Proxy password
+p14_name=http.proxy.password
+p14_optional=on
+p14_prefix_when_specified=
+p14_type=PASSWORD
+p14_value=

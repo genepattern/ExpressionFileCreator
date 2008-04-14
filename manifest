@@ -1,6 +1,6 @@
 #Tue Mar 04 15:47:12 EST 2008
 author=Joshua Gould, gp-help@broad.mit.edu, Broad Institute
-commandLine=<R2.5> <libdir>expr.R parseCmdLine -i<input.file> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct> -c<compute.present.absent.calls> -n<normalization.method> -l<libdir> -f<clm.file> -v<value.to.scale.to> -e<cdf.file> -a<annotate.probes> -s<http.proxy.server> -u<http.proxy.user> -p<http.proxy.password>
+commandLine=<R2.5> <libdir>expr.R parseCmdLine -i<input.file> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct> -c<compute.present.absent.calls> -n<normalization.method> -l<libdir> -f<clm.file> -v<value.to.scale.to> -e<cdf.file> -a<annotate.probes> -s<http.proxy.server> -u<http.proxy.username> -p<http.proxy.password>
 cpuType=any
 description=Creates a RES or GCT file from a set of Affymetrix CEL files
 fileFormat=res;gct;cls

@@ -97,9 +97,9 @@ parseCmdLine <- function(...) {
    		    http.proxy.server <- value
    		} else if(flag=='-u') {
    		    http.proxy.user <- value
-   		else if(flag=='-p') {
+   		} else if(flag=='-p') {
    		    http.proxy.password <- value
-		}  else {
+		} else {
 			stop(paste("unknown flag ", flag, " value ", value, sep=""), .call=FALSE)
 		} 
 		

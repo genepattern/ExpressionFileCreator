@@ -97,7 +97,7 @@ p9_type=java.lang.String
 p9_value=yes;no
 
 p10_default_value=
-p10_description=Custom CDF file. Leave blank to use default internally provided CDF file.
+p10_description=Custom CDF file. Leave blank to use default internally provided CDF file (custom cdf file is not implemented for GCRMA).
 p10_fileFormat=cdf
 p10_MODE=IN
 p10_name=cdf.file
@@ -108,7 +108,7 @@ p10_type=java.io.File
 p10_value=
 
 p11_default_value=<input.file_basename>
-p11_description=The base name of the output file
+p11_description=The base name of the output file(s)
 p11_name=output.file
 p11_optional=
 p11_prefix_when_specified=

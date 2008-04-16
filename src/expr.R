@@ -307,11 +307,8 @@ gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) {
 	pdata <- data.frame(sample = 1:n, row.names = samplenames)
 	phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
 	
-   if(is.null(mycdfenv)) {
-        eset <- just.gcrma(filenames=cel.files, compress=compressed, normalize=normalize, verbose=TRUE, phenoData=phenoData)   
-   } else {
-        eset <- just.gcrma(filenames=cel.files, compress=compressed, normalize=normalize, verbose=TRUE, phenoData=phenoData, cdfname='mycdfenv')  
-   }
+   eset <- just.gcrma(filenames=cel.files, compress=compressed, normalize=normalize, verbose=F, phenoData=phenoData)   
+  
    data <- exprs(eset)
    data <- 2^data # produces values that are log scaled
    if(!compute.calls) {
@@ -699,6 +696,7 @@ linear.fit <- function(xpoints, ypoints) {
 	b <- yBar - m * xBar
 	return(list("m"=m, "b"=b))
 }
+
 
 
       

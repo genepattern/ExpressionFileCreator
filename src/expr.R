@@ -440,9 +440,12 @@ get.celfilenames <- function(input.file.name) {
 			 zip <- getOption("unzip")
 			 system(paste(zip, "-q", input.file.name))
 		}
+		files <- list.celfiles(path = ".", recursive=TRUE, full.names=TRUE)
+	    return(files)
 	}
-	files <- list.celfiles(path = ".", recursive=TRUE, full.names=TRUE)
+	files <- list.celfiles(path = input.file.name, recursive=F, full.names=TRUE)
 	return(files)
+	
 }
 
 is.compressed <- function(cel.files) {

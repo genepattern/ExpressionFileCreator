@@ -612,7 +612,6 @@ get.row.descriptions.csv <- function(data, cdf, t=NULL) {
 	if(is.null(t)) {
 		file.name <- paste(cdf, ".zip", sep='')
 		url <- paste("ftp://ftp.broad.mit.edu/pub/genepattern/csv/Affymetrix/", file.name, sep='')
-		cat("Downloading ", url)
 		on.exit(unlink(file.name))
 		try(download.file(url, quiet=T, destfile=file.name, mode="wb"))
 		if(!file.exists(file.name)) {
@@ -631,7 +630,7 @@ get.row.descriptions.csv <- function(data, cdf, t=NULL) {
 		on.exit(unlink(csv.file))
 		t <- as.matrix(read.table(row.names=1, file=csv.file, header=F, quote='"', comment.char='', fill=T, sep=","))
 	}
-	probeids <- row.names(data)
+	
 	
 	get.ann <- function(probe) {
 		row <- try(t[probe,], silent=T)
@@ -648,9 +647,10 @@ get.row.descriptions.csv <- function(data, cdf, t=NULL) {
                 }
             }
         }
-        ann
+        return(ann)
 	}
 	
+	probeids <- row.names(data)
 	result <- lapply(probeids, get.ann)
 	class(result) <- "character"
 	return(result)	

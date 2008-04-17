@@ -605,27 +605,14 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 	return(dataset)
 }
 
-get.row.descriptions <- function(data, file) {
-	row.descriptions <- vector("character", length=NROW(data))
-	table <- read.table(file, colClasses="character", header=FALSE, sep="\t", quote = "", comment.char='',  fill=T)
-	for(i in 1:NROW(table)) {
-		probe <- table[i, 1]
-		index <- which(row.names(data)==probe)
-		if(length(index) > 0 && index > 0 && length(table[i,]) >= 2) {
-			row.descriptions[index] <- table[i, 2]
-		}
-	}
-	return(row.descriptions)	
-}
-
 # data - matrix 
 # cdf - the cdf file for data, used to construct the URL to download
-# file.name - csv zip file
-# t - result of read.table(csv)
-get.row.descriptions.csv <- function(data, cdf, file.name, t=NULL) {
+# t - result of read.table(csv), for testing
+get.row.descriptions.csv <- function(data, cdf, t=NULL) {
 	if(is.null(t)) {
 		file.name <- paste(cdf, ".zip", sep='')
 		url <- paste("ftp://ftp.broad.mit.edu/pub/genepattern/csv/Affymetrix/", file.name, sep='')
+		cat("Downloading ", url)
 		on.exit(unlink(file.name))
 		try(download.file(url, quiet=T, destfile=file.name, mode="wb"))
 		if(!file.exists(file.name)) {
@@ -644,19 +631,22 @@ get.row.descriptions.csv <- function(data, cdf, file.name, t=NULL) {
 		on.exit(unlink(csv.file))
 		t <- as.matrix(read.table(row.names=1, file=csv.file, header=F, quote='"', comment.char='', fill=T, sep=","))
 	}
-
 	probeids <- row.names(data)
+	
 	get.ann <- function(probe) {
-	    
-		row <- t[probe,]
+		row <- try(t[probe,], silent=T)
 		ann <- NULL
-		if(is.null(row) || is.na(row)[[1]])
-            ann <- character(0)
-        else {
-        	ann <- paste(row[[13]],", ", row[[14]], sep='')
-        	if(ann == ', ') {
-        		ann <- ''
-        	}
+		if(class(row)=="try-error") {
+		    ann <- ''
+		} else {
+            if(is.null(row) || is.na(row)[[1]])
+                ann <- ''
+            else {
+                ann <- paste(row[[13]],", ", row[[14]], sep='')
+                if(ann == ', ' || ann == '---, ---') {
+                    ann <- ''
+                }
+            }
         }
         ann
 	}

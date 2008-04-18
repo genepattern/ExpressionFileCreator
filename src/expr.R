@@ -609,12 +609,13 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 # cdf - the cdf file for data, used to construct the URL to download
 # t - result of read.table(csv), for testing
 get.row.descriptions.csv <- function(data, cdf, t=NULL) {
+    
 	if(is.null(t)) {
 		file.name <- paste(cdf, ".zip", sep='')
 		url <- paste("ftp://ftp.broad.mit.edu/pub/genepattern/csv/Affymetrix/", file.name, sep='')
 		on.exit(unlink(file.name))
 		try(download.file(url, quiet=T, destfile=file.name, mode="wb"))
-		if(!file.exists(file.name)) {
+		if(!file.exists(file.name) || file.info(file.name)[['size']] == 0) {
 			cat(paste("No annotations found for chip ", cdf, "\n", sep=''))
 			return(NULL)
 		}
@@ -627,33 +628,46 @@ get.row.descriptions.csv <- function(data, cdf, t=NULL) {
 		}
 		
 		csv.file <- rc@extracted	
-		on.exit(unlink(csv.file))
-		t <- as.matrix(read.table(row.names=1, file=csv.file, header=F, quote='"', comment.char='', fill=T, sep=","))
+	    on.exit(unlink(csv.file))
+		desc <- as.matrix(read.table(row.names=1, file=csv.file, header=T, quote='"', comment.char='', fill=T, sep=","))
+		
 	}
 	
-	
-	get.ann <- function(probe) {
-		row <- try(t[probe,], silent=T)
-		ann <- NULL
-		if(class(row)=="try-error") {
-		    ann <- ''
-		} else {
-            if(is.null(row) || is.na(row)[[1]])
-                ann <- ''
-            else {
-                ann <- paste(row[[13]],", ", row[[14]], sep='')
-                if(ann == ', ' || ann == '---, ---') {
-                    ann <- ''
-                }
-            }
-        }
-        return(ann)
-	}
-	
+	gene.title.idx <-  match('Gene.Title', colnames(desc))
+	gene.symbol.idx <-  match('Gene.Symbol', colnames(desc))
 	probeids <- row.names(data)
-	result <- lapply(probeids, get.ann)
-	class(result) <- "character"
-	return(result)	
+	
+	get.gene.info <- function(probe) {
+	    return(paste(desc[[probe, gene.title.idx]], ", ", desc[[probe, gene.symbol.idx ]], sep=''))
+	}
+	row.descriptions <- vector(mode = "character", length = length(probeids))
+	for(i in 1:length(probeids)) {
+	   probe <- probeids[[i]]
+       ann <- try(get.gene.info(probe), silent=T)
+       if(class(ann)=="try-error" || is.na(ann) || ann == ', ' || ann=="---, ---") {
+        next
+      
+        }
+        row.descriptions[i] <- ann
+	}
+	
+	return(row.descriptions)
+	
+#	get.ann <- function(probe) {
+#		ann <- try(get.gene.info(probe), silent=T)
+#       if(class(ann)=="try-error" || is.na(ann) || ann == ', ' || ann=="---, ---") {
+ #       next    
+#        }
+#		
+#       if(class(ann)=="try-error" || is.na(ann) || ann == ', ' || ann=="---, ---") {
+#        return('')      
+#        }
+#       return(ann) 
+#	}
+#	
+#	result <- lapply(probeids, get.ann)
+#	class(result) <- "character"
+#	return(result)	
 }
 
 get.row.descriptions.annaffy <- function(cdf, data) {

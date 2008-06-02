@@ -527,7 +527,11 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 	} 
     
 	if(method=="quantile normalization") {
+	    row.names <- row.names(data)
+	    col.names <- colnames(data)
 		data <- normalize.quantiles(data)
+		row.names(data) <- row.names
+		colnames(data) <- col.names
 		dataset$data <- data
 		return(dataset)
 	}

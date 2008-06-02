@@ -56,10 +56,7 @@ parseCmdLine <- function(...) {
 	clm.input.file <- ''
 	annotate.probes <- ''
 	value.to.scale.to <- NULL
-	http.proxy.server <- ''
-	http.proxy.user <- ''
-	http.proxy.password <- ''
-	
+
 	for(i in 1:length(args)) {
 		flag <- substring(args[[i]], 0, 2)
 		value <- substring(args[[i]], 3, nchar(args[[i]]))
@@ -85,38 +82,20 @@ parseCmdLine <- function(...) {
 			clm.input.file <- value
 		} else if(flag=='-l') {
 			libdir <- value
-   		} else if(flag=='-v') {
-   			if(value!='') {
-   				value.to.scale.to <- as.integer(value)
-   			}  	
-   		} else if(flag=='-a') {
-   			annotate.probes <- value
-   		} else if(flag=='-e') {
-   			cdf.file <<- value
-   		} else if(flag=='-s') {
-   		    http.proxy.server <- value
-   		} else if(flag=='-u') {
-   		    http.proxy.user <- value
-   		} else if(flag=='-p') {
-   		    http.proxy.password <- value
+      } else if(flag=='-v') {
+         if(value!='') {
+            value.to.scale.to <- as.integer(value)
+         }  	
+      } else if(flag=='-a') {
+         annotate.probes <- value
+      } else if(flag=='-e') {
+         cdf.file <<- value
 		} else {
 			stop(paste("unknown flag ", flag, " value ", value, sep=""), .call=FALSE)
 		} 
 		
 	}
 	
-	if(http.proxy.server!='') {
-		info("set HTTP proxy")
-		Sys.setenv("http_proxy", http.proxy.server)
-	}
-	if(http.proxy.user!='') {
-		s <- http.proxy.user
-		if(http.proxy.password !='') {
-			s <- paste(http.proxy.user, ":", http.proxy.password, sep='')
-		} 
-		info("set HTTP username, password")
-		Sys.setenv("http_proxy_user", s)
-	}
 	
 	create.expression.file(input.file.name=input.file.name, output.file.name=output.file.name, method=method, quantile.normalization=quantile.normalization, background=background, compute.calls=compute.calls, normalization.method=normalization.method, clm.input.file=clm.input.file, libdir=libdir, value.to.scale.to=value.to.scale.to, annotate.probes=annotate.probes, cdf.file=cdf.file)
 

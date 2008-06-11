@@ -122,10 +122,10 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		install.required.packages(libdir, method)
 	}
 	
-	library(tools)
-	library(Biobase)
-	library(affy)
-	library(affyio)
+	suppressMessages(library(tools))
+	suppressMessages(library(Biobase))
+	suppressMessages(library(affy))
+	suppressMessages(library(affyio))
 	
 	dataset <- NULL # list containing data and calls if isRes is true
 	isRes <- compute.calls

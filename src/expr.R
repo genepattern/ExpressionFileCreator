@@ -166,6 +166,13 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		exit("Either a zip of CEL files or a clm file is required.")
 	}
 	
+	chip <- read.celfile.header(cel.file.names[1])$cdfName
+	for(c in cel.file.names) {
+	   if(chip != read.celfile.header(c)$cdfName) {
+	      exit("CEL files are from different chips.")
+	   } 
+	}
+	
 	if(!is.null(cdf.file) && cdf.file!='') {
 		if(!is.package.installed(libdir, "makecdfenv")) {
 			install.package(libdir, "makecdfenv_1.14.0.zip", "makecdfenv_1.14.0.tgz", "makecdfenv_1.14.0.tar.gz")
@@ -438,32 +445,6 @@ is.compressed <- function(cel.files) {
 }
 
 
-read.clm <- function(input.file.name) {
-	s <- read.table(input.file.name, colClasses = "character", sep="\t", comment.char="", quote="", strip.white=T) 
-	columns <- ncol(s)
-	scan.names <- s[,1]
-	sample.names <- NULL # names to use in the gct file instead of the scan name
-	if(columns > 1) {
-		sample.names <- s[,2]
-	}
-	
-	for(i in 1:length(scan.names)) { # check for duplicate scans
-		scan.names[i] <- trim(scan.names[i])
-		scan <- scan.names[i]
-		l <- which(scan.names==scan)
-		if(length(l) >= 2) {
-			exit(paste("Duplicate scan name:", scan))
-		}
-	}
-	
-	
-	f <- NULL
-	if(columns > 2) {
-		class.names <- s[, 3]
-		f <- factor(class.names)
-	}
-	list("factor"=f, "scan.names"=scan.names , "sample.names"=sample.names)
-}
 
 
 ############################################################
@@ -612,7 +593,7 @@ get.row.descriptions.csv <- function(data, cdf, t=NULL) {
 		
 		csv.file <- rc@extracted	
 	    on.exit(unlink(csv.file))
-		desc <- as.matrix(read.table(row.names=1, file=csv.file, header=T, quote='"', comment.char='', fill=T, sep=","))
+		desc <- as.matrix(read.table(row.names=1, file=csv.file, header=T, quote='"', comment.char='#', fill=T, sep=","))
 		
 	}
 	

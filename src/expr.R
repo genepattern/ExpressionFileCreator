@@ -144,11 +144,11 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			i <- 1
 			for(scan in scan.names) {
 				if(length(grep('cel$', scan, ignore.case=T)) == 0) { # check if scan name ends with .cel
-					s1 <- paste(scan, '.cel', "$",sep='')
-					s2 <- paste(scan, '.cel.gz', "$",sep='')
+					s1 <- paste('^', scan, '.cel', "$",sep='')
+					s2 <- paste('^', scan, '.cel.gz', "$",sep='')
 					s <- paste(s1, "|", s2, sep="")
 				} else {
-					s <- scan
+					s <- paste('^', scan, "$",sep='')
 				}
 				index <- grep(s, cel.file.names, ignore.case=T)
 				if(length(index) == 0) {
@@ -616,22 +616,6 @@ get.row.descriptions.csv <- function(data, cdf, t=NULL) {
 	}
 	
 	return(row.descriptions)
-	
-#	get.ann <- function(probe) {
-#		ann <- try(get.gene.info(probe), silent=T)
-#       if(class(ann)=="try-error" || is.na(ann) || ann == ', ' || ann=="---, ---") {
- #       next    
-#        }
-#		
-#       if(class(ann)=="try-error" || is.na(ann) || ann == ', ' || ann=="---, ---") {
-#        return('')      
-#        }
-#       return(ann) 
-#	}
-#	
-#	result <- lapply(probeids, get.ann)
-#	class(result) <- "character"
-#	return(result)	
 }
 
 get.row.descriptions.annaffy <- function(cdf, data) {

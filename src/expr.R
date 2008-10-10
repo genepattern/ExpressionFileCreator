@@ -137,7 +137,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	
 	cel.file.names <- NULL
 	if(input.file.name!='') {
-		cel.file.names <- get.celfilenames(input.file.name)	
+		cel.file.names <- get.celfilenames(input.file.name)
 		if(!is.null(clm)) {
 			scan.names <- clm$scan.names
 			new.cel.file.names <- vector("character")
@@ -152,9 +152,9 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 				}
 				index <- grep(s, cel.file.names, ignore.case=T)
 				if(length(index) == 0) {
-					cat(paste("Scan", scan, "in clm file not found.\n"))
+					cat(paste("Scan", scan, "in clm file not found. \n"))
 				} else if(length(index)>1) {
-					cat(paste("Scan", scan, "in clm file matches more than one CEL file.\n"))
+					cat(paste("Scan", scan, "in clm file matches more than one CEL file. \n"))
 				} else {
 					new.cel.file.names[i] <- cel.file.names[index[1]]
 					i <- i + 1
@@ -165,8 +165,12 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	} else {
 		exit("Either a zip of CEL files or a clm file is required.")
 	}
+
+	if(length(cel.file.names) == 0) {
+	   exit("No CEL files found.")
+	}
 	
-	chip <- read.celfile.header(cel.file.names[1])$cdfName
+	chip <- read.celfile.header(cel.file.names[[1]])$cdfName
 	for(c in cel.file.names) {
 	   if(chip != read.celfile.header(c)$cdfName) {
 	      exit("CEL files are from different chips.")
@@ -265,7 +269,7 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
     phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
     
     if(is.null(mycdfenv)) {
-        eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData)   
+        eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData)
     } else {
         eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData, cdfname='mycdfenv')   
     }
@@ -426,8 +430,21 @@ get.celfilenames <- function(input.file.name) {
 			 zip <- getOption("unzip")
 			 system(paste(zip, "-q", input.file.name))
 		}
-		files <- list.celfiles(path = ".", recursive=TRUE, full.names=TRUE)
-	    return(files)
+		
+		files <- list.files()
+		
+		for(file in files) {
+		   if(file.info(file)[['isdir']]) {  # move all CEL files to working directory
+		      subfiles <- list.files(file, full.names=T)
+		      subfiles.names.only <- list.files(file)
+		      for(j in 1:length(subfiles)) {
+		         file.rename(subfiles[[j]], subfiles.names.only[[j]])
+		      }
+		   }
+		}
+	
+	   return(list.celfiles(path = ".", recursive=F, full.names=F))
+	   
 	}
 	files <- list.celfiles(path = input.file.name, recursive=F, full.names=TRUE)
 	return(files)
@@ -573,12 +590,11 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 # cdf - the cdf file for data, used to construct the URL to download
 # t - result of read.table(csv), for testing
 get.row.descriptions.csv <- function(data, cdf, t=NULL) {
-    
 	if(is.null(t)) {
 		file.name <- paste(cdf, ".zip", sep='')
 		url <- paste("ftp://ftp.broad.mit.edu/pub/genepattern/csv/Affymetrix/", file.name, sep='')
 		on.exit(unlink(file.name))
-		try(download.file(url, quiet=T, destfile=file.name, mode="wb"))
+		try(suppressMessages(download.file(url, quiet=T, destfile=file.name, mode="wb")))
 		if(!file.exists(file.name) || file.info(file.name)[['size']] == 0) {
 			cat(paste("No annotations found for chip ", cdf, "\n", sep=''))
 			return(NULL)

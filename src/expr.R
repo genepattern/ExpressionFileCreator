@@ -183,6 +183,10 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		}
 		library(makecdfenv)
 		mycdfenv <<- make.cdf.env(filename=basename(cdf.file), cdf.path=dirname(cdf.file), verbose=F)
+		index <- grep(chip, basename(cdf.file), ignore.case=T)
+		if(length(index) == 0) {
+		   exit("The custom cdf file provided does not appear to be from the ", chip, " chip.")	
+		}
 	}
 	
 	compressed <- is.compressed(cel.file.names)

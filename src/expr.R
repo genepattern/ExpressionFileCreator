@@ -20,6 +20,7 @@ string.to.boolean <- function(s) {
 message <- function (..., domain = NULL, appendLF = TRUE) {
 
 }
+do.install.packages <<- F
 
 zip.file.name <- ''
 output.data.file.name <- ''
@@ -178,7 +179,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 	
 	if(!is.null(cdf.file) && cdf.file!='') {
-		if(!is.package.installed(libdir, "makecdfenv")) {
+		if(do.install.packages && !is.package.installed(libdir, "makecdfenv")) {
 			install.package(libdir, "makecdfenv_1.14.0.zip", "makecdfenv_1.14.0.tgz", "makecdfenv_1.14.0.tar.gz")
 		}
 		library(makecdfenv)
@@ -362,7 +363,7 @@ gp.mas5 <- function(cel.file.names, compressed, compute.calls) {
 }
 
 gp.farms <- function(cel.file.names, compressed, compute.calls, libdir)  {
-	if(!is.package.installed(libdir, "farms")) {
+	if(do.install.packages && !is.package.installed(libdir, "farms")) {
 		install.package(libdir, "farms.zip", "farms_1.0.0.tar.gz", "farms_1.0.0.tar.gz")
 	}
 	library(farms)
@@ -385,7 +386,9 @@ gp.farms <- function(cel.file.names, compressed, compute.calls, libdir)  {
 # MISC FUNCTIONS
 
 install.required.packages <- function(libdir, method) {
-	
+	if(!do.install.packages) {
+	   return
+	}
 	if(!is.package.installed(libdir, "Biobase")) {
 		install.package(libdir, "Biobase_1.14.1.zip", "Biobase_1.14.1.tgz", "Biobase_1.14.1.tar.gz")
 	}

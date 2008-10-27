@@ -271,16 +271,16 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
    #       background given in affy version 1.1 and above
 	
 gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=FALSE) {
-    samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files), 
-    extended = TRUE)
-    n <- length(cel.files)
-    pdata <- data.frame(sample = 1:n, row.names = samplenames)
-    phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
+    # samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files), 
+    # extended = TRUE)
+    # n <- length(cel.files)
+    # pdata <- data.frame(sample = 1:n, row.names = samplenames)
+    # phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
     
     if(is.null(mycdfenv)) {
-        eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData)
+        eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE)
     } else {
-        eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, phenoData=phenoData, cdfname='mycdfenv')   
+        eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE, cdfname='mycdfenv')   
     }
     
     data <- exprs(eset)
@@ -300,13 +300,13 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
 
 
 gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) { 
-	samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files), 
-            extended = TRUE)
-   n <- length(cel.files)
-	pdata <- data.frame(sample = 1:n, row.names = samplenames)
-	phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
+	# samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files), 
+    #        extended = TRUE)
+   # n <- length(cel.files)
+	# pdata <- data.frame(sample = 1:n, row.names = samplenames)
+	# phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
 	
-   eset <- just.gcrma(filenames=cel.files, compress=compressed, normalize=normalize, verbose=F, phenoData=phenoData)   
+   eset <- just.gcrma(filenames=cel.files, compress=compressed, normalize=normalize, verbose=F)   
   
    data <- exprs(eset)
    data <- 2^data # produces values that are log scaled
@@ -613,12 +613,11 @@ get.row.descriptions.csv <- function(data, cdf, t=NULL) {
 		isWindows <- Sys.info()[["sysname"]]=="Windows"
 		if(isWindows) {
 			rc <- zip.unpack(file.name, dest=getwd())
-			csv.file <- rc@extracted
-       	} else {
-			rc <- .Internal(int.unzip(file.path(getwd(), file.name), NULL, getwd()))
+       } else {
+		   rc <- .Internal(int.unzip(file.path(getwd(), file.name), NULL, getwd()))
 		}
 		
-		csv.file <- rc@extracted	
+		csv.file <- attr(rc, "extracted")
 	    on.exit(unlink(csv.file))
 		desc <- as.matrix(read.table(row.names=1, file=csv.file, header=T, quote='"', comment.char='#', fill=T, sep=","))
 		

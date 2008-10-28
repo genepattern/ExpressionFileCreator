@@ -605,7 +605,9 @@ get.row.descriptions.csv <- function(data, cdf, t=NULL) {
 		file.name <- paste(cdf, ".zip", sep='')
 		url <- paste("ftp://ftp.broad.mit.edu/pub/genepattern/csv/Affymetrix/", file.name, sep='')
 		on.exit(unlink(file.name))
+		sink(stdout(), type = "message")
 		try(suppressMessages(download.file(url, quiet=T, destfile=file.name, mode="wb")))
+		sink(stderr(), type = "message")
 		if(!file.exists(file.name) || file.info(file.name)[['size']] == 0) {
 			cat(paste("No annotations found for chip ", cdf, "\n", sep=''))
 			return(NULL)

@@ -57,7 +57,7 @@ p4_prefix_when_specified=
 p4_type=java.lang.String
 p4_value=yes;no
 
-p5_default_value=yes
+p5_default_value=no
 p5_description=Whether to compute Present/Absent calls
 p5_name=compute.present.absent.calls
 p5_optional=on

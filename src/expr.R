@@ -306,7 +306,13 @@ gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) {
 	# pdata <- data.frame(sample = 1:n, row.names = samplenames)
 	# phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
 	
-   eset <- just.gcrma(filenames=cel.files, compress=compressed, normalize=normalize, verbose=F)   
+	r <- read.affybatch(filenames=cel.files) 
+	if(!is.null(mycdfenv)) {
+		r@cdfName <- 'mycdfenv'
+	}
+	
+	eset <- gcrma(object=r, normalize=normalize, verbose=F)
+   #eset <- just.gcrma(filenames=cel.files, normalize=normalize, verbose=F)   
   
    data <- exprs(eset)
    data <- 2^data # produces values that are log scaled
@@ -341,7 +347,10 @@ gp.dchip <- function(cel.file.names, compressed, compute.calls=FALSE) {
 
 # r AffyBatch object
 get.calls <- function(r) {
-	calls.eset <- mas5calls.AffyBatch(r, verbose = FALSE) 
+	calls.eset <- try(mas5calls.AffyBatch(r, verbose = FALSE))
+	if(class(calls.eset)=="try-error") {
+	   return(NULL)
+	}
 	calls <- exprs(calls.eset)
 	return(calls)
 }

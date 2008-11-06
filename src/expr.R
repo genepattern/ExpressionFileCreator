@@ -144,14 +144,14 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			new.cel.file.names <- vector("character")
 			i <- 1
 			for(scan in scan.names) {
-				if(length(grep('cel$', scan, ignore.case=T)) == 0) { # check if scan name ends with .cel
+				if(length(grep('cel$', scan, ignore.case=T, extended=F)) == 0) { # check if scan name ends with .cel
 					s1 <- paste('^', scan, '.cel', "$",sep='')
 					s2 <- paste('^', scan, '.cel.gz', "$",sep='')
 					s <- paste(s1, "|", s2, sep="")
 				} else {
 					s <- paste('^', scan, "$",sep='')
 				}
-				index <- grep(s, cel.file.names, ignore.case=T)
+				index <- grep(s, cel.file.names, ignore.case=T, extended=F)
 				if(length(index) == 0) {
 					cat(paste("Scan", scan, "in clm file not found. \n"))
 				} else if(length(index)>1) {
@@ -473,7 +473,7 @@ get.celfilenames <- function(input.file.name) {
 
 is.compressed <- function(cel.files) {
 	for(f in cel.files) {
-		r <- grep(".[cC][eE][lL].gz$", f)
+		r <- grep(".[cC][eE][lL].gz$", f, extended=F)
 		if(length(r) > 0) {
 			return(TRUE)
 		}

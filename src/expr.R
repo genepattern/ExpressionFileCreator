@@ -143,6 +143,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			scan.names <- clm$scan.names
 			new.cel.file.names <- vector("character")
 			i <- 1
+			scanIdx <- 1
 			for(scan in scan.names) {
 				if(length(grep('cel$', scan, ignore.case=T, extended=F)) == 0) { # check if scan name ends with .cel
 					s1 <- paste('^', scan, '.cel', "$",sep='')
@@ -154,12 +155,23 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 				index <- grep(s, cel.file.names, ignore.case=T, extended=F)
 				if(length(index) == 0) {
 					cat(paste("Scan", scan, "in clm file not found. \n"))
+					clm$scan.names <- clm$scan.names[-scanIdx]
+					clm$sample.names <- clm$sample.names[-scanIdx]
+					if(!is.null(clm$factor)) {
+					   clm$factor <- clm$factor[-scanIdx, drop=TRUE]
+					}
 				} else if(length(index)>1) {
 					cat(paste("Scan", scan, "in clm file matches more than one CEL file. \n"))
+					clm$scan.names <- clm$scan.names[-scanIdx]
+					clm$sample.names <- clm$sample.names[-scanIdx]
+					if(!is.null(clm$factor)) {
+					   clm$factor <- clm$factor[-scanIdx, drop=TRUE]
+					}
 				} else {
 					new.cel.file.names[i] <- cel.file.names[index[1]]
 					i <- i + 1
 				}	
+				scanIdx <- scanIdx + 1
 			} # for
 			cel.file.names <- new.cel.file.names
 		} # clm
@@ -448,7 +460,7 @@ get.celfilenames <- function(input.file.name) {
 			zip.unpack(input.file.name, dest=getwd())
 		} else {
 			 zip <- getOption("unzip")
-			 system(paste(zip, "-q", input.file.name))
+			 system(paste(zip, " -q '", input.file.name, "'", sep=''))
 		}
 		
 		files <- list.files()

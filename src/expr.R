@@ -20,7 +20,7 @@ string.to.boolean <- function(s) {
 message <- function (..., domain = NULL, appendLF = TRUE) {
 
 }
-do.install.packages <<- F
+do.install.packages <<- T
 
 zip.file.name <- ''
 output.data.file.name <- ''
@@ -34,7 +34,7 @@ cdf.file <<- NULL
 cleanup <- function() {
 	files <- dir()
 	for(file in files) {
-		if(file != zip.file.name && file!=cdf.file && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.info && file!=probe.descriptions.file.name && file!="stdout.txt" && file!="stderr.txt") {
+		if(file != zip.file.name && file!=cdf.file && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.info && file!=probe.descriptions.file.name && file!="stdout.txt" && file!="stderr.txt" && file != "cmd.out") {
          unlink(file, recursive=T)
       }
 	}		
@@ -116,7 +116,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	compute.calls <- string.to.boolean(compute.calls)
 	annotate.probes <- string.to.boolean(annotate.probes)
 	clm.input.file <<- clm.input.file
-	
+
 	if(libdir!='') {
 		setLibPath(libdir)
 		on.exit(cleanup())
@@ -135,7 +135,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	if(clm.input.file!='') {
 		clm <- read.clm(clm.input.file)
 	}
-	
+
 	cel.file.names <- NULL
 	if(input.file.name!='') {
 		cel.file.names <- get.celfilenames(input.file.name)
@@ -182,7 +182,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	if(length(cel.file.names) == 0) {
 	   exit("No CEL files found.")
 	}
-	
+
 	chip <- read.celfile.header(cel.file.names[[1]])$cdfName
 	for(c in cel.file.names) {
 	   if(chip != read.celfile.header(c)$cdfName) {
@@ -195,7 +195,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			install.package(libdir, "makecdfenv_1.14.0.zip", "makecdfenv_1.14.0.tgz", "makecdfenv_1.14.0.tar.gz")
 		}
 		library(makecdfenv)
-		mycdfenv <<- make.cdf.env(filename=basename(cdf.file), cdf.path=dirname(cdf.file), verbose=F)
+		mycdfenv <<- make.cdf.env(filename=basename(cdf.file), cdf.path=dirname(cdf.file), verbose=T)
 		
 	  # c <- read.cdffile.list(filename=basename(cdf.file),     cdf.path=dirname(cdf.file))
 	  # custom.chip.name <- c$Chip$Name
@@ -205,7 +205,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		 #  exit("The custom cdf file provided does not appear to be from the ", chip, " chip.")	
 		#}
 	}
-	
+
 	compressed <- is.compressed(cel.file.names)
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
 		if(method=='dChip') {
@@ -241,15 +241,15 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		col.names <- sub(".[cC][eE][lL].gz$|.[cC][eE][lL]$", "", col.names)
 		colnames(dataset$data) <- col.names
 	}
-	
+
 	if(annotate.probes) {
 		cdf <- whatcdf(filename=cel.file.names[1], compress=compressed)
-		row.descriptions <- try(get.row.descriptions.csv(dataset$data, cdf))
+		row.descriptions <- try(get.row.descriptions.csv(libdir, dataset$data, cdf))
 		if(!is.null(row.descriptions) && class(row.descriptions)!="try-error" && row.descriptions!='') {
 			dataset$row.descriptions <- row.descriptions
 		}
 	}
-	
+
 	dataset$column.descriptions <- vector("character", length=length(ncol(dataset$data)))
 
 	if(method=='MAS5') {
@@ -260,7 +260,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	} else {
 		output.data.file.name <<- write.gct(dataset, output.file.name)
 	}
-	if(clm.input.file!='') { 
+	if(clm.input.file!='') {
 		return(list(output.data.file.name, output.cls.file.name))
 	} else {
 		return(list(output.data.file.name))
@@ -373,6 +373,7 @@ gp.mas5 <- function(cel.file.names, compressed, compute.calls) {
 		r@cdfName <- 'mycdfenv'
 	}
 	eset <- mas5(r, normalize=FALSE)
+	
 	data <- exprs(eset)
 	if(!compute.calls) {
 		return(list(data=data))
@@ -407,34 +408,38 @@ gp.farms <- function(cel.file.names, compressed, compute.calls, libdir)  {
 # MISC FUNCTIONS
 
 install.required.packages <- function(libdir, method) {
-	if(!do.install.packages) {
-	   return
-	}
+	#if(!do.install.packages) {
+	#   return
+	#}
 	if(!is.package.installed(libdir, "Biobase")) {
-		install.package(libdir, "Biobase_1.14.1.zip", "Biobase_1.14.1.tgz", "Biobase_1.14.1.tar.gz")
+		install.package(libdir, "Biobase_1.14.1.zip", "Biobase_1.14.1.tgz", "Biobase_2.2.2.tar.gz")
 	}
 	
 	if(!is.package.installed(libdir, "affyio")) {
-		install.package(libdir, "affyio_1.4.0.zip", "affyio_1.4.0.tgz", "affyio_1.4.0.tar.gz")
+		install.package(libdir, "affyio_1.4.0.zip", "affyio_1.4.0.tgz", "affyio_1.14.0.tar.gz")
 	}
 	
 	if(!is.package.installed(libdir, "affy")) {
-		install.package(libdir, "affy_1.14.1.zip", "affy_1.14.1.tgz","affy_1.14.1.tar.gz")
+		install.package(libdir, "affy_1.14.1.zip", "affy_1.14.1.tgz","affy_1.20.2.tar.gz")
 	}	
+
+    if(!is.package.installed(libdir, "makecdfenv")) {
+		install.package(libdir, "makecdfenv_1.20.0.zip", "makecdfenv_1.20.0.tgz","makecdfenv_1.20.0.tar.gz")
+	}
 
 	if(method=='GCRMA' && !is.package.installed(libdir, "matchprobes")) {
 		#if(isMac()) {
 		#	Sys.putenv(MAKEFLAGS="LIBR= SHLIB_LIBADD= LIBS=")
 		#}
-		install.package(libdir, "matchprobes_1.8.1.zip", "matchprobes_1.8.1.tgz","matchprobes_1.8.1.tar.gz")
+		install.package(libdir, "matchprobes_1.8.1.zip", "matchprobes_1.8.1.tgz","matchprobes_2.14.1.tar.gz")
 	}
 
 	if(method=='GCRMA' && !is.package.installed(libdir, "gcrma")) {
 		#if(isMac()) {
 		#	Sys.putenv(MAKEFLAGS="LIBR= SHLIB_LIBADD= LIBS=")
 		#}
-		install.package(libdir, "gcrma_2.8.1.zip", "gcrma_2.8.1.tgz","gcrma_2.8.1.tar.gz")
-	}	
+		install.package(libdir, "gcrma_2.8.1.zip", "gcrma_2.8.1.tgz","gcrma_2.14.1.tar.gz")
+	}
 }
 
 
@@ -621,35 +626,43 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 # data - matrix 
 # cdf - the cdf file for data, used to construct the URL to download
 # t - result of read.table(csv), for testing
-get.row.descriptions.csv <- function(data, cdf, t=NULL) {
-	if(is.null(t)) {
-		file.name <- paste(cdf, ".zip", sep='')
+get.row.descriptions.csv <- function(libdir, data, cdf, t=NULL) {
+    file.name <- paste(cdf, ".zip", sep='')
+    absolute.file.name <- paste(libdir, file.name, sep='')    
+	if(is.null(t) && !file.exists(file.name)) {
 		url <- paste("ftp://ftp.broad.mit.edu/pub/genepattern/csv/Affymetrix/", file.name, sep='')
-		on.exit(unlink(file.name))
 		sink(stdout(), type = "message")
-		try(suppressMessages(download.file(url, quiet=T, destfile=file.name, mode="wb")))
+		try(suppressMessages(download.file(url, quiet=T, destfile=absolute.file.name, mode="wb")))
 		sink(stderr(), type = "message")
-		if(!file.exists(file.name) || file.info(file.name)[['size']] == 0) {
+		if(!file.exists(absolute.file.name) || file.info(absolute.file.name)[['size']] == 0) {
 			cat(paste("No annotations found for chip ", cdf, "\n", sep=''))
 			return(NULL)
 		}
 		isWindows <- Sys.info()[["sysname"]]=="Windows"
 		if(isWindows) {
-			rc <- zip.unpack(file.name, dest=getwd())
-       } else {
-		   rc <- .Internal(int.unzip(file.path(getwd(), file.name), NULL, getwd()))
-		}
-		
+			rc <- zip.unpack(absolute.file.name, dest=getwd())
+        }
+        else {
+		   rc <- .Internal(int.unzip(absolute.file.name, NULL, getwd()))
+        }
+
+        cat("before csv")
 		csv.file <- attr(rc, "extracted")
 	    on.exit(unlink(csv.file))
-		desc <- as.matrix(read.table(row.names=1, file=csv.file, header=T, quote='"', comment.char='#', fill=T, sep=","))
-		
+
+	    cat("csv file: ", csv.file)
+		desc <- as.matrix(read.table(row.names=1, file=csv.file, header=T, quote='"', comment.char='#', fill=T, sep=","))		
 	}
-	
+
+    if(file.info(absolute.file.name)[['size']] == 0)
+    {
+        return(NULL)
+    }
+
 	gene.title.idx <-  match('Gene.Title', colnames(desc))
 	gene.symbol.idx <-  match('Gene.Symbol', colnames(desc))
 	probeids <- row.names(data)
-	
+
 	get.gene.info <- function(probe) {
 	    return(paste(desc[[probe, gene.title.idx]], ", ", desc[[probe, gene.symbol.idx ]], sep=''))
 	}
@@ -663,7 +676,7 @@ get.row.descriptions.csv <- function(data, cdf, t=NULL) {
         }
         row.descriptions[i] <- ann
 	}
-	
+
 	return(row.descriptions)
 }
 
@@ -703,5 +716,5 @@ linear.fit <- function(xpoints, ypoints) {
 
 
 
-      
+
 

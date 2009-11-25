@@ -411,16 +411,43 @@ install.required.packages <- function(libdir, method) {
 	#if(!do.install.packages) {
 	#   return
 	#}
-	if(!is.package.installed(libdir, "Biobase")) {
-		install.package(libdir, "Biobase_1.14.1.zip", "Biobase_1.14.1.tgz", "Biobase_2.2.2.tar.gz")
+	if(!is.package.installed(libdir, "Biobase"))
+	{
+	    if(length(grep(R.version$os, "darwin9")) != 0)
+	    {
+	        mac_package <- "Biobase_2.6.0_leopard.tgz"
+	    }
+	    else
+	    {
+	        mac_package <- "Biobase_2.6.0_tiger.tgz"
+	    }
+		install.package(libdir, "Biobase_2.6.0.zip", mac_package, "Biobase_2.6.0.tar.gz")
 	}
 	
-	if(!is.package.installed(libdir, "affyio")) {
-		install.package(libdir, "affyio_1.4.0.zip", "affyio_1.4.0.tgz", "affyio_1.14.0.tar.gz")
+	if(!is.package.installed(libdir, "affyio"))
+	{
+	    if(length(grep(R.version$os, "darwin9")) != 0)
+	    {
+	        mac_package <- "affyio_1.14.0_leopard.tgz"
+	    }
+	    else
+	    {
+	        mac_package <- "affyio_1.14.0_tiger.tgz"
+	    }
+		install.package(libdir, "affyio_1.14.0.zip", mac_package, "affyio_1.14.0.tar.gz")
 	}
 	
-	if(!is.package.installed(libdir, "affy")) {
-		install.package(libdir, "affy_1.14.1.zip", "affy_1.14.1.tgz","affy_1.20.2.tar.gz")
+	if(!is.package.installed(libdir, "affy"))
+	{
+	    if(length(grep(R.version$os, "darwin9")) != 0)
+	    {
+	        mac_package <- "affy_1.20.2_leopard.tgz"
+	    }
+	    else
+	    {
+	        mac_package <- "affyio_1.20.2_tiger.tgz"
+	    }
+		install.package(libdir, "affy_1.20.2.zip", mac_package,"affy_1.20.2.tar.gz")
 	}	
 
     if(!is.package.installed(libdir, "makecdfenv")) {
@@ -646,12 +673,10 @@ get.row.descriptions.csv <- function(libdir, data, cdf, t=NULL) {
 		   rc <- .Internal(int.unzip(absolute.file.name, NULL, getwd()))
         }
 
-        cat("before csv")
 		csv.file <- attr(rc, "extracted")
 	    on.exit(unlink(csv.file))
 
-	    cat("csv file: ", csv.file)
-		desc <- as.matrix(read.table(row.names=1, file=csv.file, header=T, quote='"', comment.char='#', fill=T, sep=","))		
+		desc <- as.matrix(read.table(row.names=1, file=csv.file, header=T, quote='"', comment.char='#', fill=T, sep=","))
 	}
 
     if(file.info(absolute.file.name)[['size']] == 0)

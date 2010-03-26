@@ -152,7 +152,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 				} else {
 					s <- paste('^', scan, "$",sep='')
 				}
-				index <- grep(s, cel.file.names, ignore.case=T, extended=F)
+				index <- grep(s, cel.file.names, ignore.case=T, extended=T)
 				if(length(index) == 0) {
 					cat(paste("Scan", scan, "in clm file not found. \n"))
 					clm$scan.names <- clm$scan.names[-scanIdx]
@@ -180,7 +180,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 
 	if(length(cel.file.names) == 0) {
-	   exit("No CEL files found.")
+	   exit("No CEL files listed in clm file found.")
 	}
 
 	chip <- read.celfile.header(cel.file.names[[1]])$cdfName

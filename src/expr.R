@@ -494,23 +494,24 @@ install.required.packages <- function(libdir, method) {
 		install.package(libdir, "matchprobes_1.14.1.zip", mac_package, "matchprobes_1.14.1.tar.gz")
 	}
 
-	if(method=='GCRMA' && !is.package.installed(libdir, "gcrma"))
-	{
+    #commented out to use already installed gcrma_2.15.0.tar.gz
+	#if(method=='GCRMA' && !is.package.installed(libdir, "gcrma"))
+	#{
 		#if(isMac()) {
 		#	Sys.putenv(MAKEFLAGS="LIBR= SHLIB_LIBADD= LIBS=")
 		#}
 
-	    if(length(grep(R.version$os, "darwin9")) != 0)
-	    {
-	        mac_package <- "gcrma_2.16.0_leopard.tgz"
-	    }
-	    else
-	    {
-	        mac_package <- "gcrma_2.16.0_tiger.tgz"
-	    }
+	#    if(length(grep(R.version$os, "darwin9")) != 0)
+	#    {
+	#        mac_package <- "gcrma_2.16.0_leopard.tgz"
+	#    }
+	#    else
+	#    {
+	#        mac_package <- "gcrma_2.16.0_tiger.tgz"
+	#    }
 
-		install.package(libdir, "gcrma_2.16.0.zip", mac_package, "gcrma_2.16.0.tar.gz")
-	}
+	#	install.package(libdir, "gcrma_2.16.0.zip", mac_package, "gcrma_2.16.0.tar.gz")
+	#}
 }
 
 

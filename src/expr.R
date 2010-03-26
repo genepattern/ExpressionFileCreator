@@ -546,8 +546,14 @@ get.celfilenames <- function(input.file.name) {
 		   if(file.info(file)[['isdir']]) {  # move all CEL files to working directory
 		      subfiles <- list.files(file, full.names=T)
 		      subfiles.names.only <- list.files(file)
-		      for(j in 1:length(subfiles)) {
-		         file.rename(subfiles[[j]], subfiles.names.only[[j]])
+
+              # if the directory is not empty then move files to working directory
+              if(length(subfiles) != 0)
+              {
+		        for(j in 1:length(subfiles))
+		        {
+		            file.rename(subfiles[[j]], subfiles.names.only[[j]])
+		        }
 		      }
 		   }
 		}

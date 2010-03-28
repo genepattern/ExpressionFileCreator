@@ -144,6 +144,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			new.cel.file.names <- vector("character")
 			i <- 1
 			scanIdx <- 1
+			remove.scan.index <- c()
 			for(scan in scan.names) {
 				if(length(grep('cel$', scan, ignore.case=T, extended=F)) == 0) { # check if scan name ends with .cel
 					s1 <- paste('^', scan, '.cel', "$",sep='')
@@ -153,27 +154,40 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 					s <- paste('^', scan, "$",sep='')
 				}
 				index <- grep(s, cel.file.names, ignore.case=T, extended=T)
-				if(length(index) == 0) {
-					cat(paste("Scan", scan, "in clm file not found. \n"))
-					clm$scan.names <- clm$scan.names[-scanIdx]
-					clm$sample.names <- clm$sample.names[-scanIdx]
-					if(!is.null(clm$factor)) {
-					   clm$factor <- clm$factor[-scanIdx, drop=TRUE]
-					}
-				} else if(length(index)>1) {
+
+				if(length(index) == 0) 
+				{
+					cat(paste("Scan", scan, "in clm file was not found. \n"))
+			        remove.scan.index <- c(remove.scan.index, scanIdx)
+				} 
+				else if(length(index)>1) 
+				{
 					cat(paste("Scan", scan, "in clm file matches more than one CEL file. \n"))
-					clm$scan.names <- clm$scan.names[-scanIdx]
-					clm$sample.names <- clm$sample.names[-scanIdx]
-					if(!is.null(clm$factor)) {
-					   clm$factor <- clm$factor[-scanIdx, drop=TRUE]
-					}
-				} else {
-					new.cel.file.names[i] <- cel.file.names[index[1]]
+			        remove.scan.index <- c(remove.scan.index, scanIdx)
+				} 
+				else 
+				{
+				    new.cel.file.names[i] <- cel.file.names[index[1]]
 					i <- i + 1
 				}	
 				scanIdx <- scanIdx + 1
 			} # for
 			cel.file.names <- new.cel.file.names
+			
+			#remove duplicate or missing scan names
+			if(length(remove.scan.index) !=0)
+			{
+                clm$scan.names <- clm$scan.names[-remove.scan.index]
+                clm$sample.names <- clm$sample.names[-remove.scan.index]
+                
+                if(!is.null(clm$factor))
+                {
+			        clm$factor <- clm$factor[-remove.scan.index, drop=TRUE]
+			    }
+			}
+
+			cat("\n final clm is: ")
+			print(clm)
 		} # clm
 	} else {
 		exit("Either a zip of CEL files or a clm file is required.")

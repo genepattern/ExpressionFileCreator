@@ -185,9 +185,6 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			        clm$factor <- clm$factor[-remove.scan.index, drop=TRUE]
 			    }
 			}
-
-			cat("\n final clm is: ")
-			print(clm)
 		} # clm
 	} else {
 		exit("Either a zip of CEL files or a clm file is required.")

@@ -246,7 +246,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			output.cls.file.name <<- get.cls.file.name(output.file.name)		
 			write.factor.to.cls (factor, output.cls.file.name)
 		}
-			
+
 	} else {  # remove .cel extension from names
 		col.names <- colnames(dataset$data)		
 		col.names <- sub(".[cC][eE][lL].gz$|.[cC][eE][lL]$", "", col.names)
@@ -256,7 +256,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	if(annotate.probes) {
 		cdf <- whatcdf(filename=cel.file.names[1], compress=compressed)
 		row.descriptions <- try(get.row.descriptions.csv(libdir, dataset$data, cdf))
-		if(!is.null(row.descriptions) && class(row.descriptions)!="try-error" && row.descriptions!='') {
+		if(!is.null(row.descriptions) && class(row.descriptions)!="try-error") {
 			dataset$row.descriptions <- row.descriptions
 		}
 	}
@@ -299,7 +299,7 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
     # n <- length(cel.files)
     # pdata <- data.frame(sample = 1:n, row.names = samplenames)
     # phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
-    
+
     if(is.null(mycdfenv)) {
         eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE)
     } else {
@@ -717,7 +717,7 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 # t - result of read.table(csv), for testing
 get.row.descriptions.csv <- function(libdir, data, cdf, t=NULL) {
     file.name <- paste(cdf, ".zip", sep='')
-    absolute.file.name <- paste(libdir, file.name, sep='')    
+    absolute.file.name <- paste(libdir, file.name, sep='')
 	if(is.null(t) && !file.exists(file.name)) {
 		url <- paste("ftp://ftp.broadinstitute.org/pub/genepattern/csv/Affymetrix/", file.name, sep='')
 		sink(stdout(), type = "message")

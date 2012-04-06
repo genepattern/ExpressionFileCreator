@@ -719,7 +719,7 @@ get.row.descriptions.csv <- function(libdir, data, cdf, t=NULL) {
     file.name <- paste(cdf, ".zip", sep='')
     absolute.file.name <- paste(libdir, file.name, sep='')
 	if(is.null(t) && !file.exists(file.name)) {
-		url <- paste("ftp://ftp.broadinstitute.org/pub/genepattern/csv/Affymetrix/", file.name, sep='')
+		url <- paste("ftp://ftp.broadinstitute.org/pub/genepattern/csv/Affymetrix/2012-annotations", file.name, sep='')
 		sink(stdout(), type = "message")
 		try(suppressMessages(download.file(url, quiet=T, destfile=absolute.file.name, mode="wb")))
 		sink(stderr(), type = "message")

@@ -424,68 +424,27 @@ install.required.packages <- function(libdir, method) {
 	#}
 	if(!is.package.installed(libdir, "Biobase"))
 	{
-	    if(length(grep(R.version$os, "darwin9")) != 0)
-	    {
-	        mac_package <- "Biobase_2.2.2_leopard.tgz"
-	    }
-	    else
-	    {
-	        mac_package <- "Biobase_2.2.2_tiger.tgz"
-	    }
-		install.package(libdir, "Biobase_2.2.2.zip", mac_package, "Biobase_2.2.2.tar.gz")
+		install.package(libdir, "Biobase_2.2.2.zip", "Biobase_2.2.2.tgz", "Biobase_2.2.2.tar.gz")
 	}
 	
 	if(!is.package.installed(libdir, "affyio"))
 	{
-	    if(length(grep(R.version$os, "darwin9")) != 0)
-	    {
-	        mac_package <- "affyio_1.14.0_leopard.tgz"
-	    }
-	    else
-	    {
-	        mac_package <- "affyio_1.14.0_tiger.tgz"
-	    }
-		install.package(libdir, "affyio_1.14.0.zip", mac_package, "affyio_1.14.0.tar.gz")
+		install.package(libdir, "affyio_1.14.0.zip", "affyio_1.14.0.tgz", "affyio_1.14.0.tar.gz")
 	}
 
 	if(!is.package.installed(libdir, "preprocessCore"))
 	{
-	    if(length(grep(R.version$os, "darwin9")) != 0)
-	    {
-	        mac_package <- "preprocessCore_1.4.0_leopard.tgz"
-	    }
-	    else
-	    {
-	        mac_package <- "preprocessCore_1.4.0_tiger.tgz"
-	    }
-		install.package(libdir, "preprocessCore_1.4.0.zip", mac_package, "preprocessCore_1.4.0.tar.gz")
+		install.package(libdir, "preprocessCore_1.4.0.zip", "preprocessCore_1.4.0.tgz", "preprocessCore_1.4.0.tar.gz")
 	}
 
 	if(!is.package.installed(libdir, "affy"))
 	{
-	    if(length(grep(R.version$os, "darwin9")) != 0)
-	    {
-	        mac_package <- "affy_1.20.2_leopard.tgz"
-	    }
-	    else
-	    {
-	        mac_package <- "affyio_1.20.2_tiger.tgz"
-	    }
-		install.package(libdir, "affy_1.20.2.zip", mac_package,"affy_1.20.2.tar.gz")
+		install.package(libdir, "affy_1.20.2.zip", "affy_1.20.2.tgz","affy_1.20.2.tar.gz")
 	}	
 
     if(!is.package.installed(libdir, "makecdfenv"))
     {
-        if(length(grep(R.version$os, "darwin9")) != 0)
-	    {
-	        mac_package <- "makecdfenv_1.20.0_leopard.tgz"
-	    }
-	    else
-	    {
-	        mac_package <- "makecdfenv_1.20.0_tiger.tgz"
-	    }
-
-		install.package(libdir, "makecdfenv_1.20.0.zip", mac_package, "makecdfenv_1.20.0.tar.gz")
+		install.package(libdir, "makecdfenv_1.20.0.zip", "makecdfenv_1.20.0.tgz", "makecdfenv_1.20.0.tar.gz")
 	}
 
 	if(method=='GCRMA' && !is.package.installed(libdir, "matchprobes"))
@@ -494,15 +453,7 @@ install.required.packages <- function(libdir, method) {
 		#	Sys.putenv(MAKEFLAGS="LIBR= SHLIB_LIBADD= LIBS=")
 		#}
 
-	    if(length(grep(R.version$os, "darwin9")) != 0)
-	    {
-	        mac_package <- "matchprobes_1.14.1_leopard.tgz"
-	    }
-	    else
-	    {
-	        mac_package <- "matchprobes_1.14.1_tiger.tgz"
-	    }
-		install.package(libdir, "matchprobes_1.14.1.zip", mac_package, "matchprobes_1.14.1.tar.gz")
+		install.package(libdir, "matchprobes_1.14.1.zip", "matchprobes_1.14.1.tgz", "matchprobes_1.14.1.tar.gz")
 	}
 
     #commented out to use already installed gcrma_2.15.0.tar.gz

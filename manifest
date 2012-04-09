@@ -106,4 +106,4 @@ requiredPatchURLs=http\://www.broad.mit.edu/webservices/gpModuleRepository/downl
 serializedModel=
 taskType=Preprocess & Utilities
 userid=nazaire@broad.mit.edu
-version=updated to use new csv, removed tiger versions, renamed leopard version, removed extraneous R scripts, edited to point to correct packages and updated Affyio package to one that is build for R2.8
+version=fixed typo in ftp location of csvs

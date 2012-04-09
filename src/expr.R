@@ -104,10 +104,6 @@ parseCmdLine <- function(...) {
 
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, compute.calls, normalization.method, clm.input.file, libdir, value.to.scale.to, annotate.probes, cdf.file)  {
 	source(paste(libdir, "common.R", sep=''))
-	source(paste(libdir, "packages.R", sep=''))
-	source(paste(libdir, "packages2.R", sep=''))
-	source(paste(libdir, "install.packages.R", sep=''))
-	source(paste(libdir, "install.packages.mac.R", sep=''))
 
 	DEBUG <<- F
 	zip.file.name <<- input.file.name # for cleanup

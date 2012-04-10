@@ -663,7 +663,8 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 # cdf - the cdf file for data, used to construct the URL to download
 # t - result of read.table(csv), for testing
 get.row.descriptions.csv <- function(libdir, data, cdf, t=NULL) {
-    file.name <- paste(cdf, ".zip", sep='')
+    #if(match('ST', cdf)
+    file.name <- paste(cdf, "na32.annot.csv.zip", sep='')
     absolute.file.name <- paste(libdir, file.name, sep='')
 	if(is.null(t) && !file.exists(file.name)) {
 		url <- paste("ftp://ftp.broadinstitute.org/pub/genepattern/csv/Affymetrix/2012-annotations/", file.name, sep='')

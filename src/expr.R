@@ -662,8 +662,8 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 # data - matrix 
 # cdf - the cdf file for data, used to construct the URL to download
 # t - result of read.table(csv), for testing
+# sym links created on ftp site for ST arrays to match naming scheme of all other arrays - bhill 4/10/12
 get.row.descriptions.csv <- function(libdir, data, cdf, t=NULL) {
-    #if(match('ST', cdf)
     file.name <- paste(cdf, "na32.annot.csv.zip", sep='')
     absolute.file.name <- paste(libdir, file.name, sep='')
 	if(is.null(t) && !file.exists(file.name)) {

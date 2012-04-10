@@ -664,7 +664,7 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 # t - result of read.table(csv), for testing
 # sym links created on ftp site for ST arrays to match naming scheme of all other arrays - bhill 4/10/12
 get.row.descriptions.csv <- function(libdir, data, cdf, t=NULL) {
-    file.name <- paste(cdf, "na32.annot.csv.zip", sep='')
+    file.name <- paste(cdf, ".na32.annot.csv.zip", sep='')
     absolute.file.name <- paste(libdir, file.name, sep='')
 	if(is.null(t) && !file.exists(file.name)) {
 		url <- paste("ftp://ftp.broadinstitute.org/pub/genepattern/csv/Affymetrix/2012-annotations/", file.name, sep='')

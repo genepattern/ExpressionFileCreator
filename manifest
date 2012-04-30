@@ -106,4 +106,4 @@ requiredPatchURLs=http\://www.broad.mit.edu/webservices/gpModuleRepository/downl
 serializedModel=
 taskType=Preprocess & Utilities
 userid=nazaire@broad.mit.edu
-version=Release Candidate
+version=Updated to include Affy Annotation CSVs from Feb 2012

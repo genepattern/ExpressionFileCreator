@@ -5,18 +5,12 @@
 	<target name="create-zip" depends="init">
 		<antcall target="prezip" />
 		<zip destfile="${dest.dir}/${ant.project.name}.zip" whenempty="fail" defaultexcludes="true">
-			<fileset dir="." includes="manifest, *.pdf" />
+			<fileset dir="." includes="manifest, *.pdf, r.libraries.txt" />
 			<fileset dir="../common/R">
-				<include name="common.R" />
+                <include name="loadRLibrary.R"/>
 			</fileset>
 			<fileset dir="src">
 				<include name="*.R" />
-			</fileset>
-			<fileset dir="lib">
-				<include name="*.tar.gz" />
-				<include name="*.zip" />
-				<include name="*.tgz" />
-				<exclude name="farms*" />
 			</fileset>
 		</zip>
 		<antcall target="postzip" />

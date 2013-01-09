@@ -1,6 +1,6 @@
 # The Broad Institute
 # SOFTWARE COPYRIGHT NOTICE AGREEMENT
-# This software and its documentation are copyright (2003-2007) by the
+# This software and its documentation are copyright (2003-2013) by the
 # Broad Institute/Massachusetts Institute of Technology. All rights are
 # reserved.
 
@@ -20,7 +20,6 @@ string.to.boolean <- function(s) {
 message <- function (..., domain = NULL, appendLF = TRUE) {
 
 }
-do.install.packages <<- T
 
 zip.file.name <- ''
 output.data.file.name <- ''
@@ -32,7 +31,7 @@ mycdfenv <<- NULL
 cdf.file <<- NULL
 
 cleanup <- function() {
-	files <- dir()
+  files <- dir()
 	for(file in files) {
 		if(file != zip.file.name && file!=cdf.file && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.info && file!=probe.descriptions.file.name && file!="stdout.txt" && file!="stderr.txt" && file != "cmd.out") {
          unlink(file, recursive=T)
@@ -40,12 +39,12 @@ cleanup <- function() {
 	}		
 }
 
-parseCmdLine <- function(...) {
-	suppressMessages(.parseCmdLine(...))
+parseCmdLine <- function(args) {
+	suppressMessages(.parseCmdLine(args))
 }
 
-.parseCmdLine <- function(...) {
-	args <- list(...)
+.parseCmdLine <- function(args) {
+#	args <- list(...)
 	input.file.name <- ''
 	output.file.name <- ''
 	method <- ''
@@ -57,7 +56,7 @@ parseCmdLine <- function(...) {
 	clm.input.file <- ''
 	annotate.probes <- ''
 	value.to.scale.to <- NULL
-
+	
 	for(i in 1:length(args)) {
 		flag <- substring(args[[i]], 0, 2)
 		value <- substring(args[[i]], 3, nchar(args[[i]]))
@@ -94,10 +93,8 @@ parseCmdLine <- function(...) {
 		} else {
 			stop(paste("unknown flag ", flag, " value ", value, sep=""), .call=FALSE)
 		} 
-		
 	}
-	
-	
+        	
 	create.expression.file(input.file.name=input.file.name, output.file.name=output.file.name, method=method, quantile.normalization=quantile.normalization, background=background, compute.calls=compute.calls, normalization.method=normalization.method, clm.input.file=clm.input.file, libdir=libdir, value.to.scale.to=value.to.scale.to, annotate.probes=annotate.probes, cdf.file=cdf.file)
 
 }
@@ -114,15 +111,8 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	clm.input.file <<- clm.input.file
 
 	if(libdir!='') {
-		setLibPath(libdir)
-		on.exit(cleanup())
-		install.required.packages(libdir, method)
+      on.exit(cleanup())
 	}
-	
-	suppressMessages(library(tools))
-	suppressMessages(library(Biobase))
-	suppressMessages(library(affy))
-	suppressMessages(library(affyio))
 	
 	dataset <- NULL # list containing data and calls if isRes is true
 	isRes <- compute.calls
@@ -135,6 +125,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	cel.file.names <- NULL
 	if(input.file.name!='') {
 		cel.file.names <- get.celfilenames(input.file.name)
+		
 		if(!is.null(clm)) {
 			scan.names <- clm$scan.names
 			new.cel.file.names <- vector("character")
@@ -142,14 +133,14 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 			scanIdx <- 1
 			remove.scan.index <- c()
 			for(scan in scan.names) {
-				if(length(grep('cel$', scan, ignore.case=T, extended=F)) == 0) { # check if scan name ends with .cel
+				if(length(grep('cel$', scan, ignore.case=T)) == 0) { # check if scan name ends with .cel
 					s1 <- paste('^', scan, '.cel', "$",sep='')
 					s2 <- paste('^', scan, '.cel.gz', "$",sep='')
 					s <- paste(s1, "|", s2, sep="")
 				} else {
 					s <- paste('^', scan, "$",sep='')
 				}
-				index <- grep(s, cel.file.names, ignore.case=T, extended=T)
+				index <- grep(s, cel.file.names, ignore.case=T)
 
 				if(length(index) == 0) 
 				{
@@ -198,10 +189,6 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 	
 	if(!is.null(cdf.file) && cdf.file!='') {
-		if(do.install.packages && !is.package.installed(libdir, "makecdfenv")) {
-			install.package(libdir, "makecdfenv_1.14.0.zip", "makecdfenv_1.14.0.tgz", "makecdfenv_1.14.0.tar.gz")
-		}
-		library(makecdfenv)
 		mycdfenv <<- make.cdf.env(filename=basename(cdf.file), cdf.path=dirname(cdf.file), verbose=T)
 		
 	  # c <- read.cdffile.list(filename=basename(cdf.file),     cdf.path=dirname(cdf.file))
@@ -227,6 +214,8 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	} else if(method=='MAS5'){
 		dataset <- gp.mas5(cel.file.names, compressed, compute.calls)
 	} else if(method=="FARMS") {
+	    # DE note: unreachable from GP module - "FARMS" is not offered as a valid method choice.
+	    # Can we safely delete?
 		dataset <- gp.farms(cel.file.names, compressed, compute.calls, libdir)
 	} else {
 		exit('Unknown method')	
@@ -290,12 +279,11 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
    #       background given in affy version 1.1 and above
 	
 gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=FALSE) {
-    # samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files), 
-    # extended = TRUE)
+    # samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files))
     # n <- length(cel.files)
     # pdata <- data.frame(sample = 1:n, row.names = samplenames)
     # phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
-
+  
     if(is.null(mycdfenv)) {
         eset <- just.rma(filenames=cel.files, compress=compressed, normalize=normalize, background=background, verbose=FALSE)
     } else {
@@ -319,8 +307,7 @@ gp.rma <- function(cel.files, compressed, normalize, background, compute.calls=F
 
 
 gp.gcrma <- function(cel.files, compressed, normalize, compute.calls=FALSE) { 
-	# samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files), 
-    #        extended = TRUE)
+	# samplenames <- gsub("^/?([^/]*/)*", "", unlist(cel.files))
    # n <- length(cel.files)
 	# pdata <- data.frame(sample = 1:n, row.names = samplenames)
 	# phenoData <- new("phenoData", pData = pdata, varLabels = list(sample = "arbitrary numbering"))
@@ -391,10 +378,11 @@ gp.mas5 <- function(cel.file.names, compressed, compute.calls) {
 	}
 }
 
+# DE note: This method is no longer in use.  Can we safely delete?
 gp.farms <- function(cel.file.names, compressed, compute.calls, libdir)  {
-	if(do.install.packages && !is.package.installed(libdir, "farms")) {
-		install.package(libdir, "farms.zip", "farms_1.0.0.tar.gz", "farms_1.0.0.tar.gz")
-	}
+#	if(do.install.packages && !is.package.installed(libdir, "farms")) {
+#		install.package(libdir, "farms.zip", "farms_1.0.0.tar.gz", "farms_1.0.0.tar.gz")
+#	}
 	library(farms)
 	r <- ReadAffy(filenames=cel.file.names, compress=compressed) 
 	if(!is.null(mycdfenv)) {
@@ -414,65 +402,6 @@ gp.farms <- function(cel.file.names, compressed, compute.calls, libdir)  {
 ########################################################
 # MISC FUNCTIONS
 
-install.required.packages <- function(libdir, method) {
-	#if(!do.install.packages) {
-	#   return
-	#}
-	if(!is.package.installed(libdir, "Biobase"))
-	{
-		install.package(libdir, "Biobase_2.2.2.zip", "Biobase_2.2.2.tgz", "Biobase_2.2.2.tar.gz")
-	}
-	
-	if(!is.package.installed(libdir, "affyio"))
-	{
-		install.package(libdir, "affyio_1.14.0.zip", "affyio_1.14.0.tgz", "affyio_1.14.0.tar.gz")
-	}
-
-	if(!is.package.installed(libdir, "preprocessCore"))
-	{
-		install.package(libdir, "preprocessCore_1.4.0.zip", "preprocessCore_1.4.0.tgz", "preprocessCore_1.4.0.tar.gz")
-	}
-
-	if(!is.package.installed(libdir, "affy"))
-	{
-		install.package(libdir, "affy_1.20.2.zip", "affy_1.20.2.tgz","affy_1.20.2.tar.gz")
-	}	
-
-    if(!is.package.installed(libdir, "makecdfenv"))
-    {
-		install.package(libdir, "makecdfenv_1.20.0.zip", "makecdfenv_1.20.0.tgz", "makecdfenv_1.20.0.tar.gz")
-	}
-
-	if(method=='GCRMA' && !is.package.installed(libdir, "matchprobes"))
-	{
-		#if(isMac()) {
-		#	Sys.putenv(MAKEFLAGS="LIBR= SHLIB_LIBADD= LIBS=")
-		#}
-
-		install.package(libdir, "matchprobes_1.14.1.zip", "matchprobes_1.14.1.tgz", "matchprobes_1.14.1.tar.gz")
-	}
-
-    #commented out to use already installed gcrma_2.15.0.tar.gz
-	#if(method=='GCRMA' && !is.package.installed(libdir, "gcrma"))
-	#{
-		#if(isMac()) {
-		#	Sys.putenv(MAKEFLAGS="LIBR= SHLIB_LIBADD= LIBS=")
-		#}
-
-	#    if(length(grep(R.version$os, "darwin9")) != 0)
-	#    {
-	#        mac_package <- "gcrma_2.16.0_leopard.tgz"
-	#    }
-	#    else
-	#    {
-	#        mac_package <- "gcrma_2.16.0_tiger.tgz"
-	#    }
-
-	#	install.package(libdir, "gcrma_2.16.0.zip", mac_package, "gcrma_2.16.0.tar.gz")
-	#}
-}
-
-
 get.cls.file.name <- function(data.output.file.name) {
 	gct.ext <- regexpr(paste(".gct","$",sep=""), tolower(data.output.file.name))
 	if(gct.ext[[1]] != -1) {
@@ -490,14 +419,7 @@ get.cls.file.name <- function(data.output.file.name) {
 
 get.celfilenames <- function(input.file.name) {
 	if(!file.info(input.file.name)[['isdir']]) {
-		isWindows <- Sys.info()[["sysname"]]=="Windows"
-		if(isWindows) {
-			zip.unpack(input.file.name, dest=getwd())
-		} else {
-			 zip <- getOption("unzip")
-			 system(paste(zip, " -q '", input.file.name, "'", sep=''))
-		}
-		
+		unzip(input.file.name)
 		files <- list.files()
 		
 		for(file in files) {
@@ -526,7 +448,7 @@ get.celfilenames <- function(input.file.name) {
 
 is.compressed <- function(cel.files) {
 	for(f in cel.files) {
-		r <- grep(".[cC][eE][lL].gz$", f, extended=F)
+		r <- grep(".[cC][eE][lL].gz$", f)
 		if(length(r) > 0) {
 			return(TRUE)
 		}
@@ -675,16 +597,25 @@ get.row.descriptions.csv <- function(libdir, data, cdf, t=NULL) {
 			cat(paste("No annotations found for chip ", cdf, "\n", sep=''))
 			return(NULL)
 		}
-		isWindows <- Sys.info()[["sysname"]]=="Windows"
-		if(isWindows) {
-			rc <- zip.unpack(absolute.file.name, dest=getwd())
-        }
-        else {
-		   rc <- .Internal(int.unzip(absolute.file.name, NULL, getwd()))
-        }
-
-		csv.file <- attr(rc, "extracted")
-	    on.exit(unlink(csv.file))
+    rc <- unzip(absolute.file.name)
+    matches <- grep("csv$", rc, value = TRUE)
+    if (length(matches) == 0) {
+      # Should never happen; we should always get one match
+      cat(paste("No annotations found for chip ", cdf, "\n", sep=''))
+      return(NULL)
+    }
+    else if (length(matches) > 2) {
+      # Should never happen; we should always get one match
+      cat(paste("Multiple annotations found for chip ", cdf, "!\n", sep=''))
+      return(NULL)
+		}
+    else {
+      csv.file <- matches[1]
+    }
+    
+    for (file in rc) {
+	    on.exit(unlink(file))
+	}
 
 		desc <- as.matrix(read.table(row.names=1, file=csv.file, header=T, quote='"', comment.char='#', fill=T, sep=","))
 	}
@@ -695,6 +626,7 @@ get.row.descriptions.csv <- function(libdir, data, cdf, t=NULL) {
     }
 
 	gene.title.idx <-  match('Gene.Title', colnames(desc))
+    
 	gene.symbol.idx <-  match('Gene.Symbol', colnames(desc))
 	probeids <- row.names(data)
 

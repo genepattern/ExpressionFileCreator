@@ -12,12 +12,15 @@ nnet_7.3-5
 rpart_3.1-55
 spatial_7.3-5
 BiocGenerics_0.4.0
+DBI_0.2-5
+RSQLite_0.11.2
 IRanges_1.16.2
 Biobase_2.18.0
+AnnotationDbi_1.20.1
 zlibbioc_1.4.0
 affyio_1.26.0
 preprocessCore_1.20.0
 affy_1.36.0
-makecdfenv_1.36.0
 Biostrings_2.26.2
 gcrma_2.30.0
+makecdfenv_1.36.0

@@ -8,6 +8,48 @@
 # whatsoever. Neither the Broad Institute nor MIT can be responsible for its
 # use, misuse, or functionality.
 
+######### 
+# Receive arguments from Rscript command line.  These will be processed
+# by parseCmdLine.  This preamble was added to allow use of Rscript.  The
+# actual processing call is at the end of this file.  (DE note: refactor
+# when there is a chance to do so).
+args <- commandArgs(trailingOnly=TRUE)
+
+# Load required packages and set up library paths.
+vers <- "2.15"            # R version
+libdir <- args[1]
+server.dir <- args[2]
+patch.dir <- args[3]
+
+source(file.path(libdir, "loadRLibrary.R"))
+load.packages(libdir, patch.dir, server.dir, vers)
+
+# Specific version of Bioconductor to use for installing CDFs.  For the R 2.15 series,
+# we can safely use Bioconductor 2.10 (bc2.9 is for R 2.14.x, bc2.11 is for R 2.15.2+)
+# We could probably use these others instead, but testing that would be difficult.
+bioc.vers <- '2.10'
+
+# Build a repository URL based on the BioC version number.
+baseRepos <- getOption("BioC_mirror", "http://bioconductor.org")
+annotRepos <- paste(baseRepos, "packages", bioc.vers, "data/annotation", sep="/")
+    
+# Library path to find the already installed CDFs from Bioconductor, added to .libPaths().
+biocLibLoc <- file.path(patch.dir, "rlib", vers, "Bioconductor", bioc.vers)
+
+# Does it exist?  If not, create it.
+if (!file.exists(biocLibLoc)) {
+    dir.create(biocLibLoc, recursive=TRUE, mode="0755")
+}
+
+.libPaths(c(biocLibLoc, .libPaths()))
+
+sessionInfo()
+
+# Preamble ends.  Look to end of file for actual processing call.
+######### 
+
+######### Original EFC code follows below (with updates for R 2.15)
+
 # this file contains a collection of functions to go from probe level data (Cel files) to expression measures 
 
 string.to.boolean <- function(s) {
@@ -44,7 +86,6 @@ parseCmdLine <- function(args) {
 }
 
 .parseCmdLine <- function(args) {
-#	args <- list(...)
 	input.file.name <- ''
 	output.file.name <- ''
 	method <- ''
@@ -94,13 +135,13 @@ parseCmdLine <- function(args) {
 			stop(paste("unknown flag ", flag, " value ", value, sep=""), .call=FALSE)
 		} 
 	}
-        	
+
 	create.expression.file(input.file.name=input.file.name, output.file.name=output.file.name, method=method, quantile.normalization=quantile.normalization, background=background, compute.calls=compute.calls, normalization.method=normalization.method, clm.input.file=clm.input.file, libdir=libdir, value.to.scale.to=value.to.scale.to, annotate.probes=annotate.probes, cdf.file=cdf.file)
 
 }
 
 create.expression.file <- function(input.file.name, output.file.name, method, quantile.normalization, background, compute.calls, normalization.method, clm.input.file, libdir, value.to.scale.to, annotate.probes, cdf.file)  {
-	source(paste(libdir, "common.R", sep=''))
+	source(paste(libdir, "common.R", sep=''))  # DE note: Should be safe to move to Rscript preamble.
 
 	DEBUG <<- F
 	zip.file.name <<- input.file.name # for cleanup
@@ -121,7 +162,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	if(clm.input.file!='') {
 		clm <- read.clm(clm.input.file)
 	}
-
+	
 	cel.file.names <- NULL
 	if(input.file.name!='') {
 		cel.file.names <- get.celfilenames(input.file.name)
@@ -187,7 +228,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	      exit("CEL files are from different chips.")
 	   } 
 	}
-	
+
 	if(!is.null(cdf.file) && cdf.file!='') {
 		mycdfenv <<- make.cdf.env(filename=basename(cdf.file), cdf.path=dirname(cdf.file), verbose=T)
 		
@@ -199,6 +240,10 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		 #  exit("The custom cdf file provided does not appear to be from the ", chip, " chip.")	
 		#}
 	}
+	else {
+	    # If the CDF is not found or supplied by the user, then try to load it
+        require.cdf(chip)
+	}
 
 	compressed <- is.compressed(cel.file.names)
 	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
@@ -207,7 +252,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		} else if(method=='RMA'){
 			dataset <- gp.rma(cel.file.names, compressed, quantile.normalization, background, compute.calls)
 		} else if(method=='GCRMA') {
-			library(gcrma, verbose=FALSE)
+			library(gcrma, verbose=FALSE)  # DE note: should be redundant...
 			dataset <- gp.gcrma(cel.file.names, compressed, quantile.normalization, compute.calls)
 		}
 		
@@ -339,9 +384,10 @@ gp.dchip <- function(cel.file.names, compressed, compute.calls=FALSE) {
 	if(!is.null(mycdfenv)) {
    		afbatch@cdfName <- 'mycdfenv'
    	}
-   	
-	eset <- expresso(afbatch, normalize.method="invariantset", bg.correct=FALSE, pmcorrect.method="pmonly",summary.method="liwong", verbose=FALSE) 
+
+	eset <- expresso(afbatch, normalize.method="invariantset", bg.correct=FALSE, pmcorrect.method="pmonly",summary.method="liwong", verbose=TRUE) 
 	data <- exprs(eset)
+	
 	if(!compute.calls) {
 		return(list(data=data))
 	} else {
@@ -648,20 +694,32 @@ get.row.descriptions.csv <- function(libdir, data, cdf, t=NULL) {
 }
 
 get.row.descriptions.annaffy <- function(cdf, data) {
+# DE note: this function does not appear to be called by the module code...
 	library(annaffy)
-	cdf <- tolower(sub("_", "", cdf))
-	if(!require(cdf, quietly=TRUE, character.only=TRUE)) {
-			info(paste("installing", cdf, "..."))
-			source("http://www.bioconductor.org/getBioC.R")		
-			getBioC(pkgs=c(cdf))
-			info(paste(cdf, "installed"))
-	}	
+    # If the CDF is not found or supplied by the user, then try to load it
+    require.cdf(cdf)
 	affy.descriptions <- aafDescription(row.names(data),chip=cdf)
 	affy.descriptions <- sapply(affy.descriptions, getText)	
 	gene.symbols <- aafSymbol(row.names(data), chip=cdf)
 	gene.symbols <- sapply(gene.symbols, getText)
 	row.descriptions <- paste(affy.descriptions, gene.symbols, sep=", ")	
 	return(row.descriptions)
+}
+
+# Make sure that the given CDF is available.  This should be done before
+# calling the normalization methods of the affy package as they can trigger an 
+# automatic download from a repository site.  We want to avoid this in favor of
+# doing it in a controlled fashion.  We will try to load it from the repository
+# for our specific, chosen version of Bioconductor if we don't have it already.
+#  DE note: modify this to pass along the proxy info.
+require.cdf <- function(cdfname) {
+   # Transform the name to match what is used in Bioconductor
+   repos_cdf <- cleancdfname(cdfname) 
+   if (!require(repos_cdf, quietly=TRUE, character.only=TRUE)) {
+      info(paste("installing ", repos_cdf, "..."))
+      install.packages(repos_cdf, repos=annotRepos, lib=biocLibLoc, quiet=TRUE)
+      info(paste(repos_cdf, "installed"))
+   }
 }
 
 linear.fit <- function(xpoints, ypoints) {
@@ -684,4 +742,6 @@ linear.fit <- function(xpoints, ypoints) {
 
 
 
-
+######### 
+# Actual call to process args and run the EFC code
+parseCmdLine(args[4:NROW(args)])

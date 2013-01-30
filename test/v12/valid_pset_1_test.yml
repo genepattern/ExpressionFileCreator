@@ -1,0 +1,21 @@
+#lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00041:7
+#
+module: ExpressionFileCreator
+params:
+        input.file: "./DBA_cel_files_small.zip"
+        clm.file: "./DBA_cel_files_small.clm"
+        annotate.probes: "yes"
+        normalization.method: "median scaling"
+        output.file: "<input.file_basename>"
+        compute.present.absent.calls: "yes"
+        method: "RMA"
+        quantile.normalization: "yes"
+        background.correct: "yes"
+        value.to.scale.to:
+        cdf.file:
+assertions:
+        files:
+            "DBA_cel_files_small.cls":
+                diff: ./valid_pset_1_test/DBA_cel_files_small.cls
+            "DBA_cel_files_small.res":
+                diff: ./valid_pset_1_test/DBA_cel_files_small.res

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="gp-unit" default="run-group">
+    <property name="gpunit.dir" location="./" />
+    <property name="gpunit.properties" value="gpunit.properties" />
+    <property file="${gpunit.properties}" />
+
+    <property name="gp.host" value="gpdev.broadinstitute.org" />
+    <property name="gp.port" value="" />
+    <property name="gp.user" value="test" />
+    <property name="gp.password" value="test" />
+
+    <property name="gp.url" value="http://${gp.host}${gp.port}" />
+    <property name="local.dir" location="${gpunit.dir}/tmp/${gp.host}" />
+    <property name="client.lib.dir" location="${local.dir}/client" />
+    <!-- if the client.dir already exists, skip the rest -->
+    <available property="gp-client-lib-exists" file="${client.lib.dir}/GenePattern.jar" />
+    <property name="report.dir" value="reports" />
+
+    <basename file="${basedir}" property="param.set.name" />
+
+    <path id="gpunit.classpath">
+        <fileset dir="lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="init">
+<echo>initializing directories ...
+local.dir: ${local.dir}
+report.dir: ${report.dir} 
+</echo>
+        <tstamp>
+           <format property="start.time" pattern="yyyyMMddHHmmss" />
+        </tstamp>
+        <mkdir dir="${local.dir}" />
+        <mkdir dir="${report.dir}" />
+    </target>
+
+    <!-- run a set of gp-unit tests via SOAP client requests 
+         use a single parameterized jUnit test to submit the jobs and validate the results.
+         
+         To run the tests, create a path, give it a refid, then create a property from that refid.
+         Look at the gpunit-all-protocols target for an example. 
+      -->
+    <macrodef name="run-tests">
+        <attribute name="testcases" />
+        <attribute name="numthreads" default="16" />
+        <!-- when running jobs in parallel, this is the max time in seconds to wait before finishing the test -->
+        <attribute name="shutdowntimeout" default="300" /> 
+        <attribute name="junit.formatter" default="xml" /> <!-- 'brief' | 'xml' | 'html' | 'plain'-->
+        <attribute name="showoutput" default="true" />
+        <attribute name="usefile" default="true" />
+        <sequential>
+            <echo>testcases: @{testcases}</echo>
+            <echo>junit.formatter: @{junit.formatter}</echo>
+
+            <property name="gpunit.classpath.prop" refid="gpunit.classpath" /> 
+            <echo>gpunit.classpath: ${gpunit.classpath.prop}</echo>
+
+            <junit fork="yes" printsummary="on" haltonfailure="false" showoutput="@{showoutput}" logfailedtests="true" failureProperty="test.failure" >
+                <formatter type="@{junit.formatter}" usefile="@{usefile}" />
+                <formatter type="brief" usefile="true" /> <!-- Always output a txt formatted listing as well -->
+                <test name="org.genepattern.gpunit.test.BatchModuleTest" outfile="${report.dir}/TEST-all" />
+                <classpath refid="gpunit.classpath" />
+                <sysproperty key="gpunit.testcase.dirs" value="@{testcases}" />
+                <sysproperty key="junit.parallel.threads" value="@{numthreads}" />
+                <sysproperty key="junit.parallel.shutdown.timeout" value="@{shutdowntimeout}" />
+
+                <sysproperty key="genePatternUrl" value="${gp.url}" />
+                <sysproperty key="username" value="${gp.user}" />
+                <sysproperty key="password" value="${gp.password}" />
+                <sysproperty key="gpunit.delete.jobs" value="false" />
+                <sysproperty key="gpunit.outputdir" value="./jobResults" />
+                <sysproperty key="gpunit.batch.name" value="latest_${start.time}" />
+                <sysproperty key="gpunit.save.downloads" value="true" />
+            </junit>
+
+            <junitreport todir="${report.dir}">
+                <fileset dir="${report.dir}">
+                    <include name="TEST-*.xml"/>
+                </fileset>
+                <report format="frames" todir="${report.dir}/html"/>
+            </junitreport>
+        </sequential> 
+    </macrodef>
+    
+    <target name="run-group" depends="init, _all-tests-runner">
+        <fail if="test.failure" message="junit test failed" />
+    </target>
+
+    <target name="_all-tests-runner">
+        <path id="all-tests.path">
+            <pathelement location="." />
+        </path>
+        <property name="all-tests.testcases" refid="all-tests.path" /> 
+        <property name="gpunit.numthreads" value="32" />
+        <!-- the max amount of time to wait, in seconds, before terminating the unit test -->
+        <property name="gpunit.shutdowntimeout" value="300" />
+        <run-tests 
+            testcases="${all-tests.testcases}" 
+            numthreads="${gpunit.numthreads}" 
+            shutdowntimeout="${gpunit.shutdowntimeout}"
+        />
+    </target>
+    
+    <target name="register-group" depends="init,_all-tests-runner">
+        <mail mailhost="smtp.broadinstitute.org" subject="Parameter-set ${param.set.name} run in gp-unit" encoding="plain" charset="utf-8">
+            <from address="${automation.user.email}" />
+            <replyto address="${automation.user.email}" />
+            <to address="${automation.user.email}" />
+            <message>Parameter-set ${param.set.name} was run in gp-unit.
+            </message>
+            <fileset dir="reports">
+                <include name="TEST-all.txt" />
+            </fileset>
+        </mail>
+
+        <fail if="test.failure" message="junit test failed" />
+    </target>
+</project>

@@ -1,0 +1,24 @@
+# urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00041:12
+# 
+# Regression test case regarding runs with 20 CELs and certain CDF files
+# Note: paths are Mac-specific.  Will fix this later when
+# we have the ability to specify root dir in gp-unit
+module: ExpressionFileCreator 
+params: 
+        input.file: "/Volumes/xchip_sqa/eby/efc/Ethnic_20.zip"
+        clm.file: "/Volumes/xchip_sqa/eby/efc/ethnic_20.clm"
+        annotate.probes: "yes"
+        normalization.method: "median scaling"
+        output.file: "<input.file_basename>"
+        compute.present.absent.calls: "no"
+        method: "RMA"
+        quantile.normalization: "yes"
+        background.correct: "yes"
+        value.to.scale.to:
+        cdf.file: "/Volumes/xchip_sqa/eby/efc/PrimeView.cdf"
+assertions:
+        files:
+            "Ethnic_20.cls":
+                diff: "./RT150777_regression_test/Ethnic_20.cls"
+            "Ethnic_20.gct":
+                diff: "./RT150777_regression_test/Ethnic_20.gct"

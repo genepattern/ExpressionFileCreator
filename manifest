@@ -107,13 +107,11 @@ quality=production
 
 serializedModel=
 taskType=Preprocess & Utilities
-userid=nazaire@broad.mit.edu
-version=Modified to use the current version of R (2.15) and supporting packages.
+userid=eby@broad.mit.edu
+version=Removed the R 2.15.2 & Ant plug-in dependencies due to a possible issue with the R plug-in.
 
 # Will need to update these with the final production LSIDs & URLs
-requiredPatchLSIDs=urn\:lsid\:broadinstitute.org\:plugin\:Ant_1.8\:0.2,\
-   urn\:lsid\:broadinstitute.org\:plugin\:installR_2.15\:0.1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:boot_1.3-7\:1,\
+requiredPatchLSIDs=urn\:lsid\:broadinstitute.org\:rlib.2.15\:boot_1.3-7\:1,\
    urn\:lsid\:broadinstitute.org\:rlib.2.15\:class_7.3-5\:1,\
    urn\:lsid\:broadinstitute.org\:rlib.2.15\:cluster_1.14.3\:1,\
    urn\:lsid\:broadinstitute.org\:rlib.2.15\:foreign_0.8-51\:1,\
@@ -140,9 +138,7 @@ requiredPatchLSIDs=urn\:lsid\:broadinstitute.org\:plugin\:Ant_1.8\:0.2,\
    urn\:lsid\:broadinstitute.org\:rlib.2.15\:Biostrings_2.26.2\:0.2,\
    urn\:lsid\:broadinstitute.org\:rlib.2.15\:gcrma_2.30.0\:0.2,\
    urn\:lsid\:broadinstitute.org\:rlib.2.15\:makecdfenv_1.36.0\:0.2
-requiredPatchURLs=http\://www.broadinstitute.org/webservices/gpModuleRepository/download/dev/patch/?file=/Ant_1_8/broadinstitute.org\:plugin/Ant_1.8/0.2/Ant_1_8.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/dev/patch/?file=/installR_2.15/broadinstitute.org\:plugin/installR_2.15/0.1/installR_2.15.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_boot_1.3-7/broadinstitute.org\:rlib.2.15/boot_1.3-7/1/rlib.2.15_boot_1.3-7.zip,\
+requiredPatchURLs=http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_boot_1.3-7/broadinstitute.org\:rlib.2.15/boot_1.3-7/1/rlib.2.15_boot_1.3-7.zip,\
    http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_class_7.3-5/broadinstitute.org\:rlib.2.15/class_7.3-5/1/rlib.2.15_class_7.3-5.zip,\
    http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_cluster_1.14.3/broadinstitute.org\:rlib.2.15/cluster_1.14.3/1/rlib.2.15_cluster_1.14.3.zip,\
    http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_foreign_0.8-51/broadinstitute.org\:rlib.2.15/foreign_0.8-51/1/rlib.2.15_foreign_0.8-51.zip,\

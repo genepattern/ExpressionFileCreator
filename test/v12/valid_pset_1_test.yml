@@ -2,8 +2,8 @@
 #
 module: ExpressionFileCreator
 params:
-        input.file: "./DBA_cel_files_small.zip"
-        clm.file: "./DBA_cel_files_small.clm"
+        input.file: "/Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/input/DBA_cel_files_small.zip"
+        clm.file: "/Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/input/DBA_cel_files_small.clm"
         annotate.probes: "yes"
         normalization.method: "median scaling"
         output.file: "<input.file_basename>"
@@ -16,6 +16,6 @@ params:
 assertions:
         files:
             "DBA_cel_files_small.cls":
-                diff: ./valid_pset_1_test/DBA_cel_files_small.cls
+                diff: /Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/output/valid_pset_1_test/DBA_cel_files_small.cls
             "DBA_cel_files_small.res":
-                diff: ./valid_pset_1_test/DBA_cel_files_small.res
+                diff: /Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/output/valid_pset_1_test/DBA_cel_files_small.res

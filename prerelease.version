@@ -1,3 +1,5 @@
+#updated after building 11.6
+#Thu, 28 Mar 2013 10:49:18 +0900
 #updated after building 11.5
 #Thu, 14 Feb 2013 16:28:44 -0500
 #updated after building 11.4
@@ -8,4 +10,4 @@
 #Wed, 30 Jan 2013 16:31:05 -0500
 #prerelease version number
 #Mon Apr 30 14:41:09 EDT 2012
-prerelease.number=6
+prerelease.number=7

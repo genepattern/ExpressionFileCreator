@@ -13,6 +13,7 @@ fileFormat=res;gct;cls
 language=R
 name=ExpressionFileCreator
 os=any
+taskDoc=doc.html
 
 p1_MODE=IN
 p1_TYPE=FILE
@@ -108,7 +109,7 @@ quality=production
 serializedModel=
 taskType=Preprocess & Utilities
 userid=eby@broad.mit.edu
-version=Added checkR_2.15 and Ant_1.8 as required plug-ins.
+version=Converted doc to html
 
 # Will need to update these with the final production LSIDs & URLs
 requiredPatchLSIDs=urn\:lsid\:broadinstitute.org\:plugin\:Ant_1.8\:1,\

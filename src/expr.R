@@ -154,7 +154,14 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	if(libdir!='') {
       on.exit(cleanup())
 	}
-	
+
+	#check if GCRMA method is selected and a custom CDF file is provided
+	#and exit since this is not supported
+	if(method == 'GCRMA' && !is.null(cdf.file) && cdf.file!='')
+	{
+	    stop("A custom cdf file is not supported with the GCRMA method.")
+	}
+
 	dataset <- NULL # list containing data and calls if isRes is true
 	isRes <- compute.calls
 	

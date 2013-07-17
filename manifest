@@ -109,7 +109,7 @@ quality=production
 serializedModel=
 taskType=Preprocess & Utilities
 userid=eby@broad.mit.edu
-version=Converted doc to html
+version=Improved error when no MM probes found and compute present absent calls is set to yes and also added check for use of GCRMA method and custom cdf file since this is not supported
 
 # Will need to update these with the final production LSIDs & URLs
 requiredPatchLSIDs=urn\:lsid\:broadinstitute.org\:plugin\:Ant_1.8\:1,\

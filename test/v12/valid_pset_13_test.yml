@@ -1,9 +1,9 @@
 #lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00041:12
-#
+#data location = /xchip/sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/input/
 module: ExpressionFileCreator
 params:
-        input.file: "/Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/input/DBA_cel_files_small.zip"
-        clm.file: "/Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/input/DBA_cel_files_small.clm"
+        input.file: "DBA_cel_files_small.zip"
+        clm.file: "DBA_cel_files_small.clm"
         annotate.probes: "yes"
         normalization.method: "quantile normalization"
         output.file: "<input.file_basename>"
@@ -16,6 +16,6 @@ params:
 assertions:
         files:
             "DBA_cel_files_small.cls":
-                diff: /Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/output/valid_pset_13_test/DBA_cel_files_small.cls
+                diff: /Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/output_gpdev/valid_pset_13_test/DBA_cel_files_small.cls
             "DBA_cel_files_small.res":
-                diff: /Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/output/valid_pset_13_test/DBA_cel_files_small.res
+                diff: /Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/output_gpdev/valid_pset_13_test/DBA_cel_files_small.res

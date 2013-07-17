@@ -3,10 +3,12 @@
 # Regression test case regarding runs with 20 CELs and certain CDF files
 # Note: paths are Mac-specific.  Will fix this later when
 # we have the ability to specify root dir in gp-unit
+#data location = /xchip/sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/input/
+
 module: ExpressionFileCreator 
 params: 
-        input.file: "/Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/input/Ethnic_20.zip"
-        clm.file: "/Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/input/ethnic_20.clm"
+        input.file: "Ethnic_20.zip"
+        clm.file: "ethnic_20.clm"
         annotate.probes: "yes"
         normalization.method: "median scaling"
         output.file: "<input.file_basename>"
@@ -15,10 +17,10 @@ params:
         quantile.normalization: "yes"
         background.correct: "yes"
         value.to.scale.to:
-        cdf.file: "/Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/input/PrimeView.cdf"
+        cdf.file: "PrimeView.cdf"
 assertions:
         files:
             "Ethnic_20.cls":
-                diff: "/Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/output/RT150777_regression_test/Ethnic_20.cls"
+                diff: "/Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/output_gpdev/RT150777_regression_test/Ethnic_20.cls"
             "Ethnic_20.gct":
-                diff: "/Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/output/RT150777_regression_test/Ethnic_20.gct"
+                diff: "/Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/output_gpdev/RT150777_regression_test/Ethnic_20.gct"

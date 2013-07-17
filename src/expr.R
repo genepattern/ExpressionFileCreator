@@ -253,27 +253,37 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 
 	compressed <- is.compressed(cel.file.names)
-	if(method=='dChip' || method=='RMA' || method=='GCRMA') {
-		if(method=='dChip') {
-			dataset <- gp.dchip(cel.file.names, compressed, compute.calls)
-		} else if(method=='RMA'){
-			dataset <- gp.rma(cel.file.names, compressed, quantile.normalization, background, compute.calls)
-		} else if(method=='GCRMA') {
-			library(gcrma, verbose=FALSE)  # DE note: should be redundant...
-			dataset <- gp.gcrma(cel.file.names, compressed, quantile.normalization, compute.calls)
-		}
-		
-	} else if(method=='MAS5'){
-		dataset <- gp.mas5(cel.file.names, compressed, compute.calls)
-	} else if(method=="FARMS") {
-	    # DE note: unreachable from GP module - "FARMS" is not offered as a valid method choice.
-	    # Can we safely delete?
-		dataset <- gp.farms(cel.file.names, compressed, compute.calls, libdir)
-	} else {
-		exit('Unknown method')	
-	}
-	
-	if(!is.null(clm)) { 
+
+	# catch errors related to compute calls set to true and
+	# there are no PM probes on the array
+    if(method=='dChip' || method=='RMA' || method=='GCRMA')
+    {
+        if(method=='dChip') {
+            dataset <- gp.dchip(cel.file.names, compressed, compute.calls)
+        } else if(method=='RMA'){
+            dataset <- gp.rma(cel.file.names, compressed, quantile.normalization, background, compute.calls)
+        } else if(method=='GCRMA') {
+            library(gcrma, verbose=FALSE)  # DE note: should be redundant...
+            dataset <- gp.gcrma(cel.file.names, compressed, quantile.normalization, compute.calls)
+        }
+
+    }
+    else if(method=='MAS5')
+    {
+        dataset <- gp.mas5(cel.file.names, compressed, compute.calls)
+    }
+    else if(method=="FARMS")
+    {
+        # DE note: unreachable from GP module - "FARMS" is not offered as a valid method choice.
+        # Can we safely delete?
+        dataset <- gp.farms(cel.file.names, compressed, compute.calls, libdir)
+    }
+    else
+    {
+        exit('Unknown method')
+    }
+
+	if(!is.null(clm)) {
 		if(!is.null(clm$sample.names)) {
 			colnames(dataset$data) <- clm$sample.names
 		}
@@ -407,8 +417,14 @@ gp.dchip <- function(cel.file.names, compressed, compute.calls=FALSE) {
 # r AffyBatch object
 get.calls <- function(r) {
 	calls.eset <- try(mas5calls.AffyBatch(r, verbose = FALSE))
-	if(class(calls.eset)=="try-error") {
-	   return(NULL)
+	if(class(calls.eset)=="try-error")
+	{
+	    err <- geterrmessage()
+        if(length(grep("NA/NaN/Inf in foreign function call", err)) != 0)
+        {
+           stop("Cannot compute absent present calls: No MM probes found on array. Please run with \"compute absent present calls\" set to no")
+        }
+	    return(NULL)
 	}
 	calls <- exprs(calls.eset)
 	return(calls)

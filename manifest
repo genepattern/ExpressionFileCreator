@@ -109,7 +109,7 @@ quality=production
 serializedModel=
 taskType=Preprocess & Utilities
 userid=eby@broad.mit.edu
-version=Modified to use the R 2.15 Installer plug-in instead of the checkR plug-in.
+version=Fixed a patch LSID-to-URL mismatch issue.
 
 # Will need to update these with the final production LSIDs & URLs
 requiredPatchLSIDs=urn\:lsid\:broadinstitute.org\:plugin\:Ant_1.8\:1,\
@@ -143,7 +143,6 @@ requiredPatchLSIDs=urn\:lsid\:broadinstitute.org\:plugin\:Ant_1.8\:1,\
    urn\:lsid\:broadinstitute.org\:rlib.2.15\:makecdfenv_1.36.0\:0.3
 requiredPatchURLs=http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file\=/Ant_1_8/broadinstitute.org\:plugin/Ant_1.8/1/Ant_1_8.zip,\
    http\://www.broadinstitute.org/webservices/gpModuleRepository/download/dev/patch/?file\=/R2.15_Installer/broadinstitute.org\:plugin/R2.15_Installer/0.5/R2.15_Installer.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file\=/checkR_2.15/broadinstitute.org\:plugin/checkR_2.15/1/checkR_2.15.zip,\
    http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_boot_1.3-7/broadinstitute.org\:rlib.2.15/boot_1.3-7/1/rlib.2.15_boot_1.3-7.zip,\
    http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_class_7.3-5/broadinstitute.org\:rlib.2.15/class_7.3-5/1/rlib.2.15_class_7.3-5.zip,\
    http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_cluster_1.14.3/broadinstitute.org\:rlib.2.15/cluster_1.14.3/1/rlib.2.15_cluster_1.14.3.zip,\

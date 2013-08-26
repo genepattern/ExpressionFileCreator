@@ -171,3 +171,7 @@ requiredPatchURLs=http\://www.broadinstitute.org/webservices/gpModuleRepository/
    http\://www.broadinstitute.org/webservices/gpModuleRepository/download/dev/patch/?file=/rlib.2.15_gcrma_2.30.0/broadinstitute.org\:rlib.2.15/gcrma_2.30.0/0.3/rlib.2.15_gcrma_2.30.0.zip,\
    http\://www.broadinstitute.org/webservices/gpModuleRepository/download/dev/patch/?file=/rlib.2.15_makecdfenv_1.36.0/broadinstitute.org\:rlib.2.15/makecdfenv_1.36.0/0.3/rlib.2.15_makecdfenv_1.36.0.zip
    
+# The following should be the final LSID & URL for R2.15_Installer when it's done.  Remove this comment and place the values above.
+#  urn\:lsid\:broadinstitute.org\:plugin\:R2.15_Installer\:1,\
+#  http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file\=/R2.15_Installer/broadinstitute.org\:plugin/R2.15_Installer/1/R2.15_Installer.zip,\
+   

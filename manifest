@@ -113,7 +113,7 @@ version=Beta release with updated R Installer plug-in with a fix for non-Broad u
 
 # Will need to update these with the final production LSIDs & URLs
 requiredPatchLSIDs=urn\:lsid\:broadinstitute.org\:plugin\:Ant_1.8\:1,\
-   urn\:lsid\:broadinstitute.org\:plugin\:R2.15_Installer\:0.5,\
+   urn\:lsid\:broadinstitute.org\:plugin\:R2.15_Installer\:0.6,\
    urn\:lsid\:broadinstitute.org\:rlib.2.15\:boot_1.3-7\:1,\
    urn\:lsid\:broadinstitute.org\:rlib.2.15\:class_7.3-5\:1,\
    urn\:lsid\:broadinstitute.org\:rlib.2.15\:cluster_1.14.3\:1,\

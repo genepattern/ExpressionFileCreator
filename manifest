@@ -3,7 +3,7 @@
 JVMLevel=2.15.0
 LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00041\:888888888
 author=Joshua Gould, gp-help@broad.mit.edu, Broad Institute
-commandLine=<R2.15_HOME>/bin/Rscript --no-save --quiet --slave --no-restore <libdir>expr.R <libdir> <user.dir> <patches> \
+commandLine=<R2.15_Rscript> --no-save --quiet --slave --no-restore <libdir>expr.R <libdir> <user.dir> <patches> \
    -i<input.file> -o<output.file> \
    -m<method> -q<quantile.normalization> -b<background.correct> -c<compute.present.absent.calls> -n<normalization.method> \
    -l<libdir> -f<clm.file> -v<value.to.scale.to> -e<cdf.file> -a<annotate.probes>
@@ -109,7 +109,7 @@ quality=production
 serializedModel=
 taskType=Preprocess & Utilities
 userid=eby@broad.mit.edu
-version=Beta release with updated R Installer plug-in with a fix for non-Broad users
+version=Changed command line for better use with DotKit on Broad servers.  Not for general release, even as Beta!
 
 # Will need to update these with the final production LSIDs & URLs
 requiredPatchLSIDs=urn\:lsid\:broadinstitute.org\:plugin\:Ant_1.8\:1,\

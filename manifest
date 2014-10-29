@@ -109,11 +109,11 @@ quality=production
 serializedModel=
 taskType=Preprocess & Utilities
 userid=eby@broad.mit.edu
-version=Changed command line for better use with DotKit on Broad servers.  Not for general release, even as Beta!
+version=Updates the R Installer plug-in for better portability .
 
 # Will need to update these with the final production LSIDs & URLs
 requiredPatchLSIDs=urn\:lsid\:broadinstitute.org\:plugin\:Ant_1.8\:1,\
-   urn\:lsid\:broadinstitute.org\:plugin\:R2.15_Installer\:1,\
+   urn\:lsid\:broadinstitute.org\:plugin\:R2.15_Installer\:2,\
    urn\:lsid\:broadinstitute.org\:rlib.2.15\:boot_1.3-7\:1,\
    urn\:lsid\:broadinstitute.org\:rlib.2.15\:class_7.3-5\:1,\
    urn\:lsid\:broadinstitute.org\:rlib.2.15\:cluster_1.14.3\:1,\
@@ -142,7 +142,7 @@ requiredPatchLSIDs=urn\:lsid\:broadinstitute.org\:plugin\:Ant_1.8\:1,\
    urn\:lsid\:broadinstitute.org\:rlib.2.15\:gcrma_2.30.0\:0.3,\
    urn\:lsid\:broadinstitute.org\:rlib.2.15\:makecdfenv_1.36.0\:0.3
 requiredPatchURLs=http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file\=/Ant_1_8/broadinstitute.org\:plugin/Ant_1.8/1/Ant_1_8.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file\=/R2.15_Installer/broadinstitute.org\:plugin/R2.15_Installer/1.0/R2.15_Installer.zip,\
+   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file\=/R2.15_Installer/broadinstitute.org\:plugin/R2.15_Installer/2/R2.15_Installer.zip,\
    http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_boot_1.3-7/broadinstitute.org\:rlib.2.15/boot_1.3-7/1/rlib.2.15_boot_1.3-7.zip,\
    http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_class_7.3-5/broadinstitute.org\:rlib.2.15/class_7.3-5/1/rlib.2.15_class_7.3-5.zip,\
    http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_cluster_1.14.3/broadinstitute.org\:rlib.2.15/cluster_1.14.3/1/rlib.2.15_cluster_1.14.3.zip,\

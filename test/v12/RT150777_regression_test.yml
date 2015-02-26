@@ -1,14 +1,11 @@
 # urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00041:12
 # 
 # Regression test case regarding runs with 20 CELs and certain CDF files
-# Note: paths are Mac-specific.  Will fix this later when
-# we have the ability to specify root dir in gp-unit
-#data location = /xchip/sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/input/
 
 module: ExpressionFileCreator 
 params: 
-        input.file: "Ethnic_20.zip"
-        clm.file: "ethnic_20.clm"
+        input.file: "<%gpunit.testDataRoot%><%efc.inputPath%>/Ethnic_20.zip"
+        clm.file: "<%gpunit.testDataRoot%><%efc.inputPath%>/ethnic_20.clm"
         annotate.probes: "yes"
         normalization.method: "median scaling"
         output.file: "<input.file_basename>"
@@ -17,10 +14,12 @@ params:
         quantile.normalization: "yes"
         background.correct: "yes"
         value.to.scale.to:
-        cdf.file: "PrimeView.cdf"
+        cdf.file: "<%gpunit.testDataRoot%><%efc.inputPath%>/PrimeView.cdf"
 assertions:
         files:
             "Ethnic_20.cls":
-                diff: "/Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/output_gpdev/RT150777_regression_test/Ethnic_20.cls"
+                diffCmd: diff -q --strip-trailing-cr
+                diff: "<%gpunit.resultDataRoot%><%efc.outputPath%>/RT150777_regression_test/Ethnic_20.cls"
             "Ethnic_20.gct":
-                diff: "/Volumes/xchip_sqa/Modules/TestSuiteData/ExpressionFileCreator/v12/output_gpdev/RT150777_regression_test/Ethnic_20.gct"
+                diffCmd: ../diffWithTolerance.sh
+                diff: "<%gpunit.resultDataRoot%><%efc.outputPath%>/RT150777_regression_test/Ethnic_20.gct"

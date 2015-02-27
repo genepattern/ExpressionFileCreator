@@ -2,7 +2,7 @@
 #Thu Jan 26 14:33:30 EST 2012
 JVMLevel=2.15.0
 LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00041\:888888888
-author=Joshua Gould, gp-help@broad.mit.edu, Broad Institute
+author=Joshua Gould, David Eby, gp-help@broad.mit.edu, Broad Institute
 commandLine=<R2.15_Rscript> --no-save --quiet --slave --no-restore <libdir>expr.R <libdir> <user.dir> <patches> \
    -i<input.file> -o<output.file> \
    -m<method> -q<quantile.normalization> -b<background.correct> -c<compute.present.absent.calls> -n<normalization.method> \
@@ -109,7 +109,7 @@ quality=production
 serializedModel=
 taskType=Preprocess & Utilities
 userid=eby@broad.mit.edu
-version=Finalizes the requiredPatchLSIDs and URLs.
+version=Updated to R 2.15. Handles more samples, fixes an issue in CLM file processing
 
 # Will need to update these with the final production LSIDs & URLs
 requiredPatchLSIDs=urn\:lsid\:broadinstitute.org\:plugin\:Ant_1.8\:1,\

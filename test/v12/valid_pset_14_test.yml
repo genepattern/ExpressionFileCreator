@@ -18,5 +18,5 @@ assertions:
                 diffCmd: diff -q --strip-trailing-cr
                 diff: <%gpunit.resultDataRoot%><%efc.outputPath%>/valid_pset_14_test/DBA_cel_files_small.cls
             "DBA_cel_files_small.res":
-                diffCmd: ../diffWithTolerance.sh
+                diffCmd: ./diffWithTolerance.sh
                 diff: <%gpunit.resultDataRoot%><%efc.outputPath%>/valid_pset_14_test/DBA_cel_files_small.res

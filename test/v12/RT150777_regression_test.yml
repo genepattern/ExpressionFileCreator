@@ -21,5 +21,5 @@ assertions:
                 diffCmd: diff -q --strip-trailing-cr
                 diff: "<%gpunit.resultDataRoot%><%efc.outputPath%>/RT150777_regression_test/Ethnic_20.cls"
             "Ethnic_20.gct":
-                diffCmd: ../diffWithTolerance.sh
+                diffCmd: ./diffWithTolerance.sh
                 diff: "<%gpunit.resultDataRoot%><%efc.outputPath%>/RT150777_regression_test/Ethnic_20.gct"

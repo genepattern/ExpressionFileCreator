@@ -72,13 +72,12 @@ exec.info <- 'gp_module_execution_log.txt'
 mycdfenv <<- NULL
 cdf.file <<- NULL
 
+# We're using 'tempfile' to get a safe name for a working directory.  We don't use
+# tempdir() because the processing should be kept local to the job directory.
+processingDir <- tempfile(pattern = "cel_files_", tmpdir = getwd())
+
 cleanup <- function() {
-  files <- dir()
-	for(file in files) {
-		if(file != zip.file.name && file!=cdf.file && file!=output.data.file.name && file!=output.cls.file.name && file!=clm.input.file && file!=exec.info && file!=probe.descriptions.file.name && file!="stdout.txt" && file!="stderr.txt" && file != "cmd.out") {
-         unlink(file, recursive=T)
-      }
-	}		
+  unlink(processingDir, recursive=TRUE)
 }
 
 parseCmdLine <- function(args) {
@@ -175,20 +174,21 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 		cel.file.names <- get.celfilenames(input.file.name)
 		
 		if(!is.null(clm)) {
-			scan.names <- clm$scan.names
 			new.cel.file.names <- vector("character")
+			
+			# Strip extensions from both the CLM scan.names and the cel.file.names to simplify matching.  We search against the file.basenames only 
+            # so that we can work with clean matching logic and so there are only matches against file names rather than some other path component.
+            # DE Note: this is a partial merge with the AffyST EFC code.  Not quite ready to fully bring that in for this update, but these two modules 
+            # should eventually use the same code as much as possible.
+            scan.names <- gsub(".CEL$|.CEL.gz$", "", clm$scan.names, ignore.case=TRUE)
+            match.cel.file.names <- gsub(".CEL$|.CEL.gz$", "", basename(cel.file.names), ignore.case=TRUE)
+			
 			i <- 1
 			scanIdx <- 1
 			remove.scan.index <- c()
 			for(scan in scan.names) {
-				if(length(grep('cel$', scan, ignore.case=T)) == 0) { # check if scan name ends with .cel
-					s1 <- paste('^', scan, '.cel', "$",sep='')
-					s2 <- paste('^', scan, '.cel.gz', "$",sep='')
-					s <- paste(s1, "|", s2, sep="")
-				} else {
-					s <- paste('^', scan, "$",sep='')
-				}
-				index <- grep(s, cel.file.names, ignore.case=T)
+                s <- paste0('^', scan, "$")
+				index <- grep(s, match.cel.file.names, ignore.case=T)
 
 				if(length(index) == 0) 
 				{
@@ -202,6 +202,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 				} 
 				else 
 				{
+				    # Pull the file out the *original* list so that it has the full path info.
 				    new.cel.file.names[i] <- cel.file.names[index[1]]
 					i <- i + 1
 				}	
@@ -226,7 +227,7 @@ create.expression.file <- function(input.file.name, output.file.name, method, qu
 	}
 
 	if(length(cel.file.names) == 0) {
-	   exit("No CEL files listed in clm file found.")
+	   exit("No CEL files found.  If you used a CLM it may have filtered out them all out.")
 	}
 
 	chip <- read.celfile.header(cel.file.names[[1]])$cdfName
@@ -488,27 +489,8 @@ get.cls.file.name <- function(data.output.file.name) {
 
 get.celfilenames <- function(input.file.name) {
 	if(!file.info(input.file.name)[['isdir']]) {
-		unzip(input.file.name)
-		files <- list.files()
-		
-		for(file in files) {
-		   if(file.info(file)[['isdir']]) {  # move all CEL files to working directory
-		      subfiles <- list.files(file, full.names=T)
-		      subfiles.names.only <- list.files(file)
-
-              # if the directory is not empty then move files to working directory
-              if(length(subfiles) != 0)
-              {
-		        for(j in 1:length(subfiles))
-		        {
-		            file.rename(subfiles[[j]], subfiles.names.only[[j]])
-		        }
-		      }
-		   }
-		}
-	
-	   return(list.celfiles(path = ".", recursive=F, full.names=F))
-	   
+       unzip(input.file.name, exdir=processingDir)
+       return(list.celfiles(path = processingDir, recursive=F, full.names=TRUE))
 	}
 	files <- list.celfiles(path = input.file.name, recursive=F, full.names=TRUE)
 	return(files)

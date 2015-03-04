@@ -1,8 +1,8 @@
 #lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00041:12
 module: ExpressionFileCreator
 params:
-        input.file: "<%gpunit.testDataRoot%><%efc.inputPath%>/DBA_cel_files_small.zip"
-        clm.file: "<%gpunit.testDataRoot%><%efc.inputPath%>/DBA_cel_files_small.clm"
+        input.file: "<%gpunit.testDataRoot%>ExpressionFileCreator/v12/input/DBA_cel_files_small.zip"
+        clm.file: "<%gpunit.testDataRoot%>ExpressionFileCreator/v12/input/DBA_cel_files_small.clm"
         annotate.probes: "yes"
         normalization.method: "median scaling"
         output.file: "<input.file_basename>"
@@ -16,7 +16,7 @@ assertions:
         files:
             "DBA_cel_files_small.cls":
                 diffCmd: diff -q --strip-trailing-cr
-                diff: <%gpunit.resultDataRoot%><%efc.outputPath%>/valid_pset_6_test/DBA_cel_files_small.cls
+                diff: <%gpunit.resultDataRoot%>ExpressionFileCreator/v12/output/valid_pset_6_test/DBA_cel_files_small.cls
             "DBA_cel_files_small.res":
                 diffCmd: ./diffWithTolerance.sh
-                diff: <%gpunit.resultDataRoot%><%efc.outputPath%>/valid_pset_6_test/DBA_cel_files_small.res
+                diff: <%gpunit.resultDataRoot%>ExpressionFileCreator/v12/output/valid_pset_6_test/DBA_cel_files_small.res

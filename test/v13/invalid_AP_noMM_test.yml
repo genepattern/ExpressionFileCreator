@@ -1,0 +1,26 @@
+# Testing an error check: request for A/P calls on array with no MM probes is not supported. GPAT-615
+# Note that this test uses an ST array which should ordinarily be processed with AffyST EFC instead.
+# It's a 1.0 ST, though, which can actually be processed with this module.
+#
+#lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00041:12
+
+module: ExpressionFileCreator 
+params: 
+        input.file: "<%gpunit.testDataRoot%>ExpressionFileCreator/v13/input/E-GEOD-60086.raw.one-sample.zip"
+        clm.file: 
+        annotate.probes: "no"
+        normalization.method: "median scaling"
+        output.file: "<input.file_basename>"
+        compute.present.absent.calls: "yes"
+        method: "RMA"
+        quantile.normalization: "yes"
+        background.correct: "yes"
+        value.to.scale.to:
+        cdf.file: 
+assertions:
+        jobStatus: failure
+        files:
+            "stderr.txt":
+                diffCmd: ./diffIgnoreGpTraces.sh
+                diff: "/xchip/sqa/Modules/TestSuiteData/ExpressionFileCreator/v13/output/invalid_AP_noMM_test/stderr.txt"
+                

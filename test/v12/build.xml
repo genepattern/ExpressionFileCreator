@@ -2,7 +2,7 @@
 <project basedir="." default="run_tests.local_mac" name="gpunit_runner">
     <property name="gpunit.dir" value="/Users/eby/Documents/workspace/GenePattern/GpUnit" />
     <target name="run_tests.local_mac">
-        <property file="gpunit.properties" />
+        <property name="gpunit.properties" value="gpunit.local_mac.properties" />
         <ant antfile="${gpunit.dir}/build.xml" target="gpunit" />
     </target>
     <target name="run_tests.ubuntu_vm">
@@ -11,8 +11,6 @@
     </target>
     <target name="run_tests.windows_vm">
         <property name="gpunit.properties" value="gpunit.windows_vm.properties" />
-        <!-- Have also tried this with no luck: -->
-        <!-- property file="gpunit.windows_vm.properties" /  -->
         <ant antfile="${gpunit.dir}/build.xml" target="gpunit" />
     </target>
     

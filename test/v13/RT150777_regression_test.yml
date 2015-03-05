@@ -19,7 +19,7 @@ assertions:
         files:
             "Ethnic_20.cls":
                 diffCmd: diff -q --strip-trailing-cr
-                diff: "/xchip/sqa/Modules/TestSuiteData/ExpressionFileCreator/v13/output/RT150777_regression_test/Ethnic_20.cls"
+                diff: "<%gpunit.resultDataRoot%>ExpressionFileCreator/v13/output/RT150777_regression_test/Ethnic_20.cls"
             "Ethnic_20.gct":
                 diffCmd: ./diffWithTolerance.sh
-                diff: "/xchip/sqa/Modules/TestSuiteData/ExpressionFileCreator/v13/output/RT150777_regression_test/Ethnic_20.gct"
+                diff: "<%gpunit.resultDataRoot%>ExpressionFileCreator/v13/output/RT150777_regression_test/Ethnic_20.gct"

@@ -20,5 +20,5 @@ assertions:
         files:
             "stderr.txt":
                 diffCmd: ./diffIgnoreGpTraces.sh
-                diff: "/xchip/sqa/Modules/TestSuiteData/ExpressionFileCreator/v13/output/invalid_GCRMA_and_CDF_test/stderr.txt"
+                diff: "<%gpunit.resultDataRoot%>ExpressionFileCreator/v13/output/invalid_GCRMA_and_CDF_test/stderr.txt"
                 

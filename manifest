@@ -109,7 +109,7 @@ quality=production
 serializedModel=
 taskType=Preprocess & Utilities
 userid=eby@broad.mit.edu
-version=Fixes an issue when running on new types of queueing systems.
+version=Updated to R 2.15. Handles more samples, fixes issues in CLM file processing and the dChip algorithm.  Fixes an issue running with certain job queueing systems.
 
 # Will need to update these with the final production LSIDs & URLs
 requiredPatchLSIDs=urn\:lsid\:broadinstitute.org\:plugin\:Ant_1.8\:1,\

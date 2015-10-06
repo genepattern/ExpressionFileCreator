@@ -1,16 +1,16 @@
 #ExpressionFileCreator
 #Thu Jan 26 14:33:30 EST 2012
-JVMLevel=2.15.0
+JVMLevel=
 LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00041\:888888888
 author=Joshua Gould, David Eby, gp-help@broad.mit.edu, Broad Institute
-commandLine=<R2.15_Rscript_dev> --no-save --quiet --slave --no-restore <libdir>expr.R <libdir> \
+commandLine=<R2.15_Rscript> --no-save --quiet --slave --no-restore <libdir>expr.R <libdir> \
    -i<input.file> -o<output.file> \
    -m<method> -q<quantile.normalization> -b<background.correct> -c<compute.present.absent.calls> -n<normalization.method> \
    -l<libdir> -f<clm.file> -v<value.to.scale.to> -e<cdf.file> -a<annotate.probes>
 cpuType=any
 description=Creates a RES or GCT file from a set of Affymetrix CEL files.  For IVT arrays only; use AffySTExpressionFileCreator for ST arrays.
 fileFormat=res;gct;cls
-language=R
+language=R2.15.3
 name=ExpressionFileCreator
 os=any
 taskDoc=doc.html

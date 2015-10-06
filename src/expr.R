@@ -733,7 +733,6 @@ linear.fit <- function(xpoints, ypoints) {
 # Receive arguments from Rscript command line.  These will be processed by parseCmdLine.
 args <- commandArgs(trailingOnly=TRUE)
 
-# Load required packages
 libdir <- args[1]
 
 sessionInfo()

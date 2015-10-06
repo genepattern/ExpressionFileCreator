@@ -5,7 +5,7 @@
 	<target name="create-zip" depends="init">
 		<antcall target="prezip" />
 		<zip destfile="${dest.dir}/${ant.project.name}.zip" whenempty="fail" defaultexcludes="true">
-			<fileset dir="." includes="manifest, r.libraries.txt, doc.html" excludes="test/**" />
+			<fileset dir="." includes="manifest, r.package.info, doc.html" excludes="test/**" />
 			<fileset dir="../common/R">
                 <include name="loadRLibrary.R"/>
 			</fileset>

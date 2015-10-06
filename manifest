@@ -3,7 +3,7 @@
 JVMLevel=2.15.0
 LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00041\:888888888
 author=Joshua Gould, David Eby, gp-help@broad.mit.edu, Broad Institute
-commandLine=<R2.15_Rscript> --no-save --quiet --slave --no-restore <libdir>expr.R <libdir> <user.dir> <patches> \
+commandLine=<R2.15_Rscript_dev> --no-save --quiet --slave --no-restore <libdir>expr.R <libdir> \
    -i<input.file> -o<output.file> \
    -m<method> -q<quantile.normalization> -b<background.correct> -c<compute.present.absent.calls> -n<normalization.method> \
    -l<libdir> -f<clm.file> -v<value.to.scale.to> -e<cdf.file> -a<annotate.probes>
@@ -109,65 +109,7 @@ quality=production
 serializedModel=
 taskType=Preprocess & Utilities
 userid=eby@broad.mit.edu
-version=Updated to R 2.15. Handles more samples, fixes issues in CLM file processing and the dChip algorithm.  Fixes an issue running with certain job queueing systems.
+version=Updated to make use of the R package installer.
 
-# Will need to update these with the final production LSIDs & URLs
-requiredPatchLSIDs=urn\:lsid\:broadinstitute.org\:plugin\:Ant_1.8\:1,\
-   urn\:lsid\:broadinstitute.org\:plugin\:R2.15_Installer\:2,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:boot_1.3-7\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:class_7.3-5\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:cluster_1.14.3\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:foreign_0.8-51\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:KernSmooth_2.23-8\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:lattice_0.20-10\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:MASS_7.3-22\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:Matrix_1.0-9\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:mgcv_1.7-21\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:nlme_3.1-105\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:nnet_7.3-5\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:rpart_3.1-55\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:spatial_7.3-5\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:BiocGenerics_0.4.0\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:DBI_0.2-5\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:RSQLite_0.11.2\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:IRanges_1.16.2\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:BiocInstaller_1.8.3\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:Biobase_2.18.0\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:AnnotationDbi_1.20.1\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:zlibbioc_1.4.0\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:affyio_1.26.0\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:preprocessCore_1.20.0\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:affy_1.36.0\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:Biostrings_2.26.2\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:gcrma_2.30.0\:1,\
-   urn\:lsid\:broadinstitute.org\:rlib.2.15\:makecdfenv_1.36.0\:1
-requiredPatchURLs=http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file\=/Ant_1_8/broadinstitute.org\:plugin/Ant_1.8/1/Ant_1_8.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file\=/R2.15_Installer/broadinstitute.org\:plugin/R2.15_Installer/2/R2.15_Installer.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_boot_1.3-7/broadinstitute.org\:rlib.2.15/boot_1.3-7/1/rlib.2.15_boot_1.3-7.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_class_7.3-5/broadinstitute.org\:rlib.2.15/class_7.3-5/1/rlib.2.15_class_7.3-5.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_cluster_1.14.3/broadinstitute.org\:rlib.2.15/cluster_1.14.3/1/rlib.2.15_cluster_1.14.3.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_foreign_0.8-51/broadinstitute.org\:rlib.2.15/foreign_0.8-51/1/rlib.2.15_foreign_0.8-51.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_KernSmooth_2.23-8/broadinstitute.org\:rlib.2.15/KernSmooth_2.23-8/1/rlib.2.15_KernSmooth_2.23-8.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_lattice_0.20-10/broadinstitute.org\:rlib.2.15/lattice_0.20-10/1/rlib.2.15_lattice_0.20-10.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_MASS_7.3-22/broadinstitute.org\:rlib.2.15/MASS_7.3-22/1/rlib.2.15_MASS_7.3-22.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_Matrix_1.0-9/broadinstitute.org\:rlib.2.15/Matrix_1.0-9/1/rlib.2.15_Matrix_1.0-9.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_mgcv_1.7-21/broadinstitute.org\:rlib.2.15/mgcv_1.7-21/1/rlib.2.15_mgcv_1.7-21.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_nlme_3.1-105/broadinstitute.org\:rlib.2.15/nlme_3.1-105/1/rlib.2.15_nlme_3.1-105.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_nnet_7.3-5/broadinstitute.org\:rlib.2.15/nnet_7.3-5/1/rlib.2.15_nnet_7.3-5.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_rpart_3.1-55/broadinstitute.org\:rlib.2.15/rpart_3.1-55/1/rlib.2.15_rpart_3.1-55.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_spatial_7.3-5/broadinstitute.org\:rlib.2.15/spatial_7.3-5/1/rlib.2.15_spatial_7.3-5.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_BiocGenerics_0.4.0/broadinstitute.org\:rlib.2.15/BiocGenerics_0.4.0/1/rlib.2.15_BiocGenerics_0.4.0.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_DBI_0.2-5/broadinstitute.org\:rlib.2.15/DBI_0.2-5/1/rlib.2.15_DBI_0.2-5.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_RSQLite_0.11.2/broadinstitute.org\:rlib.2.15/RSQLite_0.11.2/1/rlib.2.15_RSQLite_0.11.2.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_IRanges_1.16.2/broadinstitute.org\:rlib.2.15/IRanges_1.16.2/1/rlib.2.15_IRanges_1.16.2.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_BiocInstaller_1.8.3/broadinstitute.org\:rlib.2.15/BiocInstaller_1.8.3/1/rlib.2.15_BiocInstaller_1.8.3.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_Biobase_2.18.0/broadinstitute.org\:rlib.2.15/Biobase_2.18.0/1/rlib.2.15_Biobase_2.18.0.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_AnnotationDbi_1.20.1/broadinstitute.org\:rlib.2.15/AnnotationDbi_1.20.1/1/rlib.2.15_AnnotationDbi_1.20.1.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_zlibbioc_1.4.0/broadinstitute.org\:rlib.2.15/zlibbioc_1.4.0/1/rlib.2.15_zlibbioc_1.4.0.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_affyio_1.26.0/broadinstitute.org\:rlib.2.15/affyio_1.26.0/1/rlib.2.15_affyio_1.26.0.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_preprocessCore_1.20.0/broadinstitute.org\:rlib.2.15/preprocessCore_1.20.0/1/rlib.2.15_preprocessCore_1.20.0.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_affy_1.36.0/broadinstitute.org\:rlib.2.15/affy_1.36.0/1/rlib.2.15_affy_1.36.0.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_Biostrings_2.26.2/broadinstitute.org\:rlib.2.15/Biostrings_2.26.2/1/rlib.2.15_Biostrings_2.26.2.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_gcrma_2.30.0/broadinstitute.org\:rlib.2.15/gcrma_2.30.0/1/rlib.2.15_gcrma_2.30.0.zip,\
-   http\://www.broadinstitute.org/webservices/gpModuleRepository/download/prod/patch/?file=/rlib.2.15_makecdfenv_1.36.0/broadinstitute.org\:rlib.2.15/makecdfenv_1.36.0/1/rlib.2.15_makecdfenv_1.36.0.zip
-   
+requiredPatchLSIDs=
+requiredPatchURLs=

@@ -8,49 +8,35 @@
 # whatsoever. Neither the Broad Institute nor MIT can be responsible for its
 # use, misuse, or functionality.
 
-######### 
-# Receive arguments from Rscript command line.  These will be processed
-# by parseCmdLine.  This preamble was added to allow use of Rscript.  The
-# actual processing call is at the end of this file.  (DE note: refactor
-# when there is a chance to do so).
-args <- commandArgs(trailingOnly=TRUE)
-
-# Load required packages and set up library paths.
-vers <- "2.15"            # R version
-libdir <- args[1]
-server.dir <- args[2]
-patch.dir <- args[3]
-
-source(file.path(libdir, "loadRLibrary.R"))
-load.packages(libdir, patch.dir, server.dir, vers)
-
-# Specific version of Bioconductor to use for installing CDFs.  For the R 2.15 series,
-# we can safely use Bioconductor 2.10 (bc2.9 is for R 2.14.x, bc2.11 is for R 2.15.2+)
-# We could probably use these others instead, but testing that would be difficult.
-bioc.vers <- '2.10'
-
-# Build a repository URL based on the BioC version number.
-baseRepos <- getOption("BioC_mirror", "http://bioconductor.org")
-annotRepos <- paste(baseRepos, "packages", bioc.vers, "data/annotation", sep="/")
-    
-# Library path to find the already installed CDFs from Bioconductor, added to .libPaths().
-biocLibLoc <- file.path(patch.dir, "rlib", vers, "Bioconductor", bioc.vers)
-
-# Does it exist?  If not, create it.
-if (!file.exists(biocLibLoc)) {
-    dir.create(biocLibLoc, recursive=TRUE, mode="0755")
-}
-
-.libPaths(c(biocLibLoc, .libPaths()))
-
-sessionInfo()
-
-# Preamble ends.  Look to end of file for actual processing call.
-######### 
-
-######### Original EFC code follows below (with updates for R 2.15)
-
 # this file contains a collection of functions to go from probe level data (Cel files) to expression measures 
+
+# Load required libraries
+suppressMessages(suppressWarnings(library(boot)))
+suppressMessages(suppressWarnings(library(class)))
+suppressMessages(suppressWarnings(library(cluster)))
+suppressMessages(suppressWarnings(library(foreign)))
+suppressMessages(suppressWarnings(library(KernSmooth)))
+suppressMessages(suppressWarnings(library(lattice)))
+suppressMessages(suppressWarnings(library(MASS)))
+suppressMessages(suppressWarnings(library(Matrix)))
+suppressMessages(suppressWarnings(library(mgcv)))
+suppressMessages(suppressWarnings(library(nlme)))
+suppressMessages(suppressWarnings(library(nnet)))
+suppressMessages(suppressWarnings(library(rpart)))
+suppressMessages(suppressWarnings(library(spatial)))
+suppressMessages(suppressWarnings(library(DBI)))
+suppressMessages(suppressWarnings(library(RSQLite)))
+suppressMessages(suppressWarnings(library(BiocGenerics)))
+suppressMessages(suppressWarnings(library(IRanges)))
+suppressMessages(suppressWarnings(library(Biobase)))
+suppressMessages(suppressWarnings(library(AnnotationDbi)))
+suppressMessages(suppressWarnings(library(zlibbioc)))
+suppressMessages(suppressWarnings(library(affyio)))
+suppressMessages(suppressWarnings(library(affy)))
+suppressMessages(suppressWarnings(library(preprocessCore)))
+suppressMessages(suppressWarnings(library(Biostrings)))
+suppressMessages(suppressWarnings(library(gcrma)))
+suppressMessages(suppressWarnings(library(makecdfenv)))
 
 string.to.boolean <- function(s) {
 	if(s=="yes") {
@@ -714,15 +700,14 @@ get.row.descriptions.annaffy <- function(cdf, data) {
 # Make sure that the given CDF is available.  This should be done before
 # calling the normalization methods of the affy package as they can trigger an 
 # automatic download from a repository site.  We want to avoid this in favor of
-# doing it in a controlled fashion.  We will try to load it from the repository
-# for our specific, chosen version of Bioconductor if we don't have it already.
-#  DE note: modify this to pass along the proxy info.
+# doing it in a controlled fashion.
 require.cdf <- function(cdfname) {
    # Transform the name to match what is used in Bioconductor
    repos_cdf <- cleancdfname(cdfname) 
    if (!require(repos_cdf, quietly=TRUE, character.only=TRUE)) {
       info(paste("installing ", repos_cdf, "..."))
-      install.packages(repos_cdf, repos=annotRepos, lib=biocLibLoc, quiet=TRUE)
+      # Installation will go into the normal GP site-library (or possibly a user-specific location)
+      install.packages(repos_cdf, quiet=TRUE)
       info(paste(repos_cdf, "installed"))
    }
 }
@@ -744,9 +729,14 @@ linear.fit <- function(xpoints, ypoints) {
 	return(list("m"=m, "b"=b))
 }
 
-
-
-
 ######### 
-# Actual call to process args and run the EFC code
-parseCmdLine(args[4:NROW(args)])
+# Receive arguments from Rscript command line.  These will be processed by parseCmdLine.
+args <- commandArgs(trailingOnly=TRUE)
+
+# Load required packages
+libdir <- args[1]
+
+sessionInfo()
+
+# Call to process args and run the EFC code
+parseCmdLine(args[2:NROW(args)])

@@ -1,12 +1,11 @@
-# Testing an error check: request for A/P calls on array with no MM probes is not supported. GPAT-615
-# Note that this test uses an ST array which should ordinarily be processed with AffyST EFC instead.
-# It's a 1.0 ST, though, which can actually be processed with this module.
-#
-#lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00041:12
+#module: urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00041:13
 
 module: ExpressionFileCreator 
+description: Negative test. Testing an error check; request for A/P calls on array with no MM probes is not supported. GPAT-615
+# Note that this test uses an ST array which should ordinarily be processed with AffyST EFC instead.
+# It's a 1.0 ST, though, which can actually be processed with this module.
 params: 
-        input.file: "<%gpunit.testDataRoot%>ExpressionFileCreator/v13/input/E-GEOD-60086.raw.one-sample.zip"
+        input.file: "<%gpunit.testData%>gpunit/ExpressionFileCreator/v13/input/E-GEOD-60086.raw.one-sample.zip"
         clm.file: 
         annotate.probes: "no"
         normalization.method: "median scaling"
@@ -19,8 +18,8 @@ params:
         cdf.file: 
 assertions:
         jobStatus: failure
-        files:
-            "stderr.txt":
-                diffCmd: ./diffIgnoreGpTraces.sh
-                diff: "<%gpunit.resultDataRoot%>ExpressionFileCreator/v13/output/invalid_AP_noMM_test/stderr.txt"
-                
+#        files:
+#            "stderr.txt":
+#                diffCmd: ./diffIgnoreGpTraces.sh
+#                diff: "<%gpunit.resultData%>gpunit/ExpressionFileCreator/v13/output/invalid_AP_noMM_test/stderr.txt"
+#                

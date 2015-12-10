@@ -1,11 +1,10 @@
-# Testing an error check: use of the GCRMA method with a user-provided CDF is not supported. GPAT-447
-#
-#lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00041:12
+#module: urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00041:13
 
 module: ExpressionFileCreator 
+description: Negative test.  Testing an error check; use of the GCRMA method with a user-provided CDF is not supported. GPAT-447
 params: 
-        input.file: "<%gpunit.testDataRoot%>ExpressionFileCreator/v13/input/Ethnic_20.zip"
-        clm.file: "<%gpunit.testDataRoot%>ExpressionFileCreator/v13/input/ethnic_20.clm"
+        input.file: "<%gpunit.testData%>gpunit/ExpressionFileCreator/v13/input/Ethnic_20.zip"
+        clm.file: "<%gpunit.testData%>gpunit/ExpressionFileCreator/v13/input/ethnic_20.clm"
         annotate.probes: "yes"
         normalization.method: "median scaling"
         output.file: "<input.file_basename>"
@@ -14,11 +13,11 @@ params:
         quantile.normalization: "yes"
         background.correct: "yes"
         value.to.scale.to:
-        cdf.file: "<%gpunit.testDataRoot%>ExpressionFileCreator/v13/input/PrimeView.cdf"
+        cdf.file: "<%gpunit.testData%>gpunit/ExpressionFileCreator/v13/input/PrimeView.cdf"
 assertions:
         jobStatus: failure
-        files:
-            "stderr.txt":
-                diffCmd: ./diffIgnoreGpTraces.sh
-                diff: "<%gpunit.resultDataRoot%>ExpressionFileCreator/v13/output/invalid_GCRMA_and_CDF_test/stderr.txt"
-                
+#        files:
+#            "stderr.txt":
+#                diffCmd: ./diffIgnoreGpTraces.sh
+#                diff: "<%gpunit.resultData%>gpunit/ExpressionFileCreator/v13/output/invalid_GCRMA_and_CDF_test/stderr.txt"
+#                

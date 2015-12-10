@@ -19,7 +19,7 @@ assertions:
 #        files:
 #            "DBA_cel_files_small.cls":
 #                diffCmd: diff -q --strip-trailing-cr
-#                diff: <%gpunit.resultData%>gpunit/ExpressionFileCreator/v13/output/valid_pset_11_test/DBA_cel_files_small.cls
+#                diff: <%gpunit.resultData%>gpunit/ExpressionFileCreator/v13/output/valid_RMA_RES_meanNormMethod_test/DBA_cel_files_small.cls
 #            "DBA_cel_files_small.res":
 #                diffCmd: ./diffWithTolerance.sh
-#                diff: <%gpunit.resultData%>gpunit/ExpressionFileCreator/v13/output/valid_pset_11_test/DBA_cel_files_small.res
+#                diff: <%gpunit.resultData%>gpunit/ExpressionFileCreator/v13/output/valid_RMA_RES_meanNormMethod_test/DBA_cel_files_small.res

@@ -1,9 +1,6 @@
 #module: urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00041:13
-# 
-# Regression test case regarding runs with 20 CELs and certain CDF files
-
 module: ExpressionFileCreator 
-description: Positive test of
+description: Positive test; Regression test case regarding runs with 20 CELs and certain CDF files based on RT-150777
 params: 
         input.file: "<%gpunit.testData%>gpunit/ExpressionFileCreator/v13/input/Ethnic_20.zip"
         clm.file: "<%gpunit.testData%>gpunit/ExpressionFileCreator/v13/input/ethnic_20.clm"

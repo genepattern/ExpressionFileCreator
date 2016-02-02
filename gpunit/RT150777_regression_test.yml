@@ -1,0 +1,27 @@
+# urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00041:12
+# 
+# Regression test case regarding runs with 20 CELs and certain CDF files
+
+module: ExpressionFileCreator 
+name: ExpressionFileCreator - RT150777_regression_test.yml
+description: No description
+params: 
+        input.file: "<%gpunit.testData%>/gpunit/ExpressionFileCreator/v13/input/Ethnic_20.zip"
+        clm.file: "<%gpunit.testData%>/gpunit/ExpressionFileCreator/v13/input/ethnic_20.clm"
+        annotate.probes: "yes"
+        normalization.method: "median scaling"
+        output.file: "<input.file_basename>"
+        compute.present.absent.calls: "no"
+        method: "RMA"
+        quantile.normalization: "yes"
+        background.correct: "yes"
+        value.to.scale.to:
+        cdf.file: "<%gpunit.testData%>/gpunit/ExpressionFileCreator/v13/input/PrimeView.cdf"
+assertions:
+        files:
+            "Ethnic_20.cls":
+                diffCmd: diff -q <%gpunit.diffStripTrailingCR%>
+                diff: "<%gpunit.resultData%>/gpunit/ExpressionFileCreator/v13/output/RT150777_regression_test/Ethnic_20.cls"
+            "Ethnic_20.gct":
+                diffCmd: ./diffWithTolerance.sh
+                diff: "<%gpunit.resultData%>/gpunit/ExpressionFileCreator/v13/output/RT150777_regression_test/Ethnic_20.gct"

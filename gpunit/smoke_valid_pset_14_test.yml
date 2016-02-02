@@ -1,0 +1,22 @@
+#lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00041:12
+module: ExpressionFileCreator
+name: ExpressionFileCreator - smoke_valid_pset_14_test.yml
+description: Smoke (no diff) variant of valid_pset_14_test.yml
+params:
+        input.file: "<%gpunit.testData%>/gpunit/ExpressionFileCreator/v13/input/DBA_cel_files_small.zip"
+        clm.file: "<%gpunit.testData%>/gpunit/ExpressionFileCreator/v13/input/DBA_cel_files_small.clm"
+        annotate.probes: "no"
+        normalization.method: "median scaling"
+        output.file: "<input.file_basename>"
+        compute.present.absent.calls: "yes"
+        method: "RMA"
+        quantile.normalization: "yes"
+        background.correct: "yes"
+        value.to.scale.to:
+        cdf.file:
+assertions:
+        numFiles: 3
+        files:
+            "DBA_cel_files_small.cls": !!null
+            "DBA_cel_files_small.res": !!null
+            "stdout.txt": !!null

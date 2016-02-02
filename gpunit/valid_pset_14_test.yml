@@ -1,0 +1,24 @@
+#lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00041:12
+module: ExpressionFileCreator
+name: ExpressionFileCreator - valid_pset_14_test.yml
+description: No description
+params:
+        input.file: "<%gpunit.testData%>/gpunit/ExpressionFileCreator/v13/input/DBA_cel_files_small.zip"
+        clm.file: "<%gpunit.testData%>/gpunit/ExpressionFileCreator/v13/input/DBA_cel_files_small.clm"
+        annotate.probes: "no"
+        normalization.method: "median scaling"
+        output.file: "<input.file_basename>"
+        compute.present.absent.calls: "yes"
+        method: "RMA"
+        quantile.normalization: "yes"
+        background.correct: "yes"
+        value.to.scale.to:
+        cdf.file:
+assertions:
+        files:
+            "DBA_cel_files_small.cls":
+                diffCmd: diff -q <%gpunit.diffStripTrailingCR%>
+                diff: <%gpunit.resultData%>/gpunit/ExpressionFileCreator/v13/output/valid_pset_14_test/DBA_cel_files_small.cls
+            "DBA_cel_files_small.res":
+                diffCmd: ./diffWithTolerance.sh
+                diff: <%gpunit.resultData%>/gpunit/ExpressionFileCreator/v13/output/valid_pset_14_test/DBA_cel_files_small.res

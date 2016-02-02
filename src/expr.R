@@ -623,6 +623,7 @@ gp.normalize <- function(dataset, method, reference.column=-1, value.to.scale.to
 # t - result of read.table(csv), for testing
 # sym links created on ftp site for ST arrays to match naming scheme of all other arrays - bhill 4/10/12
 get.row.descriptions.csv <- function(libdir, data, cdf, t=NULL) {
+    write("Getting row descriptions", stdout())
     file.name <- paste(cdf, ".na32.annot.csv.zip", sep='')
     absolute.file.name <- paste(libdir, file.name, sep='')
 	if(is.null(t) && !file.exists(file.name)) {
@@ -634,7 +635,7 @@ get.row.descriptions.csv <- function(libdir, data, cdf, t=NULL) {
 			cat(paste("No annotations found for chip ", cdf, "\n", sep=''))
 			return(NULL)
 		}
-    rc <- unzip(absolute.file.name)
+    rc <- unzip(absolute.file.name, exdir=processingDir)
     matches <- grep("csv$", rc, value = TRUE)
     if (length(matches) == 0) {
       # Should never happen; we should always get one match
@@ -649,10 +650,6 @@ get.row.descriptions.csv <- function(libdir, data, cdf, t=NULL) {
     else {
       csv.file <- matches[1]
     }
-    
-    for (file in rc) {
-	    on.exit(unlink(file))
-	}
 
 		desc <- as.matrix(read.table(row.names=1, file=csv.file, header=T, quote='"', comment.char='#', fill=T, sep=","))
 	}

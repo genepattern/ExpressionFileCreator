@@ -1,3 +1,4 @@
+#Tue, 05 Jan 2016 10:22:49 +0900
 #ExpressionFileCreator
 #Thu Jan 26 14:33:30 EST 2012
 JVMLevel=
@@ -109,7 +110,9 @@ quality=production
 serializedModel=
 taskType=Preprocess & Utilities
 userid=eby@broad.mit.edu
-version=Updated to make use of the R package installer.
+version=Updated to make use of the R package installer. Fixes a bug in failing to remove downloaded annotation files.
 
 requiredPatchLSIDs=
 requiredPatchURLs=
+
+publicationDate=01/05/2016 10\:22 

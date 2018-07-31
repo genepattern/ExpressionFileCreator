@@ -1,0 +1,2559 @@
+
+---------------------
+gp.lib.loc: /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15
+---------------------
+
+
+---------------------
+Attempting to download package 'boot' from primary URL http://cran.rstudio.com/src/contrib/Archive/boot/boot_1.3-7.tar.gz
+---------------------
+
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘boot’ ...
+** package ‘boot’ successfully unpacked and MD5 sums checked
+** R
+** data
+**  moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+
+* DONE (boot)
+Loading required package: boot
+
+---------------------
+Package 'boot' installed
+---------------------
+
+
+---------------------
+Attempting to download package 'class' from primary URL http://cran.rstudio.com/src/contrib/Archive/class/class_7.3-5.tar.gz
+---------------------
+
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘class’ ...
+** package ‘class’ successfully unpacked and MD5 sums checked
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c class.c -o class.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o class.so class.o
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/class/libs
+** R
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+
+* DONE (class)
+Loading required package: class
+
+---------------------
+Package 'class' installed
+---------------------
+
+
+---------------------
+Attempting to download package 'cluster' from primary URL http://cran.rstudio.com/src/contrib/Archive/cluster/cluster_1.15.3.tar.gz
+---------------------
+
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘cluster’ ...
+** package ‘cluster’ successfully unpacked and MD5 sums checked
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c clara.c -o clara.o
+gfortran   -fpic  -g -O2  -c daisy.f -o daisy.o
+gfortran   -fpic  -g -O2  -c dysta.f -o dysta.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c fanny.c -o fanny.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c init.c -o init.o
+gfortran   -fpic  -g -O2  -c mona.f -o mona.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c pam.c -o pam.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c sildist.c -o sildist.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c spannel.c -o spannel.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c twins.c -o twins.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o cluster.so clara.o daisy.o dysta.o fanny.o init.o mona.o pam.o sildist.o spannel.o twins.o -lgfortran -lm -lquadmath
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/cluster/libs
+** R
+** data
+**  moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+
+* DONE (cluster)
+Loading required package: cluster
+
+---------------------
+Package 'cluster' installed
+---------------------
+
+
+---------------------
+Attempting to download package 'foreign' from primary URL http://cran.rstudio.com/src/contrib/Archive/foreign/foreign_0.8-54.tar.gz
+---------------------
+
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘foreign’ ...
+** package ‘foreign’ successfully unpacked and MD5 sums checked
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c R_systat.c -o R_systat.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c Rdbfread.c -o Rdbfread.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c Rdbfwrite.c -o Rdbfwrite.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c SASxport.c -o SASxport.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c avl.c -o avl.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c dbfopen.c -o dbfopen.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c file-handle.c -o file-handle.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c format.c -o format.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c init.c -o init.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c minitab.c -o minitab.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c pfm-read.c -o pfm-read.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c sfm-read.c -o sfm-read.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c spss.c -o spss.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c stataread.c -o stataread.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o foreign.so R_systat.o Rdbfread.o Rdbfwrite.o SASxport.o avl.o dbfopen.o file-handle.o format.o init.o minitab.o pfm-read.o sfm-read.o spss.o stataread.o
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/foreign/libs
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+
+* DONE (foreign)
+Loading required package: foreign
+
+---------------------
+Package 'foreign' installed
+---------------------
+
+
+---------------------
+Attempting to download package 'KernSmooth' from primary URL http://cran.rstudio.com/src/contrib/Archive/KernSmooth/KernSmooth_2.23-10.tar.gz
+---------------------
+
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘KernSmooth’ ...
+** package ‘KernSmooth’ successfully unpacked and MD5 sums checked
+** libs
+gfortran   -fpic  -g -O2  -c blkest.f -o blkest.o
+gfortran   -fpic  -g -O2  -c cp.f -o cp.o
+gfortran   -fpic  -g -O2  -c dgedi.f -o dgedi.o
+gfortran   -fpic  -g -O2  -c dgefa.f -o dgefa.o
+gfortran   -fpic  -g -O2  -c dgesl.f -o dgesl.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c init.c -o init.o
+gfortran   -fpic  -g -O2  -c linbin.f -o linbin.o
+gfortran   -fpic  -g -O2  -c linbin2D.f -o linbin2D.o
+gfortran   -fpic  -g -O2  -c locpoly.f -o locpoly.o
+gfortran   -fpic  -g -O2  -c rlbin.f -o rlbin.o
+gfortran   -fpic  -g -O2  -c sdiag.f -o sdiag.o
+gfortran   -fpic  -g -O2  -c sstdiag.f -o sstdiag.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o KernSmooth.so blkest.o cp.o dgedi.o dgefa.o dgesl.o init.o linbin.o linbin2D.o locpoly.o rlbin.o sdiag.o sstdiag.o -L/usr/local/lib/R/lib -lRblas -lgfortran -lm -lquadmath -lgfortran -lm -lquadmath
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/KernSmooth/libs
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+
+* DONE (KernSmooth)
+Loading required package: KernSmooth
+KernSmooth 2.23 loaded
+Copyright M. P. Wand 1997-2009
+
+---------------------
+Package 'KernSmooth' installed
+---------------------
+
+
+---------------------
+Attempting to download package 'lattice' from primary URL http://cran.rstudio.com/src/contrib/Archive/lattice/lattice_0.20-29.tar.gz
+---------------------
+
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘lattice’ ...
+** package ‘lattice’ successfully unpacked and MD5 sums checked
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c init.c -o init.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c threeDplot.c -o threeDplot.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o lattice.so init.o threeDplot.o
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/lattice/libs
+** R
+** data
+**  moving datasets to lazyload DB
+** demo
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+
+* DONE (lattice)
+Loading required package: lattice
+
+Attaching package: ‘lattice’
+
+The following object(s) are masked from ‘package:boot’:
+
+    melanoma
+
+
+---------------------
+Package 'lattice' installed
+---------------------
+
+
+---------------------
+Attempting to download package 'MASS' from primary URL http://cran.rstudio.com/src/contrib/Archive/MASS/MASS_7.3-23.tar.gz
+---------------------
+
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘MASS’ ...
+** package ‘MASS’ successfully unpacked and MD5 sums checked
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c MASS.c -o MASS.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c lqs.c -o lqs.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o MASS.so MASS.o lqs.o
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/MASS/libs
+** R
+** data
+**  moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+
+* DONE (MASS)
+Loading required package: MASS
+
+---------------------
+Package 'MASS' installed
+---------------------
+
+
+---------------------
+Attempting to download package 'Matrix' from primary URL http://cran.rstudio.com/src/contrib/Archive/Matrix/Matrix_1.2-0.tar.gz
+---------------------
+
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘Matrix’ ...
+** package ‘Matrix’ successfully unpacked and MD5 sums checked
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c CHMfactor.c -o CHMfactor.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c Csparse.c -o Csparse.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c TMatrix_as.c -o TMatrix_as.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c Tsparse.c -o Tsparse.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c init.c -o init.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c Mutils.c -o Mutils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c chm_common.c -o chm_common.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c cs.c -o cs.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c cs_utils.c -o cs_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c dense.c -o dense.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c dgCMatrix.c -o dgCMatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c dgTMatrix.c -o dgTMatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c dgeMatrix.c -o dgeMatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c dpoMatrix.c -o dpoMatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c dppMatrix.c -o dppMatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c dsCMatrix.c -o dsCMatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c dsyMatrix.c -o dsyMatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c dspMatrix.c -o dspMatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c dtCMatrix.c -o dtCMatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c dtTMatrix.c -o dtTMatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c dtrMatrix.c -o dtrMatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c dtpMatrix.c -o dtpMatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c factorizations.c -o factorizations.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c ldense.c -o ldense.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c lgCMatrix.c -o lgCMatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c sparseQR.c -o sparseQR.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I./SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c abIndex.c -o abIndex.o
+make[1]: Entering directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/CHOLMOD'
+( cd Lib ; make clean )
+make[2]: Entering directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/CHOLMOD/Lib'
+make[2]: Leaving directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/CHOLMOD/Lib'
+make[1]: Leaving directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/CHOLMOD'
+make[1]: Entering directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/COLAMD'
+( cd Source ; make clean )
+make[2]: Entering directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/COLAMD/Source'
+make[2]: Leaving directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/COLAMD/Source'
+make[1]: Leaving directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/COLAMD'
+make[1]: Entering directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/AMD'
+( cd Source ; make clean )
+make[2]: Entering directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/AMD/Source'
+make[2]: Leaving directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/AMD/Source'
+make[1]: Leaving directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/AMD'
+make[1]: Entering directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/SuiteSparse_config'
+make[1]: Leaving directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/SuiteSparse_config'
+make[1]: Entering directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/CHOLMOD'
+( cd Lib ; make )
+make[2]: Entering directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/CHOLMOD/Lib'
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Core/cholmod_aat.c -o cholmod_aat.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Core/cholmod_add.c -o cholmod_add.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Core/cholmod_band.c -o cholmod_band.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Core/cholmod_change_factor.c -o cholmod_change_factor.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Core/cholmod_common.c -o cholmod_common.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Core/cholmod_complex.c -o cholmod_complex.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Core/cholmod_copy.c -o cholmod_copy.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Core/cholmod_dense.c -o cholmod_dense.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Core/cholmod_error.c -o cholmod_error.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Core/cholmod_factor.c -o cholmod_factor.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Core/cholmod_memory.c -o cholmod_memory.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Core/cholmod_sparse.c -o cholmod_sparse.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Core/cholmod_transpose.c -o cholmod_transpose.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Core/cholmod_triplet.c -o cholmod_triplet.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Core/cholmod_version.c -o cholmod_version.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Check/cholmod_check.c -o cholmod_check.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Check/cholmod_read.c -o cholmod_read.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Check/cholmod_write.c -o cholmod_write.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Cholesky/cholmod_amd.c -o cholmod_amd.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Cholesky/cholmod_analyze.c -o cholmod_analyze.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Cholesky/cholmod_colamd.c -o cholmod_colamd.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Cholesky/cholmod_etree.c -o cholmod_etree.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Cholesky/cholmod_factorize.c -o cholmod_factorize.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Cholesky/cholmod_postorder.c -o cholmod_postorder.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Cholesky/cholmod_rcond.c -o cholmod_rcond.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Cholesky/cholmod_resymbol.c -o cholmod_resymbol.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Cholesky/cholmod_rowcolcounts.c -o cholmod_rowcolcounts.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Cholesky/cholmod_rowfac.c -o cholmod_rowfac.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Cholesky/cholmod_solve.c -o cholmod_solve.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Cholesky/cholmod_spsolve.c -o cholmod_spsolve.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../MatrixOps/cholmod_drop.c -o cholmod_drop.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../MatrixOps/cholmod_horzcat.c -o cholmod_horzcat.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../MatrixOps/cholmod_norm.c -o cholmod_norm.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../MatrixOps/cholmod_scale.c -o cholmod_scale.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../MatrixOps/cholmod_sdmult.c -o cholmod_sdmult.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../MatrixOps/cholmod_ssmult.c -o cholmod_ssmult.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../MatrixOps/cholmod_submatrix.c -o cholmod_submatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../MatrixOps/cholmod_vertcat.c -o cholmod_vertcat.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../MatrixOps/cholmod_symmetry.c -o cholmod_symmetry.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Modify/cholmod_rowadd.c -o cholmod_rowadd.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Modify/cholmod_rowdel.c -o cholmod_rowdel.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Modify/cholmod_updown.c -o cholmod_updown.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Supernodal/cholmod_super_numeric.c -o cholmod_super_numeric.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Supernodal/cholmod_super_solve.c -o cholmod_super_solve.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -c ../Supernodal/cholmod_super_symbolic.c -o cholmod_super_symbolic.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Core/cholmod_aat.c -o cholmod_l_aat.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Core/cholmod_add.c -o cholmod_l_add.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Core/cholmod_band.c -o cholmod_l_band.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Core/cholmod_change_factor.c -o cholmod_l_change_factor.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Core/cholmod_common.c -o cholmod_l_common.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Core/cholmod_complex.c -o cholmod_l_complex.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Core/cholmod_copy.c -o cholmod_l_copy.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Core/cholmod_dense.c -o cholmod_l_dense.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Core/cholmod_error.c -o cholmod_l_error.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Core/cholmod_factor.c -o cholmod_l_factor.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Core/cholmod_memory.c -o cholmod_l_memory.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Core/cholmod_sparse.c -o cholmod_l_sparse.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Core/cholmod_transpose.c -o cholmod_l_transpose.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Core/cholmod_triplet.c -o cholmod_l_triplet.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Core/cholmod_version.c -o cholmod_l_version.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Check/cholmod_check.c -o cholmod_l_check.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Check/cholmod_read.c -o cholmod_l_read.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Check/cholmod_write.c -o cholmod_l_write.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Cholesky/cholmod_amd.c -o cholmod_l_amd.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Cholesky/cholmod_analyze.c -o cholmod_l_analyze.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Cholesky/cholmod_colamd.c -o cholmod_l_colamd.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Cholesky/cholmod_etree.c -o cholmod_l_etree.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Cholesky/cholmod_factorize.c -o cholmod_l_factorize.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Cholesky/cholmod_postorder.c -o cholmod_l_postorder.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Cholesky/cholmod_rcond.c -o cholmod_l_rcond.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Cholesky/cholmod_resymbol.c -o cholmod_l_resymbol.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Cholesky/cholmod_rowcolcounts.c -o cholmod_l_rowcolcounts.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Cholesky/cholmod_rowfac.c -o cholmod_l_rowfac.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Cholesky/cholmod_solve.c -o cholmod_l_solve.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Cholesky/cholmod_spsolve.c -o cholmod_l_spsolve.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../MatrixOps/cholmod_drop.c -o cholmod_l_drop.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../MatrixOps/cholmod_horzcat.c -o cholmod_l_horzcat.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../MatrixOps/cholmod_norm.c -o cholmod_l_norm.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../MatrixOps/cholmod_scale.c -o cholmod_l_scale.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../MatrixOps/cholmod_sdmult.c -o cholmod_l_sdmult.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../MatrixOps/cholmod_ssmult.c -o cholmod_l_ssmult.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../MatrixOps/cholmod_submatrix.c -o cholmod_l_submatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../MatrixOps/cholmod_vertcat.c -o cholmod_l_vertcat.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../MatrixOps/cholmod_symmetry.c -o cholmod_l_symmetry.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Modify/cholmod_rowadd.c -o cholmod_l_rowadd.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Modify/cholmod_rowdel.c -o cholmod_l_rowdel.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Modify/cholmod_updown.c -o cholmod_l_updown.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Supernodal/cholmod_super_numeric.c -o cholmod_l_super_numeric.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Supernodal/cholmod_super_solve.c -o cholmod_l_super_solve.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include -I../Include -I../../SuiteSparse_config -DNPARTITION -DNPRINT -I/usr/local/include    -fpic  -g -O2  -DDLONG -c  ../Supernodal/cholmod_super_symbolic.c -o cholmod_l_super_symbolic.o
+ar -rucs ../../CHOLMOD.a cholmod_aat.o cholmod_add.o cholmod_band.o cholmod_change_factor.o cholmod_common.o cholmod_complex.o cholmod_copy.o cholmod_dense.o cholmod_error.o cholmod_factor.o cholmod_memory.o cholmod_sparse.o cholmod_transpose.o cholmod_triplet.o cholmod_version.o cholmod_check.o cholmod_read.o cholmod_write.o cholmod_amd.o cholmod_analyze.o cholmod_colamd.o cholmod_etree.o cholmod_factorize.o cholmod_postorder.o cholmod_rcond.o cholmod_resymbol.o cholmod_rowcolcounts.o cholmod_rowfac.o cholmod_solve.o cholmod_spsolve.o cholmod_drop.o cholmod_horzcat.o cholmod_norm.o cholmod_scale.o cholmod_sdmult.o cholmod_ssmult.o cholmod_submatrix.o cholmod_vertcat.o cholmod_symmetry.o cholmod_rowadd.o cholmod_rowdel.o cholmod_updown.o cholmod_super_numeric.o cholmod_super_solve.o cholmod_super_symbolic.o  cholmod_l_aat.o cholmod_l_add.o cholmod_l_band.o cholmod_l_change_factor.o cholmod_l_common.o cholmod_l_complex.o cholmod_l_copy.o cholmod_l_dense.o cholmod_l_error.o cholmod_l_factor.o cholmod_l_memory.o cholmod_l_sparse.o cholmod_l_transpose.o cholmod_l_triplet.o cholmod_l_version.o cholmod_l_check.o cholmod_l_read.o cholmod_l_write.o cholmod_l_amd.o cholmod_l_analyze.o cholmod_l_colamd.o cholmod_l_etree.o cholmod_l_factorize.o cholmod_l_postorder.o cholmod_l_rcond.o cholmod_l_resymbol.o cholmod_l_rowcolcounts.o cholmod_l_rowfac.o cholmod_l_solve.o cholmod_l_spsolve.o cholmod_l_drop.o cholmod_l_horzcat.o cholmod_l_norm.o cholmod_l_scale.o cholmod_l_sdmult.o cholmod_l_ssmult.o cholmod_l_submatrix.o cholmod_l_vertcat.o cholmod_l_symmetry.o cholmod_l_rowadd.o cholmod_l_rowdel.o cholmod_l_updown.o cholmod_l_super_numeric.o cholmod_l_super_solve.o cholmod_l_super_symbolic.o 
+ar: `u' modifier ignored since `D' is the default (see `U')
+make[2]: Leaving directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/CHOLMOD/Lib'
+make[1]: Leaving directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/CHOLMOD'
+make[1]: Entering directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/COLAMD'
+( cd Source ; make lib )
+make[2]: Entering directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/COLAMD/Source'
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c colamd_global.c -o colamd_global.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -c colamd.c -o colamd.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDLONG -c colamd.c -o colamd_l.o
+ar -rucs ../../COLAMD.a colamd_global.o colamd.o colamd_l.o
+ar: `u' modifier ignored since `D' is the default (see `U')
+make[2]: Leaving directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/COLAMD/Source'
+make[1]: Leaving directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/COLAMD'
+make[1]: Entering directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/AMD'
+( cd Source ; make lib )
+make[2]: Entering directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/AMD/Source'
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDINT -c amd_aat.c -o amd_i_aat.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDLONG -c amd_aat.c -o amd_l_aat.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDINT -c amd_1.c -o amd_i_1.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDLONG -c amd_1.c -o amd_l_1.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDINT -c amd_2.c -o amd_i_2.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDLONG -c amd_2.c -o amd_l_2.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDINT -c amd_postorder.c -o amd_i_postorder.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDLONG -c amd_postorder.c -o amd_l_postorder.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDINT -c amd_post_tree.c -o amd_i_post_tree.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDLONG -c amd_post_tree.c -o amd_l_post_tree.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDINT -c amd_defaults.c -o amd_i_defaults.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDLONG -c amd_defaults.c -o amd_l_defaults.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDINT -c amd_order.c -o amd_i_order.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDLONG -c amd_order.c -o amd_l_order.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDINT -c amd_control.c -o amd_i_control.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDLONG -c amd_control.c -o amd_l_control.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDINT -c amd_info.c -o amd_i_info.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDLONG -c amd_info.c -o amd_l_info.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDINT -c amd_valid.c -o amd_i_valid.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDLONG -c amd_valid.c -o amd_l_valid.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDINT -c amd_preprocess.c -o amd_i_preprocess.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDLONG -c amd_preprocess.c -o amd_l_preprocess.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDINT -c amd_dump.c -o amd_i_dump.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDLONG -c amd_dump.c -o amd_l_dump.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDINT -c amd_global.c -o amd_i_global.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I../Include -I../../SuiteSparse_config -I/usr/local/include    -fpic  -g -O2  -I../Include -DDLONG -c amd_global.c -o amd_l_global.o
+ar -rucs ../../AMD.a amd_i_aat.o amd_l_aat.o amd_i_1.o amd_l_1.o amd_i_2.o amd_l_2.o amd_i_postorder.o amd_l_postorder.o amd_i_post_tree.o amd_l_post_tree.o amd_i_defaults.o amd_l_defaults.o amd_i_order.o amd_l_order.o amd_i_control.o amd_l_control.o amd_i_info.o amd_l_info.o amd_i_valid.o amd_l_valid.o amd_i_preprocess.o amd_l_preprocess.o amd_i_dump.o amd_l_dump.o amd_i_global.o amd_l_global.o 
+ar: `u' modifier ignored since `D' is the default (see `U')
+make[2]: Leaving directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/AMD/Source'
+make[1]: Leaving directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/AMD'
+make[1]: Entering directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/SuiteSparse_config'
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DNTIMER -I/usr/local/include    -fpic  -g -O2  -c SuiteSparse_config.c -o SuiteSparse_config.o
+ar -rucs ../SuiteSparse_config.a SuiteSparse_config.o
+ar: `u' modifier ignored since `D' is the default (see `U')
+make[1]: Leaving directory '/tmp/RtmpU7a5DP/R.INSTALL18754eabc5a/Matrix/src/SuiteSparse_config'
+gcc -std=gnu99 -shared -L/usr/local/lib -o Matrix.so CHMfactor.o Csparse.o TMatrix_as.o Tsparse.o init.o Mutils.o chm_common.o cs.o cs_utils.o dense.o dgCMatrix.o dgTMatrix.o dgeMatrix.o dpoMatrix.o dppMatrix.o dsCMatrix.o dsyMatrix.o dspMatrix.o dtCMatrix.o dtTMatrix.o dtrMatrix.o dtpMatrix.o factorizations.o ldense.o lgCMatrix.o sparseQR.o abIndex.o CHOLMOD.a COLAMD.a AMD.a SuiteSparse_config.a -L/usr/local/lib/R/lib -lRlapack -L/usr/local/lib/R/lib -lRblas -lgfortran -lm -lquadmath
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/Matrix/libs
+** R
+** data
+** inst
+** byte-compile and prepare package for lazy loading
+Creating a new generic function for ‘crossprod’ in package ‘Matrix’
+Creating a new generic function for ‘tcrossprod’ in package ‘Matrix’
+Creating a generic function for ‘image’ from package ‘graphics’ in package ‘Matrix’
+Creating a generic function for ‘solve’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘chol2inv’ from ‘base’ in package ‘Matrix’
+    (from the saved implicit definition)
+Creating a generic function for ‘chol2inv’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘determinant’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘update’ from package ‘stats’ in package ‘Matrix’
+Creating a generic function for ‘as.vector’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘t’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘diag’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘as.matrix’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘as.array’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘head’ from package ‘utils’ in package ‘Matrix’
+Creating a generic function for ‘tail’ from package ‘utils’ in package ‘Matrix’
+Creating a generic function for ‘drop’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘mean’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘cov2cor’ from package ‘stats’ in package ‘Matrix’
+Creating a generic function for ‘isSymmetric’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘unname’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘chol’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘norm’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘rcond’ from ‘base’ in package ‘Matrix’
+    (from the saved implicit definition)
+Creating a generic function for ‘rcond’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘all.equal’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘diff’ from package ‘base’ in package ‘Matrix’
+in method for ‘coerce’ with signature ‘"matrix.csr","dgRMatrix"’: no definition for class “matrix.csr”
+in method for ‘coerce’ with signature ‘"dgRMatrix","matrix.csr"’: no definition for class “matrix.csr”
+in method for ‘coerce’ with signature ‘"matrix.csc","dgCMatrix"’: no definition for class “matrix.csc”
+in method for ‘coerce’ with signature ‘"dgCMatrix","matrix.csc"’: no definition for class “matrix.csc”
+in method for ‘coerce’ with signature ‘"matrix.coo","dgTMatrix"’: no definition for class “matrix.coo”
+in method for ‘coerce’ with signature ‘"dgTMatrix","matrix.coo"’: no definition for class “matrix.coo”
+in method for ‘coerce’ with signature ‘"dsparseMatrix","matrix.csr"’: no definition for class “matrix.csr”
+in method for ‘coerce’ with signature ‘"matrix.csr","dgCMatrix"’: no definition for class “matrix.csr”
+in method for ‘coerce’ with signature ‘"matrix.coo","dgCMatrix"’: no definition for class “matrix.coo”
+in method for ‘coerce’ with signature ‘"matrix.csr","RsparseMatrix"’: no definition for class “matrix.csr”
+in method for ‘coerce’ with signature ‘"matrix.csc","CsparseMatrix"’: no definition for class “matrix.csc”
+in method for ‘coerce’ with signature ‘"matrix.coo","TsparseMatrix"’: no definition for class “matrix.coo”
+in method for ‘coerce’ with signature ‘"matrix.csr","CsparseMatrix"’: no definition for class “matrix.csr”
+in method for ‘coerce’ with signature ‘"matrix.coo","CsparseMatrix"’: no definition for class “matrix.coo”
+in method for ‘coerce’ with signature ‘"matrix.csc","TsparseMatrix"’: no definition for class “matrix.csc”
+in method for ‘coerce’ with signature ‘"matrix.csr","TsparseMatrix"’: no definition for class “matrix.csr”
+in method for ‘coerce’ with signature ‘"CsparseMatrix","matrix.csr"’: no definition for class “matrix.csr”
+in method for ‘coerce’ with signature ‘"CsparseMatrix","matrix.coo"’: no definition for class “matrix.coo”
+in method for ‘coerce’ with signature ‘"CsparseMatrix","matrix.csc"’: no definition for class “matrix.csc”
+in method for ‘coerce’ with signature ‘"matrix.csr","Matrix"’: no definition for class “matrix.csr”
+in method for ‘coerce’ with signature ‘"matrix.coo","Matrix"’: no definition for class “matrix.coo”
+in method for ‘coerce’ with signature ‘"matrix.csc","Matrix"’: no definition for class “matrix.csc”
+Creating a generic function for ‘colSums’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘colMeans’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘rowSums’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘rowMeans’ from package ‘base’ in package ‘Matrix’
+in method for ‘colSums’ with signature ‘x="igCMatrix"’: no definition for class “igCMatrix”
+in method for ‘rowSums’ with signature ‘x="igCMatrix"’: no definition for class “igCMatrix”
+in method for ‘colMeans’ with signature ‘x="igCMatrix"’: no definition for class “igCMatrix”
+in method for ‘rowMeans’ with signature ‘x="igCMatrix"’: no definition for class “igCMatrix”
+Creating a generic function for ‘zapsmall’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘qr’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘diag<-’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘print’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘summary’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘which’ from package ‘base’ in package ‘Matrix’
+in method for ‘coerce’ with signature ‘"graphAM","sparseMatrix"’: no definition for class “graphAM”
+in method for ‘coerce’ with signature ‘"graph","CsparseMatrix"’: no definition for class “graph”
+in method for ‘coerce’ with signature ‘"graph","Matrix"’: no definition for class “graph”
+in method for ‘coerce’ with signature ‘"graphNEL","CsparseMatrix"’: no definition for class “graphNEL”
+in method for ‘coerce’ with signature ‘"graphNEL","TsparseMatrix"’: no definition for class “graphNEL”
+in method for ‘coerce’ with signature ‘"sparseMatrix","graph"’: no definition for class “graph”
+in method for ‘coerce’ with signature ‘"sparseMatrix","graphNEL"’: no definition for class “graphNEL”
+in method for ‘coerce’ with signature ‘"TsparseMatrix","graphNEL"’: no definition for class “graphNEL”
+Creating a generic function for ‘format’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘qr.R’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘qr.Q’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘qr.qy’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘qr.qty’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘qr.coef’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘qr.resid’ from package ‘base’ in package ‘Matrix’
+Creating a generic function for ‘qr.fitted’ from package ‘base’ in package ‘Matrix’
+** help
+*** installing help indices
+** building package indices
+Loading required package: Matrix
+
+Attaching package: ‘Matrix’
+
+The following object(s) are masked from ‘package:base’:
+
+    crossprod, tcrossprod
+
+** installing vignettes
+   ‘Comparisons.Rnw’ 
+   ‘Design-issues.Rnw’ 
+   ‘Intro2Matrix.Rnw’ 
+   ‘Introduction.Rnw’ 
+   ‘sparseModels.Rnw’ 
+** testing if installed package can be loaded
+
+* DONE (Matrix)
+Loading required package: Matrix
+Loading required package: methods
+
+Attaching package: ‘Matrix’
+
+The following object(s) are masked from ‘package:base’:
+
+    crossprod, tcrossprod
+
+
+---------------------
+Package 'Matrix' installed
+---------------------
+
+
+---------------------
+Attempting to download package 'mgcv' from primary URL http://cran.rstudio.com/src/contrib/Archive/mgcv/mgcv_1.7-28.tar.gz
+---------------------
+
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘mgcv’ ...
+** package ‘mgcv’ successfully unpacked and MD5 sums checked
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c gdi.c -o gdi.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c init.c -o init.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c magic.c -o magic.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c mat.c -o mat.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c matrix.c -o matrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c mgcv.c -o mgcv.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c misc.c -o misc.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c qp.c -o qp.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c soap.c -o soap.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c sparse-smooth.c -o sparse-smooth.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c tprs.c -o tprs.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o mgcv.so gdi.o init.o magic.o mat.o matrix.o mgcv.o misc.o qp.o soap.o sparse-smooth.o tprs.o -L/usr/local/lib/R/lib -lRlapack -L/usr/local/lib/R/lib -lRblas -lgfortran -lm -lquadmath -fopenmp
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/mgcv/libs
+** R
+** data
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+
+* DONE (mgcv)
+Loading required package: mgcv
+Loading required package: nlme
+This is mgcv 1.7-28. For overview type 'help("mgcv-package")'.
+
+---------------------
+Package 'mgcv' installed
+---------------------
+
+
+---------------------
+Attempting to download package 'nlme' from primary URL http://cran.rstudio.com/src/contrib/Archive/nlme/nlme_3.1-108.tar.gz
+---------------------
+
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘nlme’ ...
+** package ‘nlme’ successfully unpacked and MD5 sums checked
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include   -fvisibility=hidden -fpic  -g -O2  -c corStruct.c -o corStruct.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include   -fvisibility=hidden -fpic  -g -O2  -c gnls.c -o gnls.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include   -fvisibility=hidden -fpic  -g -O2  -c init.c -o init.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include   -fvisibility=hidden -fpic  -g -O2  -c matrix.c -o matrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include   -fvisibility=hidden -fpic  -g -O2  -c nlOptimizer.c -o nlOptimizer.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include   -fvisibility=hidden -fpic  -g -O2  -c nlme.c -o nlme.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include   -fvisibility=hidden -fpic  -g -O2  -c nlmefit.c -o nlmefit.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include   -fvisibility=hidden -fpic  -g -O2  -c nls.c -o nls.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include   -fvisibility=hidden -fpic  -g -O2  -c pdMat.c -o pdMat.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o nlme.so corStruct.o gnls.o init.o matrix.o nlOptimizer.o nlme.o nlmefit.o nls.o pdMat.o
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/nlme/libs
+** R
+** data
+**  moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+
+* DONE (nlme)
+
+---------------------
+Package 'nlme' installed
+---------------------
+
+
+---------------------
+Attempting to download package 'nnet' from primary URL http://cran.rstudio.com/src/contrib/Archive/nnet/nnet_7.3-7.tar.gz
+---------------------
+
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘nnet’ ...
+** package ‘nnet’ successfully unpacked and MD5 sums checked
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c nnet.c -o nnet.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o nnet.so nnet.o
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/nnet/libs
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+
+* DONE (nnet)
+Loading required package: nnet
+
+---------------------
+Package 'nnet' installed
+---------------------
+
+
+---------------------
+Attempting to download package 'rpart' from primary URL http://cran.rstudio.com/src/contrib/Archive/rpart/rpart_4.1-6.tar.gz
+---------------------
+
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘rpart’ ...
+** package ‘rpart’ successfully unpacked and MD5 sums checked
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c anova.c -o anova.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c anovapred.c -o anovapred.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c branch.c -o branch.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c bsplit.c -o bsplit.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c choose_surg.c -o choose_surg.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c fix_cp.c -o fix_cp.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c free_tree.c -o free_tree.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c gini.c -o gini.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c graycode.c -o graycode.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c init.c -o init.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c insert_split.c -o insert_split.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c make_cp_list.c -o make_cp_list.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c make_cp_table.c -o make_cp_table.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c mysort.c -o mysort.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c nodesplit.c -o nodesplit.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c partition.c -o partition.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c poisson.c -o poisson.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c pred_rpart.c -o pred_rpart.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c print_tree.c -o print_tree.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c rpart.c -o rpart.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c rpart_callback.c -o rpart_callback.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c rpartexp.c -o rpartexp.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c rpartexp2.c -o rpartexp2.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c rpcountup.c -o rpcountup.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c rpmatrix.c -o rpmatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c rundown.c -o rundown.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c rundown2.c -o rundown2.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c surrogate.c -o surrogate.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c usersplit.c -o usersplit.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c xpred.c -o xpred.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c xval.c -o xval.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o rpart.so anova.o anovapred.o branch.o bsplit.o choose_surg.o fix_cp.o free_tree.o gini.o graycode.o init.o insert_split.o make_cp_list.o make_cp_table.o mysort.o nodesplit.o partition.o poisson.o pred_rpart.o print_tree.o rpart.o rpart_callback.o rpartexp.o rpartexp2.o rpcountup.o rpmatrix.o rundown.o rundown2.o surrogate.o usersplit.o xpred.o xval.o
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/rpart/libs
+** R
+** data
+**  moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+   ‘longintro.Rnw’ 
+   ‘usercode.Rnw’ 
+** testing if installed package can be loaded
+
+* DONE (rpart)
+Loading required package: rpart
+
+---------------------
+Package 'rpart' installed
+---------------------
+
+
+---------------------
+Attempting to download package 'spatial' from primary URL http://cran.rstudio.com/src/contrib/Archive/spatial/spatial_7.3-5.tar.gz
+---------------------
+
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘spatial’ ...
+** package ‘spatial’ successfully unpacked and MD5 sums checked
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c init.c -o init.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c krc.c -o krc.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c pps.c -o pps.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o spatial.so init.o krc.o pps.o
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/spatial/libs
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+
+* DONE (spatial)
+Loading required package: spatial
+
+---------------------
+Package 'spatial' installed
+---------------------
+
+
+---------------------
+Attempting to download package 'DBI' from primary URL http://cran.rstudio.com/src/contrib/Archive/DBI/DBI_0.2-7.tar.gz
+---------------------
+
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘DBI’ ...
+** package ‘DBI’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** preparing package for lazy loading
+Creating a generic function for ‘summary’ from package ‘base’ in package ‘DBI’
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+   ‘DBI.Rnw’ 
+** testing if installed package can be loaded
+
+* DONE (DBI)
+Loading required package: DBI
+
+---------------------
+Package 'DBI' installed
+---------------------
+
+
+---------------------
+Attempting to download package 'RSQLite' from primary URL http://cran.rstudio.com/src/contrib/Archive/RSQLite/RSQLite_0.11.4.tar.gz
+---------------------
+
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘RSQLite’ ...
+** package ‘RSQLite’ successfully unpacked and MD5 sums checked
+checking for gcc... gcc -std=gnu99
+checking for C compiler default output file name... a.out
+checking whether the C compiler works... yes
+checking whether we are cross compiling... no
+checking for suffix of executables... 
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc -std=gnu99 accepts -g... yes
+checking for gcc -std=gnu99 option to accept ISO C89... none needed
+checking how to run the C preprocessor... gcc -std=gnu99 -E
+checking for gcc... (cached) gcc -std=gnu99
+checking whether we are using the GNU C compiler... (cached) yes
+checking whether gcc -std=gnu99 accepts -g... (cached) yes
+checking for gcc -std=gnu99 option to accept ISO C89... (cached) none needed
+checking for library containing fdatasync... none required
+configure: creating ./config.status
+config.status: creating src/Makevars
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DRSQLITE_USE_BUNDLED_SQLITE -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_SOUNDEX -DSQLITE_MAX_VARIABLE_NUMBER=40000 -DSQLITE_MAX_COLUMN=30000 -DTHREADSAFE=0 -I/usr/local/include    -fpic  -g -O2  -c RS-DBI.c -o RS-DBI.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DRSQLITE_USE_BUNDLED_SQLITE -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_SOUNDEX -DSQLITE_MAX_VARIABLE_NUMBER=40000 -DSQLITE_MAX_COLUMN=30000 -DTHREADSAFE=0 -I/usr/local/include    -fpic  -g -O2  -c RS-SQLite.c -o RS-SQLite.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DRSQLITE_USE_BUNDLED_SQLITE -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_SOUNDEX -DSQLITE_MAX_VARIABLE_NUMBER=40000 -DSQLITE_MAX_COLUMN=30000 -DTHREADSAFE=0 -I/usr/local/include    -fpic  -g -O2  -c param_binding.c -o param_binding.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DRSQLITE_USE_BUNDLED_SQLITE -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_SOUNDEX -DSQLITE_MAX_VARIABLE_NUMBER=40000 -DSQLITE_MAX_COLUMN=30000 -DTHREADSAFE=0 -I/usr/local/include    -fpic  -g -O2  -c sqlite-all.c -o sqlite-all.o
+sqlite-all.c:1:35: warning: extra tokens at end of #ifdef directive
+ #ifdef RSQLITE_USE_BUNDLED_SQLITE || WIN32
+                                   ^
+mkdir -p ../inst/include
+cp sqlite/sqlite3.h ../inst/include
+cp sqlite/sqlite3ext.h ../inst/include
+gcc -std=gnu99 -shared -L/usr/local/lib -o RSQLite.so RS-DBI.o RS-SQLite.o param_binding.o sqlite-all.o
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/RSQLite/libs
+** R
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+
+* DONE (RSQLite)
+Loading required package: RSQLite
+
+---------------------
+Package 'RSQLite' installed
+---------------------
+
+
+---------------------
+About to initialize the Bioconductor loader
+---------------------
+
+A new version of Bioconductor is available after installing the most
+  recent version of R; see http://bioconductor.org/install
+Installing package(s) into ‘/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15’
+(as ‘lib’ is unspecified)
+trying URL 'http://bioconductor.org/packages/2.11/bioc/src/contrib/BiocInstaller_1.8.3.tar.gz'
+Content type 'application/x-gzip' length 11846 bytes (11 Kb)
+opened URL
+==================================================
+downloaded 11 Kb
+
+* installing *source* package ‘BiocInstaller’ ...
+** R
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+Bioconductor version 2.11 (BiocInstaller 1.8.3), ?biocLite for help
+
+* DONE (BiocInstaller)
+
+The downloaded source packages are in
+	‘/tmp/RtmpJMGm3Q/downloaded_packages’
+Bioconductor version 2.11 (BiocInstaller 1.8.3), ?biocLite for help
+
+---------------------
+Package 'BiocInstaller' installed
+---------------------
+
+BioC_mirror: http://bioconductor.org
+Using Bioconductor version 2.11 (BiocInstaller 1.8.3), R version 2.15.
+Installing package(s) 'BiocGenerics'
+trying URL 'http://bioconductor.org/packages/2.11/bioc/src/contrib/BiocGenerics_0.4.0.tar.gz'
+Content type 'application/x-gzip' length 23499 bytes (22 Kb)
+opened URL
+==================================================
+downloaded 22 Kb
+
+* installing *source* package ‘BiocGenerics’ ...
+** R
+** inst
+** preparing package for lazy loading
+Creating a new generic function for ‘cbind’ in package ‘BiocGenerics’
+Creating a new generic function for ‘rbind’ in package ‘BiocGenerics’
+Creating a new generic function for ‘duplicated’ in package ‘BiocGenerics’
+Creating a new generic function for ‘anyDuplicated’ in package ‘BiocGenerics’
+Creating a new generic function for ‘eval’ in package ‘BiocGenerics’
+Creating a new generic function for ‘pmax’ in package ‘BiocGenerics’
+Creating a new generic function for ‘pmin’ in package ‘BiocGenerics’
+Creating a new generic function for ‘pmax.int’ in package ‘BiocGenerics’
+Creating a new generic function for ‘pmin.int’ in package ‘BiocGenerics’
+Creating a new generic function for ‘Reduce’ in package ‘BiocGenerics’
+Creating a new generic function for ‘Filter’ in package ‘BiocGenerics’
+Creating a new generic function for ‘Find’ in package ‘BiocGenerics’
+Creating a new generic function for ‘Map’ in package ‘BiocGenerics’
+Creating a new generic function for ‘Position’ in package ‘BiocGenerics’
+Creating a new generic function for ‘get’ in package ‘BiocGenerics’
+Creating a new generic function for ‘mget’ in package ‘BiocGenerics’
+Creating a new generic function for ‘lapply’ in package ‘BiocGenerics’
+Creating a new generic function for ‘sapply’ in package ‘BiocGenerics’
+Creating a new generic function for ‘mapply’ in package ‘BiocGenerics’
+Creating a new generic function for ‘order’ in package ‘BiocGenerics’
+Creating a new generic function for ‘paste’ in package ‘BiocGenerics’
+Creating a new generic function for ‘rep.int’ in package ‘BiocGenerics’
+Creating a new generic function for ‘rownames’ in package ‘BiocGenerics’
+Creating a new generic function for ‘colnames’ in package ‘BiocGenerics’
+Creating a new generic function for ‘union’ in package ‘BiocGenerics’
+Creating a new generic function for ‘intersect’ in package ‘BiocGenerics’
+Creating a new generic function for ‘setdiff’ in package ‘BiocGenerics’
+Creating a new generic function for ‘table’ in package ‘BiocGenerics’
+Creating a new generic function for ‘tapply’ in package ‘BiocGenerics’
+Creating a new generic function for ‘unique’ in package ‘BiocGenerics’
+Creating a new generic function for ‘xtabs’ in package ‘BiocGenerics’
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+
+* DONE (BiocGenerics)
+
+The downloaded source packages are in
+	‘/tmp/RtmpJMGm3Q/downloaded_packages’
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following object(s) are masked from ‘package:stats’:
+
+    xtabs
+
+The following object(s) are masked from ‘package:base’:
+
+    anyDuplicated, cbind, colnames, duplicated, eval, Filter, Find,
+    get, intersect, lapply, Map, mapply, mget, order, paste, pmax,
+    pmax.int, pmin, pmin.int, Position, rbind, Reduce, rep.int,
+    rownames, sapply, setdiff, table, tapply, union, unique
+
+
+---------------------
+Package 'BiocGenerics' installed
+---------------------
+
+BioC_mirror: http://bioconductor.org
+Using Bioconductor version 2.11 (BiocInstaller 1.8.3), R version 2.15.
+Installing package(s) 'IRanges'
+trying URL 'http://bioconductor.org/packages/2.11/bioc/src/contrib/IRanges_1.16.6.tar.gz'
+Content type 'application/x-gzip' length 699298 bytes (682 Kb)
+opened URL
+==================================================
+downloaded 682 Kb
+
+* installing *source* package ‘IRanges’ ...
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c AEbufs.c -o AEbufs.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c CompressedIRangesList_class.c -o CompressedIRangesList_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c CompressedList_class.c -o CompressedList_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c DataFrame_class.c -o DataFrame_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c GappedRanges_class.c -o GappedRanges_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c Grouping_class.c -o Grouping_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c Hits_class.c -o Hits_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c IRanges_class.c -o IRanges_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c IRanges_constructor.c -o IRanges_constructor.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c IRanges_utils.c -o IRanges_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c IntervalTree.c -o IntervalTree.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c Ocopy_byteblocks.c -o Ocopy_byteblocks.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c R_init_IRanges.c -o R_init_IRanges.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c RangedData_class.c -o RangedData_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c Ranges_comparison.c -o Ranges_comparison.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c RleViews_utils.c -o RleViews_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c Rle_class.c -o Rle_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c Rle_utils.c -o Rle_utils.o
+Rle_utils.c: In function ‘Rle_integer_runq’:
+Rle_utils.c:735:6: warning: implicit declaration of function ‘roundingScale’ [-Wimplicit-function-declaration]
+      q_index = roundingScale(window_len_na,
+      ^
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c SEXP_utils.c -o SEXP_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c SharedDouble_utils.c -o SharedDouble_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c SharedInteger_utils.c -o SharedInteger_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c SharedRaw_utils.c -o SharedRaw_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c SharedVector_class.c -o SharedVector_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c SimpleList_class.c -o SimpleList_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c SimpleRangesList_class.c -o SimpleRangesList_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c Vector_class.c -o Vector_class.o
+Vector_class.c: In function ‘vector_seqselect’:
+Vector_class.c:95:4: warning: implicit declaration of function ‘UNIMPLEMENTED_TYPE’ [-Wimplicit-function-declaration]
+    UNIMPLEMENTED_TYPE("vector_seqselect", x);
+    ^
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c XDoubleViews_utils.c -o XDoubleViews_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c XIntegerViews_utils.c -o XIntegerViews_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c XRawList_comparison.c -o XRawList_comparison.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c XVectorList_class.c -o XVectorList_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c XVector_class.c -o XVector_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c anyMissing.c -o anyMissing.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c common.c -o common.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c compact_bitvector.c -o compact_bitvector.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c coverage.c -o coverage.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c dlist.c -o dlist.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c encode_overlaps.c -o encode_overlaps.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c errabort.c -o errabort.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c hash_utils.c -o hash_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c int_utils.c -o int_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c localmem.c -o localmem.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c memalloc.c -o memalloc.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c rbTree.c -o rbTree.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c safe_arithm.c -o safe_arithm.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c sort_utils.c -o sort_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c str_utils.c -o str_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c ucsc_handlers.c -o ucsc_handlers.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c vector_copy.c -o vector_copy.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o IRanges.so AEbufs.o CompressedIRangesList_class.o CompressedList_class.o DataFrame_class.o GappedRanges_class.o Grouping_class.o Hits_class.o IRanges_class.o IRanges_constructor.o IRanges_utils.o IntervalTree.o Ocopy_byteblocks.o R_init_IRanges.o RangedData_class.o Ranges_comparison.o RleViews_utils.o Rle_class.o Rle_utils.o SEXP_utils.o SharedDouble_utils.o SharedInteger_utils.o SharedRaw_utils.o SharedVector_class.o SimpleList_class.o SimpleRangesList_class.o Vector_class.o XDoubleViews_utils.o XIntegerViews_utils.o XRawList_comparison.o XVectorList_class.o XVector_class.o anyMissing.o common.o compact_bitvector.o coverage.o dlist.o encode_overlaps.o errabort.o hash_utils.o int_utils.o localmem.o memalloc.o rbTree.o safe_arithm.o sort_utils.o str_utils.o ucsc_handlers.o vector_copy.o
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/libs
+** R
+** inst
+** preparing package for lazy loading
+Creating a generic function for ‘nlevels’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘window’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘window<-’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘head’ from package ‘utils’ in package ‘IRanges’
+Creating a generic function for ‘tail’ from package ‘utils’ in package ‘IRanges’
+Creating a generic function for ‘rev’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘subset’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘sort’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘%in%’ from package ‘base’ in package ‘IRanges’
+in method for ‘coerce’ with signature ‘"Vector","double"’: no definition for class “double”
+Creating a generic function for ‘as.data.frame’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘append’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘relist’ from package ‘utils’ in package ‘IRanges’
+in method for ‘relist’ with signature ‘"ANY","PartitioningByEnd"’: no definition for class “PartitioningByEnd”
+in method for ‘relist’ with signature ‘"ANY","List"’: no definition for class “List”
+Creating a generic function for ‘split’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘split<-’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘aggregate’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘as.list’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘unlist’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘unsplit’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘stack’ from package ‘utils’ in package ‘IRanges’
+Creating a generic function for ‘with’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘within’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘start’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘end’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘as.matrix’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘rank’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘na.omit’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘na.exclude’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘complete.cases’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘merge’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘mean’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘which.max’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘which.min’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘as.vector’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘as.factor’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘is.unsorted’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘match’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘which’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘ifelse’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘diff’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘var’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘cov’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘cor’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘sd’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘median’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘quantile’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘mad’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘IQR’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘smoothEnds’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘runmed’ from package ‘stats’ in package ‘IRanges’
+Creating a generic function for ‘nchar’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘substr’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘substring’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘chartr’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘tolower’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘toupper’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘sub’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘gsub’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘levels’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘drop’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘rownames<-’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘colnames<-’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘as.table’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘t’ from package ‘base’ in package ‘IRanges’
+Creating a generic function for ‘toString’ from package ‘base’ in package ‘IRanges’
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+   ‘IRangesOverview.Rnw’ 
+   ‘RleTricks.Rnw’ 
+** testing if installed package can be loaded
+
+* DONE (IRanges)
+
+The downloaded source packages are in
+	‘/tmp/RtmpJMGm3Q/downloaded_packages’
+Loading required package: IRanges
+
+Attaching package: ‘IRanges’
+
+The following object(s) are masked from ‘package:nlme’:
+
+    collapse
+
+The following object(s) are masked from ‘package:Matrix’:
+
+    expand
+
+
+---------------------
+Package 'IRanges' installed
+---------------------
+
+BioC_mirror: http://bioconductor.org
+Using Bioconductor version 2.11 (BiocInstaller 1.8.3), R version 2.15.
+Installing package(s) 'Biobase'
+trying URL 'http://bioconductor.org/packages/2.11/bioc/src/contrib/Biobase_2.18.0.tar.gz'
+Content type 'application/x-gzip' length 1913386 bytes (1.8 Mb)
+opened URL
+==================================================
+downloaded 1.8 Mb
+
+* installing *source* package ‘Biobase’ ...
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c Rinit.c -o Rinit.o
+In file included from Rinit.c:3:0:
+/usr/local/lib/R/include/R_ext/RConverters.h:32:2: warning: #warning "R_ext/RConverters.h was deprecated in R 2.15.1 and will be removed in R 3.0.0" [-Wcpp]
+ #warning "R_ext/RConverters.h was deprecated in R 2.15.1 and will be removed in R 3.0.0"
+  ^
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c anyMissing.c -o anyMissing.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c envir.c -o envir.o
+In file included from envir.c:5:0:
+/usr/local/lib/R/include/R_ext/RConverters.h:32:2: warning: #warning "R_ext/RConverters.h was deprecated in R 2.15.1 and will be removed in R 3.0.0" [-Wcpp]
+ #warning "R_ext/RConverters.h was deprecated in R 2.15.1 and will be removed in R 3.0.0"
+  ^
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c matchpt.c -o matchpt.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c rowMedians.c -o rowMedians.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c sublist_extract.c -o sublist_extract.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o Biobase.so Rinit.o anyMissing.o envir.o matchpt.o rowMedians.o sublist_extract.o
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/Biobase/libs
+** R
+** data
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+   ‘BiobaseDevelopment.Rnw’ 
+   ‘Bioconductor.Rnw’ 
+   ‘ExpressionSetIntroduction.Rnw’ 
+   ‘HowTo.Rnw’ 
+   ‘Qviews.Rnw’ 
+   ‘esApply.Rnw’ 
+** testing if installed package can be loaded
+
+* DONE (Biobase)
+
+The downloaded source packages are in
+	‘/tmp/RtmpJMGm3Q/downloaded_packages’
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+---------------------
+Package 'Biobase' installed
+---------------------
+
+BioC_mirror: http://bioconductor.org
+Using Bioconductor version 2.11 (BiocInstaller 1.8.3), R version 2.15.
+Installing package(s) 'AnnotationDbi'
+trying URL 'http://bioconductor.org/packages/2.11/bioc/src/contrib/AnnotationDbi_1.20.7.tar.gz'
+Content type 'application/x-gzip' length 3736688 bytes (3.6 Mb)
+opened URL
+==================================================
+downloaded 3.6 Mb
+
+* installing *source* package ‘AnnotationDbi’ ...
+** R
+** inst
+** preparing package for lazy loading
+Creating a generic function for ‘toString’ from package ‘base’ in package ‘AnnotationDbi’
+Creating a generic function for ‘rev’ from package ‘base’ in package ‘AnnotationDbi’
+Creating a generic function for ‘subset’ from package ‘base’ in package ‘AnnotationDbi’
+Creating a generic function for ‘as.data.frame’ from package ‘base’ in package ‘AnnotationDbi’
+Creating a generic function for ‘head’ from package ‘utils’ in package ‘AnnotationDbi’
+Creating a generic function for ‘tail’ from package ‘utils’ in package ‘AnnotationDbi’
+Creating a generic function for ‘as.list’ from package ‘base’ in package ‘AnnotationDbi’
+Creating a generic function for ‘ls’ from package ‘base’ in package ‘AnnotationDbi’
+Creating a generic function for ‘eapply’ from package ‘base’ in package ‘AnnotationDbi’
+Creating a generic function for ‘exists’ from package ‘base’ in package ‘AnnotationDbi’
+Creating a generic function for ‘sample’ from package ‘base’ in package ‘AnnotationDbi’
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+   ‘AnnotationDbi.Rnw’ 
+   ‘IntroToAnnotationPackages.Rnw’ 
+** testing if installed package can be loaded
+
+* DONE (AnnotationDbi)
+
+The downloaded source packages are in
+	‘/tmp/RtmpJMGm3Q/downloaded_packages’
+Loading required package: AnnotationDbi
+
+Attaching package: ‘AnnotationDbi’
+
+The following object(s) are masked from ‘package:MASS’:
+
+    select
+
+
+---------------------
+Package 'AnnotationDbi' installed
+---------------------
+
+BioC_mirror: http://bioconductor.org
+Using Bioconductor version 2.11 (BiocInstaller 1.8.3), R version 2.15.
+Installing package(s) 'zlibbioc'
+trying URL 'http://bioconductor.org/packages/2.11/bioc/src/contrib/zlibbioc_1.4.0.tar.gz'
+Content type 'application/x-gzip' length 282339 bytes (275 Kb)
+opened URL
+==================================================
+downloaded 275 Kb
+
+* installing *source* package ‘zlibbioc’ ...
+configure: creating ./config.status
+config.status: creating src/Makevars
+** libs
+mkdir -p "/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/zlibbioc/include"
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c R_init_zlibbioc.c -o R_init_zlibbioc.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o zlibbioc.so R_init_zlibbioc.o
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/zlibbioc/libs
+** R
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+   ‘UsingZlibbioc.Rnw’ 
+** testing if installed package can be loaded
+
+* DONE (zlibbioc)
+
+The downloaded source packages are in
+	‘/tmp/RtmpJMGm3Q/downloaded_packages’
+Loading required package: zlibbioc
+
+---------------------
+Package 'zlibbioc' installed
+---------------------
+
+BioC_mirror: http://bioconductor.org
+Using Bioconductor version 2.11 (BiocInstaller 1.8.3), R version 2.15.
+Installing package(s) 'affyio'
+trying URL 'http://bioconductor.org/packages/2.11/bioc/src/contrib/affyio_1.26.0.tar.gz'
+Content type 'application/x-gzip' length 115155 bytes (112 Kb)
+opened URL
+==================================================
+downloaded 112 Kb
+
+* installing *source* package ‘affyio’ ...
+checking for gcc... gcc
+checking for C compiler default output file name... a.out
+checking whether the C compiler works... yes
+checking whether we are cross compiling... no
+checking for suffix of executables... 
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking how to run the C preprocessor... gcc -E
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking for main in -lz... yes
+checking zlib.h usability... yes
+checking zlib.h presence... yes
+checking for zlib.h... yes
+checking if zlib version >= 1.1.3... yes
+checking for pthread_create in -lpthread... yes
+checking if we can use pthreads... yes
+checking if PTHREAD_STACK_MIN is defined... yes
+configure: creating ./config.status
+config.status: creating src/Makevars
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_ZLIB=1 -DHAVE_LIBPTHREAD=1 -DUSE_PTHREADS=1 -I/usr/local/include   -g -O2   -fpic  -g -O2  -c fread_functions.c -o fread_functions.o
+fread_functions.c: In function ‘gzread_int32’:
+fread_functions.c:414:19: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+   result = gzread(instream,destination,sizeof(int)*n); 
+                   ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+fread_functions.c: In function ‘gzread_uint32’:
+fread_functions.c:439:19: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+   result = gzread(instream,destination,sizeof(unsigned int)*n); 
+                   ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+fread_functions.c: In function ‘gzread_int16’:
+fread_functions.c:458:20: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+    result = gzread(instream,destination,sizeof(short)*n);
+                    ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+fread_functions.c: In function ‘gzread_uint16’:
+fread_functions.c:476:20: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+    result = gzread(instream,destination,sizeof(unsigned short)*n);
+                    ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+fread_functions.c: In function ‘gzread_float32’:
+fread_functions.c:497:20: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+   result =  gzread(instream,destination,sizeof(float)*n); 
+                    ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+fread_functions.c: In function ‘gzread_char’:
+fread_functions.c:513:19: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+   result = gzread(instream,destination,sizeof(char)*n); 
+                   ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+fread_functions.c: In function ‘gzread_uchar’:
+fread_functions.c:529:19: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+   result = gzread(instream,destination,sizeof(unsigned char)*n); 
+                   ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+fread_functions.c: In function ‘gzread_double64’:
+fread_functions.c:547:19: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+   result = gzread(instream, destination,sizeof(double)*n);
+                   ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+fread_functions.c: In function ‘gzread_be_int32’:
+fread_functions.c:575:19: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+   result = gzread(instream,destination,sizeof(int)*n); 
+                   ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+fread_functions.c: In function ‘gzread_be_uint32’:
+fread_functions.c:600:19: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+   result = gzread(instream,destination,sizeof(unsigned int)*n); 
+                   ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+fread_functions.c: In function ‘gzread_be_int16’:
+fread_functions.c:620:20: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+    result = gzread(instream,destination,sizeof(short)*n);
+                    ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+fread_functions.c: In function ‘gzread_be_uint16’:
+fread_functions.c:636:20: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+    result = gzread(instream,destination,sizeof(unsigned short)*n);
+                    ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+fread_functions.c: In function ‘gzread_be_float32’:
+fread_functions.c:656:20: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+   result =  gzread(instream,destination,sizeof(float)*n); 
+                    ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+fread_functions.c: In function ‘gzread_be_char’:
+fread_functions.c:673:19: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+   result = gzread(instream,destination,sizeof(char)*n); 
+                   ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+fread_functions.c: In function ‘gzread_be_uchar’:
+fread_functions.c:690:19: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+   result = gzread(instream,destination,sizeof(unsigned char)*n); 
+                   ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+fread_functions.c: In function ‘gzread_be_double64’:
+fread_functions.c:706:19: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+   result = gzread(instream, destination,sizeof(double)*n);
+                   ^
+In file included from fread_functions.h:12:0,
+                 from fread_functions.c:10:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_ZLIB=1 -DHAVE_LIBPTHREAD=1 -DUSE_PTHREADS=1 -I/usr/local/include   -g -O2   -fpic  -g -O2  -c read_abatch.c -o read_abatch.o
+read_abatch.c: In function ‘gz_get_detailed_header_info’:
+read_abatch.c:1987:15: warning: assignment from incompatible pointer type
+   currentFile = open_gz_cel_file(filename);
+               ^
+read_abatch.c:1989:22: warning: passing argument 1 of ‘gzAdvanceToSection’ from incompatible pointer type
+   gzAdvanceToSection(currentFile,"[HEADER]",buffer);
+                      ^
+read_abatch.c:1437:13: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void gzAdvanceToSection(gzFile my_file,char *sectiontitle, char *buffer){
+             ^
+read_abatch.c:1991:20: warning: passing argument 1 of ‘gzfindStartsWith’ from incompatible pointer type
+   gzfindStartsWith(currentFile,"Cols",buffer);  
+                    ^
+read_abatch.c:1414:14: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void  gzfindStartsWith(gzFile my_file,char *starts, char *buffer){
+              ^
+read_abatch.c:1996:20: warning: passing argument 1 of ‘gzfindStartsWith’ from incompatible pointer type
+   gzfindStartsWith(currentFile,"Rows",buffer);
+                    ^
+read_abatch.c:1414:14: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void  gzfindStartsWith(gzFile my_file,char *starts, char *buffer){
+              ^
+read_abatch.c:2001:20: warning: passing argument 1 of ‘gzfindStartsWith’ from incompatible pointer type
+   gzfindStartsWith(currentFile,"GridCornerUL",buffer);
+                    ^
+read_abatch.c:1414:14: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void  gzfindStartsWith(gzFile my_file,char *starts, char *buffer){
+              ^
+read_abatch.c:2007:20: warning: passing argument 1 of ‘gzfindStartsWith’ from incompatible pointer type
+   gzfindStartsWith(currentFile,"GridCornerUR",buffer);
+                    ^
+read_abatch.c:1414:14: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void  gzfindStartsWith(gzFile my_file,char *starts, char *buffer){
+              ^
+read_abatch.c:2013:20: warning: passing argument 1 of ‘gzfindStartsWith’ from incompatible pointer type
+   gzfindStartsWith(currentFile,"GridCornerLR",buffer);
+                    ^
+read_abatch.c:1414:14: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void  gzfindStartsWith(gzFile my_file,char *starts, char *buffer){
+              ^
+read_abatch.c:2019:20: warning: passing argument 1 of ‘gzfindStartsWith’ from incompatible pointer type
+   gzfindStartsWith(currentFile,"GridCornerLL",buffer);
+                    ^
+read_abatch.c:1414:14: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void  gzfindStartsWith(gzFile my_file,char *starts, char *buffer){
+              ^
+read_abatch.c:2025:20: warning: passing argument 1 of ‘gzfindStartsWith’ from incompatible pointer type
+   gzfindStartsWith(currentFile,"DatHeader",buffer);
+                    ^
+read_abatch.c:1414:14: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void  gzfindStartsWith(gzFile my_file,char *starts, char *buffer){
+              ^
+read_abatch.c:2057:20: warning: passing argument 1 of ‘gzfindStartsWith’ from incompatible pointer type
+   gzfindStartsWith(currentFile,"Algorithm",buffer);
+                    ^
+read_abatch.c:1414:14: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void  gzfindStartsWith(gzFile my_file,char *starts, char *buffer){
+              ^
+read_abatch.c:2065:20: warning: passing argument 1 of ‘gzfindStartsWith’ from incompatible pointer type
+   gzfindStartsWith(currentFile,"AlgorithmParameters",buffer);
+                    ^
+read_abatch.c:1414:14: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void  gzfindStartsWith(gzFile my_file,char *starts, char *buffer){
+              ^
+read_abatch.c:2070:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(currentFile);
+           ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c: In function ‘gz_get_masks_outliers’:
+read_abatch.c:2098:15: warning: assignment from incompatible pointer type
+   currentFile = open_gz_cel_file(filename);
+               ^
+read_abatch.c:2102:22: warning: passing argument 1 of ‘gzAdvanceToSection’ from incompatible pointer type
+   gzAdvanceToSection(currentFile,"[MASKS]",buffer);
+                      ^
+read_abatch.c:1437:13: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void gzAdvanceToSection(gzFile my_file,char *sectiontitle, char *buffer){
+             ^
+read_abatch.c:2103:20: warning: passing argument 1 of ‘gzfindStartsWith’ from incompatible pointer type
+   gzfindStartsWith(currentFile,"NumberCells=",buffer); 
+                    ^
+read_abatch.c:1414:14: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void  gzfindStartsWith(gzFile my_file,char *starts, char *buffer){
+              ^
+read_abatch.c:2107:20: warning: passing argument 1 of ‘gzfindStartsWith’ from incompatible pointer type
+   gzfindStartsWith(currentFile,"CellHeader=",buffer); 
+                    ^
+read_abatch.c:1414:14: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void  gzfindStartsWith(gzFile my_file,char *starts, char *buffer){
+              ^
+read_abatch.c:2116:38: warning: passing argument 3 of ‘ReadgzFileLine’ from incompatible pointer type
+     ReadgzFileLine(buffer, BUF_SIZE, currentFile);
+                                      ^
+read_abatch.c:1352:13: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void ReadgzFileLine(char *buffer, int buffersize, gzFile currentFile){
+             ^
+read_abatch.c:2131:22: warning: passing argument 1 of ‘gzAdvanceToSection’ from incompatible pointer type
+   gzAdvanceToSection(currentFile,"[OUTLIERS]",buffer);
+                      ^
+read_abatch.c:1437:13: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void gzAdvanceToSection(gzFile my_file,char *sectiontitle, char *buffer){
+             ^
+read_abatch.c:2132:20: warning: passing argument 1 of ‘gzfindStartsWith’ from incompatible pointer type
+   gzfindStartsWith(currentFile,"NumberCells=",buffer);
+                    ^
+read_abatch.c:1414:14: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void  gzfindStartsWith(gzFile my_file,char *starts, char *buffer){
+              ^
+read_abatch.c:2136:20: warning: passing argument 1 of ‘gzfindStartsWith’ from incompatible pointer type
+   gzfindStartsWith(currentFile,"CellHeader=",buffer); 
+                    ^
+read_abatch.c:1414:14: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void  gzfindStartsWith(gzFile my_file,char *starts, char *buffer){
+              ^
+read_abatch.c:2144:38: warning: passing argument 3 of ‘ReadgzFileLine’ from incompatible pointer type
+     ReadgzFileLine(buffer, BUF_SIZE, currentFile);      
+                                      ^
+read_abatch.c:1352:13: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ static void ReadgzFileLine(char *buffer, int buffersize, gzFile currentFile){
+             ^
+read_abatch.c:2156:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(currentFile);
+           ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c: In function ‘isgzBinaryCelFile’:
+read_abatch.c:3139:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_abatch.c:3146:13: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+     gzclose(infile);
+             ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c:3151:13: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+     gzclose(infile);
+             ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c:3157:13: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+     gzclose(infile);
+             ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c:3162:13: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+     gzclose(infile);
+             ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c:3167:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c: In function ‘gzread_binary_header’:
+read_abatch.c:3190:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_abatch.c:3245:15: warning: passing argument 1 of ‘gzread’ from incompatible pointer type
+   if (!gzread(infile,this_header->header,sizeof(char)*this_header->header_len)){
+               ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1313:21: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+                     ^
+read_abatch.c:3287:13: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+     gzclose(infile);
+             ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c: In function ‘gzread_binarycel_file_intensities’:
+read_abatch.c:3589:10: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+  gzclose(my_header->gzinfile);
+          ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c:3595:10: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+  gzclose(my_header->infile);
+          ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct FILE *’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c:3605:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(my_header->gzinfile);
+           ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c: In function ‘gzread_binarycel_file_stddev’:
+read_abatch.c:3642:10: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+  gzclose(my_header->gzinfile);
+          ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c:3652:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(my_header->gzinfile);
+           ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c: In function ‘gzread_binarycel_file_npixels’:
+read_abatch.c:3690:10: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+  gzclose(my_header->infile);
+          ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct FILE *’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c:3700:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(my_header->gzinfile);
+           ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c: In function ‘gz_binary_apply_masks’:
+read_abatch.c:3733:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(my_header->infile,my_header->n_cells*sizeofrecords,SEEK_CUR);
+          ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct FILE *’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_abatch.c:3746:12: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+     gzseek(my_header->gzinfile,my_header->n_masks*sizeof(cur_loc),SEEK_CUR);
+            ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_abatch.c:3759:12: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+     gzseek(my_header->gzinfile,my_header->n_outliers*sizeof(cur_loc),SEEK_CUR);
+            ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_abatch.c:3762:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(my_header->gzinfile);
+           ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_abatch.c: In function ‘gzbinary_get_masks_outliers’:
+read_abatch.c:3795:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(my_header->gzinfile,my_header->n_cells*sizeofrecords,SEEK_CUR);
+          ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_abatch.c:3825:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(my_header->gzinfile);
+           ^
+In file included from fread_functions.h:12:0,
+                 from read_abatch.c:163:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_ZLIB=1 -DHAVE_LIBPTHREAD=1 -DUSE_PTHREADS=1 -I/usr/local/include   -g -O2   -fpic  -g -O2  -c read_bpmap.c -o read_bpmap.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_ZLIB=1 -DHAVE_LIBPTHREAD=1 -DUSE_PTHREADS=1 -I/usr/local/include   -g -O2   -fpic  -g -O2  -c read_cdf_xda.c -o read_cdf_xda.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_ZLIB=1 -DHAVE_LIBPTHREAD=1 -DUSE_PTHREADS=1 -I/usr/local/include   -g -O2   -fpic  -g -O2  -c read_cdffile2.c -o read_cdffile2.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_ZLIB=1 -DHAVE_LIBPTHREAD=1 -DUSE_PTHREADS=1 -I/usr/local/include   -g -O2   -fpic  -g -O2  -c read_celfile_generic.c -o read_celfile_generic.o
+read_celfile_generic.c: In function ‘isgzGenericCelFile’:
+read_celfile_generic.c:1066:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_celfile_generic.c:1073:13: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+     gzclose(infile);
+             ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_celfile_generic.c:1079:13: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+     gzclose(infile);
+             ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_celfile_generic.c:1088:12: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+    gzclose(infile);
+            ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_celfile_generic.c:1093:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_celfile_generic.c: In function ‘gzgeneric_get_header_info’:
+read_celfile_generic.c:1114:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_celfile_generic.c:1150:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_celfile_generic.c: In function ‘gzgeneric_get_detailed_header_info’:
+read_celfile_generic.c:1174:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_celfile_generic.c:1632:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_celfile_generic.c: In function ‘check_gzgeneric_cel_file’:
+read_celfile_generic.c:1660:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_celfile_generic.c:1700:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_celfile_generic.c: In function ‘gzread_genericcel_file_intensities’:
+read_celfile_generic.c:1725:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_celfile_generic.c:1744:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_celfile_generic.c: In function ‘gzread_genericcel_file_stddev’:
+read_celfile_generic.c:1776:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_celfile_generic.c:1789:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_celfile_generic.c:1801:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_celfile_generic.c: In function ‘gzread_genericcel_file_npixels’:
+read_celfile_generic.c:1830:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_celfile_generic.c:1843:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_celfile_generic.c:1847:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_celfile_generic.c:1860:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_celfile_generic.c: In function ‘gzgeneric_get_masks_outliers’:
+read_celfile_generic.c:1895:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_celfile_generic.c:1909:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_celfile_generic.c:1914:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_celfile_generic.c:1919:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_celfile_generic.c:1938:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_celfile_generic.c:1959:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_celfile_generic.c: In function ‘gzgeneric_apply_masks’:
+read_celfile_generic.c:1990:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_celfile_generic.c:2011:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_celfile_generic.c:2016:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_celfile_generic.c:2021:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_celfile_generic.c:2037:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_celfile_generic.c:2055:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_celfile_generic.c:42:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_ZLIB=1 -DHAVE_LIBPTHREAD=1 -DUSE_PTHREADS=1 -I/usr/local/include   -g -O2   -fpic  -g -O2  -c read_clf.c -o read_clf.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_ZLIB=1 -DHAVE_LIBPTHREAD=1 -DUSE_PTHREADS=1 -I/usr/local/include   -g -O2   -fpic  -g -O2  -c read_generic.c -o read_generic.o
+read_generic.c: In function ‘gzread_ASTRING_fw’:
+read_generic.c:927:9: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+  gzseek(instream, length-destination->len, SEEK_CUR);
+         ^
+In file included from fread_functions.h:12:0,
+                 from read_generic.c:50:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_generic.c: In function ‘gzread_AWSTRING_fw’:
+read_generic.c:973:9: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+  gzseek(instream, length-2*destination->len, SEEK_CUR);
+         ^
+In file included from fread_functions.h:12:0,
+                 from read_generic.c:50:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_generic.c: In function ‘gzRead_Generic’:
+read_generic.c:1508:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(cur_file_name, "rb")) == NULL)
+               ^
+read_generic.c:1540:14: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+       gzseek(infile, my_data_set.file_pos_last, SEEK_SET);
+              ^
+In file included from fread_functions.h:12:0,
+                 from read_generic.c:50:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_ZLIB=1 -DHAVE_LIBPTHREAD=1 -DUSE_PTHREADS=1 -I/usr/local/include   -g -O2   -fpic  -g -O2  -c read_multichannel_celfile_generic.c -o read_multichannel_celfile_generic.o
+read_multichannel_celfile_generic.c: In function ‘isgzGenericMultiChannelCelFile’:
+read_multichannel_celfile_generic.c:620:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_multichannel_celfile_generic.c:627:13: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+     gzclose(infile);
+             ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_multichannel_celfile_generic.c:633:13: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+     gzclose(infile);
+             ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_multichannel_celfile_generic.c:642:12: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+    gzclose(infile);
+            ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_multichannel_celfile_generic.c:647:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_multichannel_celfile_generic.c: In function ‘gzmultichannel_determine_number_channels’:
+read_multichannel_celfile_generic.c:677:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_multichannel_celfile_generic.c:701:12: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+     gzseek(infile,next_group,SEEK_SET);
+            ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:704:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_multichannel_celfile_generic.c: In function ‘gzmultichannel_determine_channel_name’:
+read_multichannel_celfile_generic.c:729:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_multichannel_celfile_generic.c:741:12: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+     gzseek(infile,next_group,SEEK_SET);
+            ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:751:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_multichannel_celfile_generic.c: In function ‘gzread_genericcel_file_intensities_multichannel’:
+read_multichannel_celfile_generic.c:778:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_multichannel_celfile_generic.c:793:12: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+     gzseek(infile,next_group,SEEK_SET);
+            ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:807:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_multichannel_celfile_generic.c: In function ‘gzread_genericcel_file_stddev_multichannel’:
+read_multichannel_celfile_generic.c:834:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_multichannel_celfile_generic.c:849:12: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+     gzseek(infile,next_group,SEEK_SET);
+            ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:856:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:867:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_multichannel_celfile_generic.c: In function ‘gzread_genericcel_file_npixels_multichannel’:
+read_multichannel_celfile_generic.c:896:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_multichannel_celfile_generic.c:912:12: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+     gzseek(infile,next_group,SEEK_SET);
+            ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:919:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:923:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:936:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_multichannel_celfile_generic.c: In function ‘gzgeneric_get_masks_outliers_multichannel’:
+read_multichannel_celfile_generic.c:965:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_multichannel_celfile_generic.c:981:12: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+     gzseek(infile,next_group,SEEK_SET);
+            ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:989:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:994:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:999:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:1018:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:1039:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+read_multichannel_celfile_generic.c: In function ‘gzgeneric_apply_masks_multichannel’:
+read_multichannel_celfile_generic.c:1069:15: warning: assignment from incompatible pointer type
+   if ((infile = gzopen(filename, "rb")) == NULL)
+               ^
+read_multichannel_celfile_generic.c:1090:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:1095:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:1100:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:1116:10: warning: passing argument 1 of ‘gzseek’ from incompatible pointer type
+   gzseek(infile, my_data_set.file_pos_last, SEEK_SET); 
+          ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1726:28: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
+                            ^
+read_multichannel_celfile_generic.c:1134:11: warning: passing argument 1 of ‘gzclose’ from incompatible pointer type
+   gzclose(infile);
+           ^
+In file included from read_multichannel_celfile_generic.c:43:0:
+/usr/include/zlib.h:1511:24: note: expected ‘gzFile’ but argument is of type ‘struct gzFile_s **’
+ ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
+                        ^
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_ZLIB=1 -DHAVE_LIBPTHREAD=1 -DUSE_PTHREADS=1 -I/usr/local/include   -g -O2   -fpic  -g -O2  -c read_pgf.c -o read_pgf.o
+read_pgf.c: In function ‘pgf_count_probeset_types’:
+read_pgf.c:1265:28: warning: assignment from incompatible pointer type
+  my_pgf->probesets->current= my_pgf->probesets->current->next;
+                            ^
+gcc -std=gnu99 -shared -L/usr/local/lib -o affyio.so fread_functions.o read_abatch.o read_bpmap.o read_cdf_xda.o read_cdffile2.o read_celfile_generic.o read_clf.o read_generic.o read_multichannel_celfile_generic.o read_pgf.o -lpthread -lz -lpthread
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/affyio/libs
+** R
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+
+* DONE (affyio)
+
+The downloaded source packages are in
+	‘/tmp/RtmpJMGm3Q/downloaded_packages’
+Loading required package: affyio
+
+---------------------
+Package 'affyio' installed
+---------------------
+
+BioC_mirror: http://bioconductor.org
+Using Bioconductor version 2.11 (BiocInstaller 1.8.3), R version 2.15.
+Installing package(s) 'preprocessCore'
+trying URL 'http://bioconductor.org/packages/2.11/bioc/src/contrib/preprocessCore_1.20.0.tar.gz'
+Content type 'application/x-gzip' length 128095 bytes (125 Kb)
+opened URL
+==================================================
+downloaded 125 Kb
+
+* installing *source* package ‘preprocessCore’ ...
+checking for gcc... gcc -std=gnu99
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc -std=gnu99 accepts -g... yes
+checking for gcc -std=gnu99 option to accept ISO C89... none needed
+checking how to run the C preprocessor... gcc -std=gnu99 -E
+checking for library containing pthread_create... -lpthread
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking for stdlib.h... (cached) yes
+checking if PTHREAD_STACK_MIN is defined... yes
+configure: creating ./config.status
+config.status: creating src/Makevars
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c R_colSummarize.c -o R_colSummarize.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c R_plmd_interfaces.c -o R_plmd_interfaces.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c R_plmr_interfaces.c -o R_plmr_interfaces.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c R_rlm_interfaces.c -o R_rlm_interfaces.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c R_subColSummarize.c -o R_subColSummarize.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c R_subrcModel_interfaces.c -o R_subrcModel_interfaces.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c avg.c -o avg.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c avg_log.c -o avg_log.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c biweight.c -o biweight.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c init_package.c -o init_package.o
+In file included from init_package.c:49:0:
+/usr/local/lib/R/include/R_ext/RConverters.h:32:2: warning: #warning "R_ext/RConverters.h was deprecated in R 2.15.1 and will be removed in R 3.0.0" [-Wcpp]
+ #warning "R_ext/RConverters.h was deprecated in R 2.15.1 and will be removed in R 3.0.0"
+  ^
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c lm.c -o lm.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c log_avg.c -o log_avg.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c log_median.c -o log_median.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c matrix_functions.c -o matrix_functions.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c median.c -o median.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c median_log.c -o median_log.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c medianpolish.c -o medianpolish.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c plmd.c -o plmd.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c plmr.c -o plmr.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c psi_fns.c -o psi_fns.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c qnorm.c -o qnorm.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c rlm.c -o rlm.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c rlm_anova.c -o rlm_anova.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c rlm_se.c -o rlm_se.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c rma_background4.c -o rma_background4.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c rma_common.c -o rma_common.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -I/usr/local/include -I/usr/local/include   -g -O2  -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DUSE_PTHREADS=1 -fpic  -g -O2  -c weightedkerneldensity.c -o weightedkerneldensity.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o preprocessCore.so R_colSummarize.o R_plmd_interfaces.o R_plmr_interfaces.o R_rlm_interfaces.o R_subColSummarize.o R_subrcModel_interfaces.o avg.o avg_log.o biweight.o init_package.o lm.o log_avg.o log_median.o matrix_functions.o median.o median_log.o medianpolish.o plmd.o plmr.o psi_fns.o qnorm.o rlm.o rlm_anova.o rlm_se.o rma_background4.o rma_common.o weightedkerneldensity.o -lpthread -L/usr/local/lib/R/lib -lRlapack -L/usr/local/lib/R/lib -lRblas -lgfortran -lm -lquadmath
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/preprocessCore/libs
+** R
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+
+* DONE (preprocessCore)
+
+The downloaded source packages are in
+	‘/tmp/RtmpJMGm3Q/downloaded_packages’
+Loading required package: preprocessCore
+
+---------------------
+Package 'preprocessCore' installed
+---------------------
+
+BioC_mirror: http://bioconductor.org
+Using Bioconductor version 2.11 (BiocInstaller 1.8.3), R version 2.15.
+Installing package(s) 'affy'
+trying URL 'http://bioconductor.org/packages/2.11/bioc/src/contrib/affy_1.36.1.tar.gz'
+Content type 'application/x-gzip' length 1321511 bytes (1.3 Mb)
+opened URL
+==================================================
+downloaded 1.3 Mb
+
+* installing *source* package ‘affy’ ...
+creating cache ./config.cache
+checking how to run the C preprocessor... cc -E
+checking for main in -lz... yes
+checking for zlib.h... yes
+checking if zlib version >= 1.1.3... yes
+updating cache ./config.cache
+creating ./config.status
+creating src/Makevars
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DHAVE_ZLIB=1  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/preprocessCore/include"   -fpic  -g -O2  -c chipbackground.c -o chipbackground.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DHAVE_ZLIB=1  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/preprocessCore/include"   -fpic  -g -O2  -c getall_locations.c -o getall_locations.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DHAVE_ZLIB=1  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/preprocessCore/include"   -fpic  -g -O2  -c mas5calls.c -o mas5calls.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DHAVE_ZLIB=1  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/preprocessCore/include"   -fpic  -g -O2  -c rma2.c -o rma2.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DHAVE_ZLIB=1  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/preprocessCore/include"   -fpic  -g -O2  -c rma_common.c -o rma_common.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o affy.so chipbackground.o getall_locations.o mas5calls.o rma2.o rma_common.o -lz
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/affy/libs
+** R
+** data
+** demo
+** inst
+** preparing package for lazy loading
+Creating a generic function for ‘open’ from package ‘base’ in package ‘affy’
+Creating a generic function for ‘close’ from package ‘base’ in package ‘affy’
+Creating a generic function for ‘barplot’ from package ‘graphics’ in package ‘affy’
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+   ‘affy.Rnw’ 
+   ‘builtinMethods.Rnw’ 
+   ‘customMethods.Rnw’ 
+   ‘vim.Rnw’ 
+** testing if installed package can be loaded
+
+* DONE (affy)
+
+The downloaded source packages are in
+	‘/tmp/RtmpJMGm3Q/downloaded_packages’
+Loading required package: affy
+
+---------------------
+Package 'affy' installed
+---------------------
+
+BioC_mirror: http://bioconductor.org
+Using Bioconductor version 2.11 (BiocInstaller 1.8.3), R version 2.15.
+Installing package(s) 'Biostrings'
+trying URL 'http://bioconductor.org/packages/2.11/bioc/src/contrib/Biostrings_2.26.3.tar.gz'
+Content type 'application/x-gzip' length 1322615 bytes (1.3 Mb)
+opened URL
+==================================================
+downloaded 1.3 Mb
+
+* installing *source* package ‘Biostrings’ ...
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c BAB_class.c -o BAB_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c BitMatrix.c -o BitMatrix.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c IRanges_stubs.c -o IRanges_stubs.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c MIndex_class.c -o MIndex_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c PreprocessedTB_class.c -o PreprocessedTB_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c R_init_Biostrings.c -o R_init_Biostrings.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c RoSeqs_utils.c -o RoSeqs_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c SparseList_utils.c -o SparseList_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c XStringSet_class.c -o XStringSet_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c XStringSet_io.c -o XStringSet_io.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c XString_class.c -o XString_class.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c align_needwunsQS.c -o align_needwunsQS.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c align_pairwiseAlignment.c -o align_pairwiseAlignment.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c align_utils.c -o align_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c find_palindromes.c -o find_palindromes.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c gtestsim.c -o gtestsim.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c inject_code.c -o inject_code.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c io_utils.c -o io_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c letter_frequency.c -o letter_frequency.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c lowlevel_matching.c -o lowlevel_matching.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c match_BOC.c -o match_BOC.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c match_BOC2.c -o match_BOC2.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c match_PWM.c -o match_PWM.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c match_pattern.c -o match_pattern.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c match_pattern_boyermoore.c -o match_pattern_boyermoore.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c match_pattern_indels.c -o match_pattern_indels.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c match_pattern_shiftor.c -o match_pattern_shiftor.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c match_pdict.c -o match_pdict.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c match_pdict_ACtree2.c -o match_pdict_ACtree2.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c match_pdict_Twobit.c -o match_pdict_Twobit.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c match_pdict_utils.c -o match_pdict_utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c match_reporting.c -o match_reporting.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c matchprobes.c -o matchprobes.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c pmatchPattern.c -o pmatchPattern.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c replace_letter_at.c -o replace_letter_at.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c strutils.c -o strutils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c translate.c -o translate.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c utils.c -o utils.o
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include -I"/Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/IRanges/include"   -fpic  -g -O2  -c xscat.c -o xscat.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o Biostrings.so BAB_class.o BitMatrix.o IRanges_stubs.o MIndex_class.o PreprocessedTB_class.o R_init_Biostrings.o RoSeqs_utils.o SparseList_utils.o XStringSet_class.o XStringSet_io.o XString_class.o align_needwunsQS.o align_pairwiseAlignment.o align_utils.o find_palindromes.o gtestsim.o inject_code.o io_utils.o letter_frequency.o lowlevel_matching.o match_BOC.o match_BOC2.o match_PWM.o match_pattern.o match_pattern_boyermoore.o match_pattern_indels.o match_pattern_shiftor.o match_pdict.o match_pdict_ACtree2.o match_pdict_Twobit.o match_pdict_utils.o match_reporting.o matchprobes.o pmatchPattern.o replace_letter_at.o strutils.o translate.o utils.o xscat.o
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/Biostrings/libs
+** R
+** data
+** inst
+** preparing package for lazy loading
+Creating a generic function for ‘setequal’ from package ‘base’ in package ‘Biostrings’
+Creating a generic function for ‘ls’ from package ‘base’ in package ‘Biostrings’
+Creating a new generic function for ‘offset’ in package ‘Biostrings’
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+   ‘Biostrings2Classes.Rnw’ 
+   ‘MultipleAlignments.Rnw’ 
+   ‘PairwiseAlignments.Rnw’ 
+   ‘matchprobes.Rnw’ 
+** testing if installed package can be loaded
+
+* DONE (Biostrings)
+
+The downloaded source packages are in
+	‘/tmp/RtmpJMGm3Q/downloaded_packages’
+Loading required package: Biostrings
+
+---------------------
+Package 'Biostrings' installed
+---------------------
+
+BioC_mirror: http://bioconductor.org
+Using Bioconductor version 2.11 (BiocInstaller 1.8.3), R version 2.15.
+Installing package(s) 'gcrma'
+trying URL 'http://bioconductor.org/packages/2.11/bioc/src/contrib/gcrma_2.30.0.tar.gz'
+Content type 'application/x-gzip' length 184881 bytes (180 Kb)
+opened URL
+==================================================
+downloaded 180 Kb
+
+* installing *source* package ‘gcrma’ ...
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c baseProfile.c -o baseProfile.o
+In file included from baseProfile.c:4:0:
+/usr/local/lib/R/include/R_ext/RConverters.h:32:2: warning: #warning "R_ext/RConverters.h was deprecated in R 2.15.1 and will be removed in R 3.0.0" [-Wcpp]
+ #warning "R_ext/RConverters.h was deprecated in R 2.15.1 and will be removed in R 3.0.0"
+  ^
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c computeAffinities.c -o computeAffinities.o
+In file included from computeAffinities.c:3:0:
+/usr/local/lib/R/include/R_ext/RConverters.h:32:2: warning: #warning "R_ext/RConverters.h was deprecated in R 2.15.1 and will be removed in R 3.0.0" [-Wcpp]
+ #warning "R_ext/RConverters.h was deprecated in R 2.15.1 and will be removed in R 3.0.0"
+  ^
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG  -I/usr/local/include    -fpic  -g -O2  -c postmean.c -o postmean.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o gcrma.so baseProfile.o computeAffinities.o postmean.o
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/gcrma/libs
+** R
+** data
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+   ‘gcrma2.0.Rnw’ 
+** testing if installed package can be loaded
+
+* DONE (gcrma)
+
+The downloaded source packages are in
+	‘/tmp/RtmpJMGm3Q/downloaded_packages’
+Loading required package: gcrma
+
+---------------------
+Package 'gcrma' installed
+---------------------
+
+BioC_mirror: http://bioconductor.org
+Using Bioconductor version 2.11 (BiocInstaller 1.8.3), R version 2.15.
+Installing package(s) 'makecdfenv'
+trying URL 'http://bioconductor.org/packages/2.11/bioc/src/contrib/makecdfenv_1.36.0.tar.gz'
+Content type 'application/x-gzip' length 3299569 bytes (3.1 Mb)
+opened URL
+==================================================
+downloaded 3.1 Mb
+
+* installing *source* package ‘makecdfenv’ ...
+creating cache ./config.cache
+checking how to run the C preprocessor... cc -E
+checking for main in -lz... yes
+checking for zlib.h... yes
+checking if zlib version >= 1.1.3... yes
+updating cache ./config.cache
+creating ./config.status
+creating src/Makevars
+** libs
+gcc -std=gnu99 -I/usr/local/lib/R/include -DNDEBUG -DHAVE_ZLIB=1  -I/usr/local/include    -fpic  -g -O2  -c read_cdffile.c -o read_cdffile.o
+gcc -std=gnu99 -shared -L/usr/local/lib -o makecdfenv.so read_cdffile.o -lz
+installing to /Users/Shared/Broad/dev/working/genepattern_home/patches/docker/R/2.15/makecdfenv/libs
+** R
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+   ‘makecdfenv.Rnw’ 
+** testing if installed package can be loaded
+
+* DONE (makecdfenv)
+
+The downloaded source packages are in
+	‘/tmp/RtmpJMGm3Q/downloaded_packages’
+Loading required package: makecdfenv
+
+---------------------
+Package 'makecdfenv' installed
+---------------------
+

@@ -1,0 +1,27 @@
+r_package_name=boot, requested_version=1.3-7, version_actual=1.3.7, new_install=TRUE, install_succeeded=TRUE
+r_package_name=class, requested_version=7.3-5, version_actual=7.3.5, new_install=TRUE, install_succeeded=TRUE
+r_package_name=cluster, requested_version=1.15.3, version_actual=1.15.3, new_install=TRUE, install_succeeded=TRUE
+r_package_name=foreign, requested_version=0.8-54, version_actual=0.8.54, new_install=TRUE, install_succeeded=TRUE
+r_package_name=KernSmooth, requested_version=2.23-10, version_actual=2.23.10, new_install=TRUE, install_succeeded=TRUE
+r_package_name=lattice, requested_version=0.20-29, version_actual=0.20.29, new_install=TRUE, install_succeeded=TRUE
+r_package_name=MASS, requested_version=7.3-23, version_actual=7.3.23, new_install=TRUE, install_succeeded=TRUE
+r_package_name=Matrix, requested_version=1.2-0, version_actual=1.2.0, new_install=TRUE, install_succeeded=TRUE
+r_package_name=mgcv, requested_version=1.7-28, version_actual=1.7.28, new_install=TRUE, install_succeeded=TRUE
+r_package_name=nlme, requested_version=3.1-108, version_actual=3.1.108, new_install=TRUE, install_succeeded=TRUE
+r_package_name=nnet, requested_version=7.3-7, version_actual=7.3.7, new_install=TRUE, install_succeeded=TRUE
+r_package_name=rpart, requested_version=4.1-6, version_actual=4.1.6, new_install=TRUE, install_succeeded=TRUE
+r_package_name=spatial, requested_version=7.3-5, version_actual=7.3.5, new_install=TRUE, install_succeeded=TRUE
+r_package_name=DBI, requested_version=0.2-7, version_actual=0.2.7, new_install=TRUE, install_succeeded=TRUE
+r_package_name=RSQLite, requested_version=0.11.4, version_actual=0.11.4, new_install=TRUE, install_succeeded=TRUE
+r_package_name=BiocInstaller, requested_version=Not specified, version_actual=1.8.3, new_install=TRUE, install_succeeded=TRUE
+r_package_name=BiocGenerics, requested_version=Not specified, version_actual=0.4.0, new_install=TRUE, install_succeeded=TRUE
+r_package_name=IRanges, requested_version=Not specified, version_actual=1.16.6, new_install=TRUE, install_succeeded=TRUE
+r_package_name=Biobase, requested_version=Not specified, version_actual=2.18.0, new_install=TRUE, install_succeeded=TRUE
+r_package_name=AnnotationDbi, requested_version=Not specified, version_actual=1.20.7, new_install=TRUE, install_succeeded=TRUE
+r_package_name=zlibbioc, requested_version=Not specified, version_actual=1.4.0, new_install=TRUE, install_succeeded=TRUE
+r_package_name=affyio, requested_version=Not specified, version_actual=1.26.0, new_install=TRUE, install_succeeded=TRUE
+r_package_name=preprocessCore, requested_version=Not specified, version_actual=1.20.0, new_install=TRUE, install_succeeded=TRUE
+r_package_name=affy, requested_version=Not specified, version_actual=1.36.1, new_install=TRUE, install_succeeded=TRUE
+r_package_name=Biostrings, requested_version=Not specified, version_actual=2.26.3, new_install=TRUE, install_succeeded=TRUE
+r_package_name=gcrma, requested_version=Not specified, version_actual=2.30.0, new_install=TRUE, install_succeeded=TRUE
+r_package_name=makecdfenv, requested_version=Not specified, version_actual=1.36.0, new_install=TRUE, install_succeeded=TRUE

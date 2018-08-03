@@ -20,7 +20,7 @@
             replace="job\.docker\.image=${job.docker.image}" />
     </target>
 
-    <target name="create-zip" depends="init">
+    <target name="create-zip" depends="init, set-docker-image">
         <antcall target="prezip" />
         <zip destfile="${dest.dir}/${ant.project.name}_v${lsid.version}.zip" whenempty="fail" defaultexcludes="true">
             <fileset dir="." includes="manifest, r.package.info, doc.html" excludes="test/**" />

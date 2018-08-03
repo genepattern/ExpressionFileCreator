@@ -1,13 +1,12 @@
-#Tue, 05 Jan 2016 10:22:49 +0900
+#Thu, 02 Aug 2018 14:00:53 -0400
 #ExpressionFileCreator
 #Thu Jan 26 14:33:30 EST 2012
 JVMLevel=
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00041\:888888888
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00041\:12.4.1
 author=Joshua Gould, David Eby, gp-help@broad.mit.edu, Broad Institute
-commandLine=<R2.15_Rscript> --no-save --quiet --slave --no-restore <libdir>expr.R <libdir> \
-   -i<input.file> -o<output.file> \
-   -m<method> -q<quantile.normalization> -b<background.correct> -c<compute.present.absent.calls> -n<normalization.method> \
-   -l<libdir> -f<clm.file> -v<value.to.scale.to> -e<cdf.file> -a<annotate.probes>
+job.docker.image=genepattern/expressionfilecreator:v12.4.1-pre.1
+# <R2.15_Rscript> ...
+commandLine=Rscript --no-save --quiet --slave --no-restore <libdir>expr.R <libdir> -i<input.file> -o<output.file> -m<method> -q<quantile.normalization> -b<background.correct> -c<compute.present.absent.calls> -n<normalization.method> -l<libdir> -f<clm.file> -v<value.to.scale.to> -e<cdf.file> -a<annotate.probes>
 cpuType=any
 description=Creates a RES or GCT file from a set of Affymetrix CEL files.  For IVT arrays only; use AffySTExpressionFileCreator for ST arrays.
 fileFormat=res;gct;cls
@@ -110,9 +109,5 @@ quality=production
 serializedModel=
 taskType=Preprocess & Utilities
 userid=eby@broad.mit.edu
-version=Updated to make use of the R package installer. Fixes a bug in failing to remove downloaded annotation files.
+version=installed R packages in container, job.docker.image='genepattern/expressionfilecreator:v12.4.1'
 
-requiredPatchLSIDs=
-requiredPatchURLs=
-
-publicationDate=01/05/2016 10\:22 

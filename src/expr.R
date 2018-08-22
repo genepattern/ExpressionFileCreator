@@ -704,7 +704,15 @@ require.cdf <- function(cdfname) {
    if (!require(repos_cdf, quietly=TRUE, character.only=TRUE)) {
       info(paste("installing ", repos_cdf, "..."))
       # Installation will go into the normal GP site-library (or possibly a user-specific location)
-      install.packages(repos_cdf, quiet=TRUE)
+      # use system command to suppress stderr output
+      #   see: ?system
+      # original cmd: install.packages(repos_cdf, quiet=TRUE)
+      system( 
+          paste("Rscript -e 'install.packages(\"", repos_cdf, "\")'", sep=''), 
+          ignore.stdout = TRUE, 
+          ignore.stderr = TRUE, 
+          show.output.on.console = FALSE 
+      )
       info(paste(repos_cdf, "installed"))
    }
 }

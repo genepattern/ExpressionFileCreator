@@ -7,9 +7,8 @@
     <property name="dirOffset" value="../common_module_code" />
     <import file="${dirOffset}/commontargets.xml" />
     
-    <!-- (experimental) set 'job.docker.image' in manifest file -->
+    <!-- (experimental) add or edit 'job.docker.image' in manifest file -->
     <target name="set-docker-image" if:set="job.docker.image"
-        description="add 'job.docker.image' to manifest"
     >
         <propertyfile file="manifest">
             <entry key="job.docker.image" value="${job.docker.image}" />

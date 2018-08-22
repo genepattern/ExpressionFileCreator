@@ -1,3 +1,5 @@
+#updated after building 12.5
+#Wed, 22 Aug 2018 16:17:36 -0400
 #updated after building 12.4
 #Wed, 22 Aug 2018 16:12:08 -0400
 #updated after building 12.3
@@ -40,4 +42,4 @@
 #Wed, 30 Jan 2013 16:31:05 -0500
 #prerelease version number
 #Mon Apr 30 14:41:09 EDT 2012
-prerelease.number=5
+prerelease.number=6

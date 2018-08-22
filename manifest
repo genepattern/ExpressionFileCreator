@@ -109,4 +109,4 @@ quality=production
 serializedModel=
 taskType=Preprocess & Utilities
 userid=eby@broad.mit.edu
-version=suppress stderr output of install.packages(<repos_cdf>)
+version=include R packages in container and fix for stderr output of install.packages(<repos_cdf>)

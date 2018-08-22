@@ -3,8 +3,8 @@ module: ExpressionFileCreator
 name: ExpressionFileCreator - smoke_valid_pset_9_test.yml
 description: Smoke (no diff) variant of valid_pset_9_test.yml
 params:
-        input.file: "<%gpunit.testData%>/gpunit/ExpressionFileCreator/v13/input/DBA_cel_files_small.zip"
-        clm.file: "<%gpunit.testData%>/gpunit/ExpressionFileCreator/v13/input/DBA_cel_files_small.clm"
+        input.file: "ftp://gpftp.broadinstitute.org/gpunit/ExpressionFileCreator/v13/input/DBA_cel_files_small.zip"
+        clm.file: "ftp://gpftp.broadinstitute.org/gpunit/ExpressionFileCreator/v13/input/DBA_cel_files_small.clm"
         annotate.probes: "yes"
         normalization.method: "median scaling"
         output.file: "<input.file_basename>"
